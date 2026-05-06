@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>DemoPortal · HenkanCX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="El portal de demos de IA para transformar tu CX desde el día 1. Sandboxes interactivos de las soluciones de HenkanCX.">
+<meta name="description" content="The AI demos portal to transform your CX from day 1. Interactive sandboxes of HenkanCX solutions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -47,11 +47,11 @@ body {
 }
 .nav-top {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 32px;
+  padding: 18px 32px;
   border-bottom: 1px solid var(--line);
 }
 .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.nav-brand img { height: 22px; }
+.nav-brand img { height: 40px; width: auto; }
 .nav-top-links { display: flex; gap: 30px; }
 .nav-top-links a {
   text-decoration: none; color: var(--navy);
@@ -77,27 +77,13 @@ body {
 .btn-dark:hover { background: black; transform: translateY(-1px); }
 .btn-light { background: white; color: var(--navy); border: 1px solid var(--line-strong); }
 .btn-light:hover { background: var(--cloud); }
-.btn-ghost { background: transparent; color: var(--navy); border: 1px solid var(--line-strong); }
 .btn-mag {
   background: var(--gradient); color: white;
   box-shadow: 0 4px 24px rgba(131, 58, 224, 0.3);
 }
 .btn-mag:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(131, 58, 224, 0.4); }
 .btn-large { font-size: 15px; padding: 13px 24px; font-weight: 500; }
-.btn-google {
-  background: var(--navy); color: white;
-  font-size: 15px; padding: 13px 24px 13px 13px; gap: 12px;
-}
-.btn-google::before {
-  content: ''; display: block;
-  width: 22px; height: 22px;
-  background: white;
-  border-radius: 50%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='14' height='14'%3E%3Cpath fill='%234285F4' d='M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z'/%3E%3Cpath fill='%2334A853' d='M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z'/%3E%3Cpath fill='%23FBBC05' d='M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z'/%3E%3Cpath fill='%23EA4335' d='M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 14px;
-}
+
 .lang-toggle {
   display: flex; gap: 2px;
   background: var(--cloud);
@@ -191,7 +177,7 @@ h1.hero-title {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(48px, 6vw, 92px);
   font-weight: 700;
-  line-height: 1.02;
+  line-height: 1.04;
   letter-spacing: -0.04em;
   color: var(--navy);
   margin-bottom: 36px;
@@ -344,7 +330,6 @@ h1.hero-title .accent {
   transition: transform .25s ease;
 }
 
-/* === Demo card backgrounds === */
 .demo-img.snnapi { background: radial-gradient(circle at 30% 30%, rgba(203,108,230,0.25), transparent 50%), linear-gradient(160deg, #1a2940 0%, #0d1b2a 60%, #050b15 100%); }
 .demo-img.tele { background: radial-gradient(circle at 80% 20%, rgba(131,58,224,0.30), transparent 50%), linear-gradient(180deg, #0a1424 0%, #122237 60%, #0a1424 100%); }
 .demo-img.cc { background: radial-gradient(circle at 50% 50%, rgba(203,108,230,0.20), transparent 70%), linear-gradient(170deg, #1a3050 0%, #0d1b2a 100%); }
@@ -352,7 +337,6 @@ h1.hero-title .accent {
 .demo-img.sifed { background: radial-gradient(circle at 70% 80%, rgba(203,108,230,0.30), transparent 50%), linear-gradient(160deg, #2a1052 0%, #0d1b2a 70%); }
 .demo-img.gan { background: radial-gradient(circle at 20% 80%, rgba(131,58,224,0.18), transparent 60%), linear-gradient(180deg, #1a2940 0%, #0d1b2a 50%, #0a1424 100%); }
 
-/* Snnapi overlay */
 .snnapi-scene { position: absolute; inset: 0; }
 .snnapi-scene svg { width: 100%; height: 100%; }
 .snnapi-overlay {
@@ -377,7 +361,6 @@ h1.hero-title .accent {
   letter-spacing: 0.06em; opacity: 0.7; margin-bottom: 2px;
 }
 
-/* TeleInspect */
 .tele-grid {
   position: absolute; inset: 0;
   background-image:
@@ -420,7 +403,6 @@ h1.hero-title .accent {
 .tele-stat .v { font-family: 'Fira Code'; font-size: 20px; font-weight: 600; color: var(--navy); letter-spacing: -0.02em; }
 .tele-stat .t { font-family: 'Fira Code'; font-size: 10px; color: #44d97a; margin-top: 2px; }
 
-/* Contact Center */
 .cc-waves { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .cc-wave-bars { display: flex; gap: 5px; align-items: center; height: 110px; padding: 0 30px; }
 .cc-wave-bars div {
@@ -456,7 +438,6 @@ h1.hero-title .accent {
 }
 .cc-tone-card .msg { line-height: 1.4; opacity: 0.9; font-size: 11px; }
 
-/* WhatsApp */
 .wa-phone {
   position: absolute;
   left: 50%; top: 50%;
@@ -487,7 +468,6 @@ h1.hero-title .accent {
 .wa-msg.in { background: white; color: #111b21; border-bottom-left-radius: 3px; align-self: flex-start; }
 .wa-msg.out { background: #d9fdd3; color: #111b21; border-bottom-right-radius: 3px; align-self: flex-end; }
 
-/* SIFED */
 .sifed-track-curve { position: absolute; inset: 0; }
 .sifed-runner {
   position: absolute;
@@ -516,7 +496,6 @@ h1.hero-title .accent {
   text-transform: uppercase; letter-spacing: 0.06em;
 }
 
-/* Ganadero */
 .gan-landscape { position: absolute; bottom: 0; left: 0; right: 0; height: 60%; }
 .gan-stats {
   position: absolute;
@@ -585,7 +564,7 @@ h1.hero-title .accent {
 .section-title {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(40px, 5vw, 72px);
-  font-weight: 700; line-height: 1;
+  font-weight: 700; line-height: 1.04;
   letter-spacing: -0.04em;
   margin-bottom: 24px;
   max-width: 920px;
@@ -670,7 +649,7 @@ h1.hero-title .accent {
 .cta-title {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(40px, 5.5vw, 84px);
-  font-weight: 700; line-height: 1;
+  font-weight: 700; line-height: 1.04;
   letter-spacing: -0.04em;
   margin-bottom: 28px;
 }
@@ -696,15 +675,16 @@ h1.hero-title .accent {
 .footer { background: var(--navy); color: rgba(255,255,255,0.7); padding: 80px 32px 40px; }
 .footer-inner { max-width: 1480px; margin: 0 auto; }
 .footer-top {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  display: grid; grid-template-columns: 2.4fr 1fr 1fr 1fr;
   gap: 48px; padding-bottom: 56px;
   border-bottom: 1px solid var(--line-dark);
 }
-.footer-brand img { height: 28px; margin-bottom: 20px; filter: brightness(0) invert(1); }
-.footer-brand p { font-size: 14px; line-height: 1.6; max-width: 280px; }
+.footer-brand img { height: 42px; width: auto; margin-bottom: 22px; filter: brightness(0) invert(1); }
+.footer-brand p { font-size: 14px; line-height: 1.6; max-width: 320px; }
 .footer-col h4 { font-family: 'Poppins', sans-serif; color: white; font-size: 13px; font-weight: 600; margin-bottom: 18px; letter-spacing: -0.01em; }
 .footer-col a { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-size: 14px; margin-bottom: 12px; transition: color .2s; }
 .footer-col a:hover { color: white; }
+.footer-col span { display: block; color: rgba(255,255,255,0.55); font-size: 14px; margin-bottom: 12px; }
 .footer-bot {
   display: flex; justify-content: space-between; align-items: center;
   padding-top: 28px; font-size: 13px;
@@ -715,7 +695,6 @@ h1.hero-title .accent {
 .footer-bot .social a { color: rgba(255,255,255,0.45); text-decoration: none; }
 .footer-bot .social a:hover { color: var(--magenta); }
 
-/* ===== Responsive ===== */
 @media (max-width: 1024px) {
   .nav-top-links, .nav-sub-links { display: none; }
   .hero-inner { grid-template-columns: 1fr; gap: 32px; align-items: start; }
@@ -731,7 +710,8 @@ h1.hero-title .accent {
   .gallery-arrow { display: none; }
 }
 @media (max-width: 640px) {
-  .nav-top { padding: 12px 18px; }
+  .nav-top { padding: 14px 18px; }
+  .nav-brand img { height: 32px; }
   .nav-sub { padding: 14px 18px; }
   .hero { padding: 50px 18px 30px; }
   .gallery { padding: 0 18px 30px; }
@@ -743,8 +723,7 @@ h1.hero-title .accent {
   .num-cell { border-left: 0; padding-left: 0; padding-right: 0; }
   .process-grid { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr; }
-  .lang-toggle { display: none; }
-  .nav-top-actions .btn-light, .nav-top-actions .back-to-site { display: none; }
+  .nav-top-actions .back-to-site { display: none; }
 }
 </style>
 </head>
@@ -757,15 +736,14 @@ h1.hero-title .accent {
       <img src="https://www.henkancx.com/logo-henkancx.png" alt="HenkanCX">
     </a>
     <div class="nav-top-links">
-      <a href="https://www.henkancx.com#solutions">Soluciones IA</a>
-      <a href="https://www.henkancx.com#products">Productos</a>
-      <a href="https://www.henkancx.com#process">Proceso</a>
-      <a href="https://www.henkancx.com#contact">Contacto</a>
+      <a href="https://www.henkancx.com#solutions" data-i18n="nav.solutions">AI Solutions</a>
+      <a href="https://www.henkancx.com#products" data-i18n="nav.products">Products</a>
+      <a href="https://www.henkancx.com#process" data-i18n="nav.process">Process</a>
+      <a href="https://www.henkancx.com#contact" data-i18n="nav.contact">Contact</a>
     </div>
     <div class="nav-top-actions">
-      <a href="https://www.henkancx.com" class="back-to-site">Volver al sitio</a>
-      <a href="#" class="btn btn-light">Iniciar sesión</a>
-      <a href="#contact" class="btn btn-dark">Contact sales</a>
+      <a href="https://www.henkancx.com" class="back-to-site" data-i18n="nav.backToSite">Back to site</a>
+      <a href="#contact" class="btn btn-dark" data-i18n="nav.contactSales">Contact sales</a>
     </div>
   </div>
   <div class="nav-sub">
@@ -774,15 +752,14 @@ h1.hero-title .accent {
       <span class="sub-name">Demo<b>Portal</b></span>
     </a>
     <div class="nav-sub-links">
-      <a href="#demos" class="active">Demos</a>
-      <a href="#numbers">Resultados</a>
-      <a href="#process">Cómo funciona</a>
-      <a href="#contact">Recursos</a>
+      <a href="#demos" class="active" data-i18n="subnav.demos">Demos</a>
+      <a href="#numbers" data-i18n="subnav.results">Results</a>
+      <a href="#process" data-i18n="subnav.process">How it works</a>
     </div>
     <div style="display:flex; gap:10px; align-items:center;">
       <div class="lang-toggle">
-        <button class="active">ES</button>
-        <button>EN</button>
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="es">ES</button>
       </div>
     </div>
   </div>
@@ -793,19 +770,19 @@ h1.hero-title .accent {
   <div class="hero-inner">
     <div>
       <h1 class="hero-title">
-        El portal de demos<br>de IA para transformar<br>tu CX <span class="accent">desde el día 1</span>
+        <span data-i18n="hero.title.main">The AI demos portal to transform your CX</span>
+        <span class="accent" data-i18n="hero.title.accent"> from day 1</span>
       </h1>
       <div class="hero-cta">
-        <a href="#" class="btn btn-google">Iniciar con Google</a>
-        <a href="#demos" class="btn btn-light btn-large">Explorar demos →</a>
+        <a href="#demos" class="btn btn-mag btn-large" data-i18n="hero.cta">Explore demos →</a>
       </div>
       <div class="hero-trust">
-        Confiado por +50 empresas LATAM<span class="sep">·</span>Sin tarjeta de crédito
+        <span data-i18n="hero.trust.left">Trusted by +50 LATAM companies</span><span class="sep">·</span><span data-i18n="hero.trust.right">No credit card required</span>
       </div>
     </div>
     <div class="hero-side">
-      <p class="hero-sub">
-        <b>DemoPortal</b> es donde prospectos, clientes y equipos de innovación prueban en vivo las soluciones de HenkanCX. Inspecciones con IA, contact center inteligente, chatbots de WhatsApp, gestión deportiva y ganadera — todo en sandboxes interactivos, listos en segundos.
+      <p class="hero-sub" data-i18n="hero.sub" data-i18n-html>
+        <b>DemoPortal</b> is where prospects, clients, and innovation teams try HenkanCX solutions live. AI inspections, intelligent contact center, WhatsApp chatbots, sports and livestock management — all in interactive sandboxes, ready in seconds.
       </p>
     </div>
   </div>
@@ -814,13 +791,13 @@ h1.hero-title .accent {
 <!-- ===== GALLERY ===== -->
 <section class="gallery" id="demos">
   <div class="gallery-inner">
-    <button class="gallery-arrow left" aria-label="Anterior" onclick="scrollGallery(-1)">→</button>
-    <button class="gallery-arrow" aria-label="Siguiente" onclick="scrollGallery(1)">→</button>
+    <button class="gallery-arrow left" aria-label="Previous" onclick="scrollGallery(-1)">→</button>
+    <button class="gallery-arrow" aria-label="Next" onclick="scrollGallery(1)">→</button>
 
     <div class="gallery-track" id="gallery-track">
 
       <!-- 1. SNNAPI -->
-      <a href="#" class="demo-card">
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Snnapi%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img snnapi">
           <div class="snnapi-scene">
             <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -835,9 +812,9 @@ h1.hero-title .accent {
               <circle cx="305" cy="280" r="18" fill="#0a0f1a" stroke="#5a7099" stroke-width="2"/>
               <circle cx="305" cy="280" r="9" fill="#1c2a40"/>
               <rect x="140" y="225" width="55" height="35" fill="none" stroke="#CB6CE6" stroke-width="2.5" stroke-dasharray="5 3"/>
-              <text x="140" y="220" fill="#CB6CE6" font-family="Fira Code, monospace" font-size="11" font-weight="700">DAÑO · 87%</text>
+              <text x="140" y="220" fill="#CB6CE6" font-family="Fira Code, monospace" font-size="11" font-weight="700" data-i18n-svg="snnapi.box1">DAMAGE · 87%</text>
               <rect x="255" y="195" width="55" height="32" fill="none" stroke="#833AE0" stroke-width="2" stroke-dasharray="5 3"/>
-              <text x="255" y="190" fill="#833AE0" font-family="Fira Code, monospace" font-size="10" font-weight="700">RAYÓN · 62%</text>
+              <text x="255" y="190" fill="#833AE0" font-family="Fira Code, monospace" font-size="10" font-weight="700" data-i18n-svg="snnapi.box2">SCRATCH · 62%</text>
               <line x1="0" y1="120" x2="400" y2="120" stroke="rgba(203,108,230,0.3)" stroke-width="1"/>
               <line x1="0" y1="350" x2="400" y2="350" stroke="rgba(203,108,230,0.2)" stroke-width="1"/>
               <g stroke="rgba(203,108,230,0.5)" stroke-width="1.5" fill="none">
@@ -849,16 +826,16 @@ h1.hero-title .accent {
             </svg>
           </div>
           <div class="snnapi-overlay">
-            <div><span class="l">Confianza</span><span class="v">94.2%</span></div>
-            <div><span class="l">Tiempo</span><span class="v">2.4s</span></div>
-            <div><span class="l">Daños</span><span class="v">2</span></div>
+            <div><span class="l" data-i18n="snnapi.confidence">Confidence</span><span class="v">94.2%</span></div>
+            <div><span class="l" data-i18n="snnapi.time">Time</span><span class="v">2.4s</span></div>
+            <div><span class="l" data-i18n="snnapi.damages">Damages</span><span class="v">2</span></div>
           </div>
         </div>
-        <div class="demo-badge"><span class="ico">🛡</span>Seguros · Computer Vision</div>
-        <button class="demo-mute"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
+        <div class="demo-badge"><span class="ico">🛡</span><span data-i18n="snnapi.badge">Insurance · Computer Vision</span></div>
+        <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat">95% ↓ tiempos · +70% fraude</span>
+            <span class="demo-cat" data-i18n="snnapi.cat">95% ↓ time · +70% fraud</span>
             <span class="demo-label">Snnapi</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -866,7 +843,7 @@ h1.hero-title .accent {
       </a>
 
       <!-- 2. TELEINSPECT -->
-      <a href="#" class="demo-card">
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20TeleInspect%20Suite%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img tele">
           <div class="tele-grid"></div>
           <div class="tele-towers">
@@ -889,23 +866,23 @@ h1.hero-title .accent {
             <circle cx="180" cy="180" r="100" fill="url(#glowT)"/>
           </svg>
           <div class="tele-stat">
-            <div class="l">SLA · Última semana</div>
+            <div class="l" data-i18n="tele.slaLabel">SLA · Last week</div>
             <div class="v">98.7%</div>
-            <div class="t">↑ +35% vs Q3</div>
+            <div class="t" data-i18n="tele.slaTrend">↑ +35% vs Q3</div>
           </div>
           <div style="position:absolute; bottom:100px; left:22px; background:rgba(13,27,42,0.9); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 14px; color:white; font-size:11px;">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
               <span style="width:8px; height:8px; background:#f55c5c; border-radius:50%; animation: pulseAlert 1.6s ease-in-out infinite;"></span>
-              <span style="font-weight:600;">TWR-042 · Alerta</span>
+              <span style="font-weight:600;" data-i18n="tele.alertTitle">TWR-042 · Alert</span>
             </div>
-            <div style="font-family:'Fira Code'; font-size:10px; opacity:0.7;">Voltaje irregular · -3.2%</div>
+            <div style="font-family:'Fira Code'; font-size:10px; opacity:0.7;" data-i18n="tele.alertDesc">Irregular voltage · -3.2%</div>
           </div>
         </div>
-        <div class="demo-badge"><span class="ico">📡</span>Telecom · Field Ops</div>
-        <button class="demo-mute"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
+        <div class="demo-badge"><span class="ico">📡</span><span data-i18n="tele.badge">Telecom · Field Ops</span></div>
+        <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat">99% trazabilidad · 60% ↓ reportes</span>
+            <span class="demo-cat" data-i18n="tele.cat">99% traceability · 60% ↓ reports</span>
             <span class="demo-label">TeleInspect Suite</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -913,7 +890,7 @@ h1.hero-title .accent {
       </a>
 
       <!-- 3. CONTACT CENTER -->
-      <a href="#" class="demo-card">
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Contact%20Center%20AI%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img cc">
           <div class="cc-waves">
             <div class="cc-wave-bars">
@@ -933,50 +910,50 @@ h1.hero-title .accent {
           </div>
           <div class="cc-tone-card">
             <div class="row">
-              <span class="cc-coach-ico">IA</span>
-              <span class="label">Coach · En vivo</span>
+              <span class="cc-coach-ico">AI</span>
+              <span class="label" data-i18n="cc.coachLabel">Coach · Live</span>
             </div>
-            <div class="msg">"Cliente sube tono. Valida emoción <b style="color:var(--magenta)">antes</b> de proponer solución."</div>
+            <div class="msg" data-i18n="cc.coachMsg" data-i18n-html>"Customer raising tone. Validate emotion <b style="color:var(--magenta)">before</b> proposing solution."</div>
           </div>
         </div>
-        <div class="demo-badge live"><span class="ico"></span>En vivo · Voice IA</div>
-        <button class="demo-mute"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
+        <div class="demo-badge live"><span class="ico"></span><span data-i18n="cc.badge">Live · Voice AI</span></div>
+        <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat">+30% productividad · 25% ↓ AHT</span>
-            <span class="demo-label">Contact Center IA</span>
+            <span class="demo-cat" data-i18n="cc.cat">+30% productivity · 25% ↓ AHT</span>
+            <span class="demo-label" data-i18n="cc.label">Contact Center AI</span>
           </div>
           <span class="demo-arrow">↗</span>
         </div>
       </a>
 
       <!-- 4. WHATSAPP -->
-      <a href="#" class="demo-card">
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20WhatsApp%20AI%20Chatbot%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img wa">
           <div class="wa-phone">
             <div class="wa-screen">
-              <div class="wa-msg in">Hola! tuve un choque 🚗</div>
-              <div class="wa-msg out">Lo siento. Para iniciar reclamo, ¿me das tu cédula?</div>
-              <div class="wa-msg in">8-745-892</div>
-              <div class="wa-msg out">Encontré tu póliza ✅<br/>Te envío link de auto-inspección</div>
-              <div class="wa-msg in">Gracias!</div>
-              <div class="wa-msg out">¿En qué más te ayudo?</div>
+              <div class="wa-msg in" data-i18n="wa.m1">Hi! I had a car accident 🚗</div>
+              <div class="wa-msg out" data-i18n="wa.m2">So sorry. To start the claim, what's your ID number?</div>
+              <div class="wa-msg in" data-i18n="wa.m3">8-745-892</div>
+              <div class="wa-msg out" data-i18n="wa.m4" data-i18n-html>Found your policy ✅<br/>Sending you the self-inspection link</div>
+              <div class="wa-msg in" data-i18n="wa.m5">Thanks!</div>
+              <div class="wa-msg out" data-i18n="wa.m6">How else can I help?</div>
             </div>
           </div>
         </div>
-        <div class="demo-badge"><span class="ico" style="background:#25D366; color:white;">W</span>WhatsApp · API Oficial</div>
-        <button class="demo-mute"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
+        <div class="demo-badge"><span class="ico" style="background:#25D366; color:white;">W</span><span data-i18n="wa.badge">WhatsApp · Official API</span></div>
+        <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat">24/7 atención · CSAT &gt; 80%</span>
-            <span class="demo-label">Chatbot IA</span>
+            <span class="demo-cat" data-i18n="wa.cat">24/7 service · CSAT &gt; 80%</span>
+            <span class="demo-label" data-i18n="wa.label">AI Chatbot</span>
           </div>
           <span class="demo-arrow">↗</span>
         </div>
       </a>
 
       <!-- 5. SIFED -->
-      <a href="#" class="demo-card">
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20SIFED%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img sifed">
           <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="sifed-track-curve">
             <path d="M-20 380 Q200 280 420 380" stroke="rgba(203,108,230,0.25)" stroke-width="2" fill="none"/>
@@ -1013,16 +990,16 @@ h1.hero-title .accent {
             <line x1="0" y1="75" x2="22" y2="75" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
           </svg>
           <div class="sifed-stat-card">
-            <div class="stat"><div class="v">47.2s</div><div class="l">PR · 400m</div></div>
-            <div class="stat"><div class="v">+3.2%</div><div class="l">vs últ. mes</div></div>
-            <div class="stat"><div class="v">A1</div><div class="l">Categoría</div></div>
+            <div class="stat"><div class="v">47.2s</div><div class="l" data-i18n="sifed.stat1">PR · 400m</div></div>
+            <div class="stat"><div class="v">+3.2%</div><div class="l" data-i18n="sifed.stat2">vs last month</div></div>
+            <div class="stat"><div class="v">A1</div><div class="l" data-i18n="sifed.stat3">Category</div></div>
           </div>
         </div>
-        <div class="demo-badge"><span class="ico" style="background: linear-gradient(135deg, #ffb800, #ff6b00);">🏆</span>Deportivo · Federaciones</div>
-        <button class="demo-mute"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
+        <div class="demo-badge"><span class="ico" style="background: linear-gradient(135deg, #ffb800, #ff6b00);">🏆</span><span data-i18n="sifed.badge">Sports · Federations</span></div>
+        <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat">360° del atleta</span>
+            <span class="demo-cat" data-i18n="sifed.cat">360° athlete view</span>
             <span class="demo-label">SIFED</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -1030,7 +1007,7 @@ h1.hero-title .accent {
       </a>
 
       <!-- 6. GANADERO -->
-      <a href="#" class="demo-card">
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Livestock%20AI%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img gan">
           <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="gan-landscape">
             <path d="M0 380 Q100 340 200 360 T400 350 L400 500 L0 500 Z" fill="#1a3050" opacity="0.7"/>
@@ -1071,17 +1048,17 @@ h1.hero-title .accent {
             </g>
           </svg>
           <div class="gan-stats">
-            <div class="l">Hato total</div>
+            <div class="l" data-i18n="gan.label">Total herd</div>
             <div class="v">1,284</div>
-            <div class="t">↑ +8 esta semana</div>
+            <div class="t" data-i18n="gan.trend">↑ +8 this week</div>
           </div>
         </div>
-        <div class="demo-badge"><span class="ico" style="background: linear-gradient(135deg, #44d97a, #2a8c4d);">🐄</span>Ganadería · IA</div>
-        <button class="demo-mute"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
+        <div class="demo-badge"><span class="ico" style="background: linear-gradient(135deg, #44d97a, #2a8c4d);">🐄</span><span data-i18n="gan.badge">Livestock · AI</span></div>
+        <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat">100% trazable · Ciclo productivo</span>
-            <span class="demo-label">Sistema Ganadero IA</span>
+            <span class="demo-cat" data-i18n="gan.cat">100% traceable · Production cycle</span>
+            <span class="demo-label" data-i18n="gan.title">Livestock AI</span>
           </div>
           <span class="demo-arrow">↗</span>
         </div>
@@ -1094,15 +1071,29 @@ h1.hero-title .accent {
 <!-- ===== TRUST ===== -->
 <section class="trust">
   <div class="trust-inner">
-    <div class="trust-label">Implementado en 7 industrias · 5 países LATAM</div>
+    <div class="trust-label" data-i18n="trust.label">Deployed across 7 industries · 5 LATAM countries</div>
     <div class="trust-marquee">
-      <div class="trust-track">
-        <span>Seguros</span><span>Telecom</span><span>Retail</span><span>Hotelería</span>
-        <span>Automotriz</span><span>Brokers</span><span>Field Ops</span>
-        <span>Deportivo</span><span>Ganadería</span><span>Agroindustria</span>
-        <span>Seguros</span><span>Telecom</span><span>Retail</span><span>Hotelería</span>
-        <span>Automotriz</span><span>Brokers</span><span>Field Ops</span>
-        <span>Deportivo</span><span>Ganadería</span><span>Agroindustria</span>
+      <div class="trust-track" id="trust-track">
+        <span data-i18n="industry.insurance">Insurance</span>
+        <span data-i18n="industry.telecom">Telecom</span>
+        <span data-i18n="industry.retail">Retail</span>
+        <span data-i18n="industry.hospitality">Hospitality</span>
+        <span data-i18n="industry.automotive">Automotive</span>
+        <span data-i18n="industry.brokers">Brokers</span>
+        <span data-i18n="industry.fieldOps">Field Ops</span>
+        <span data-i18n="industry.sports">Sports</span>
+        <span data-i18n="industry.livestock">Livestock</span>
+        <span data-i18n="industry.agribusiness">Agribusiness</span>
+        <span data-i18n="industry.insurance">Insurance</span>
+        <span data-i18n="industry.telecom">Telecom</span>
+        <span data-i18n="industry.retail">Retail</span>
+        <span data-i18n="industry.hospitality">Hospitality</span>
+        <span data-i18n="industry.automotive">Automotive</span>
+        <span data-i18n="industry.brokers">Brokers</span>
+        <span data-i18n="industry.fieldOps">Field Ops</span>
+        <span data-i18n="industry.sports">Sports</span>
+        <span data-i18n="industry.livestock">Livestock</span>
+        <span data-i18n="industry.agribusiness">Agribusiness</span>
       </div>
     </div>
   </div>
@@ -1111,33 +1102,33 @@ h1.hero-title .accent {
 <!-- ===== NUMBERS ===== -->
 <section class="numbers-section" id="numbers">
   <div class="section-inner">
-    <div class="section-eyebrow">RESULTADOS REALES · CASOS DE ÉXITO</div>
+    <div class="section-eyebrow" data-i18n="numbers.eyebrow">REAL RESULTS · SUCCESS CASES</div>
     <h2 class="section-title">
-      Métricas que mueven<br>
-      <span class="accent">la aguja del negocio.</span>
+      <span data-i18n="numbers.title.main">Metrics that move</span><br>
+      <span class="accent" data-i18n="numbers.title.accent">the business needle.</span>
     </h2>
-    <p class="section-sub">No vendemos promesas. Vendemos resultados medibles desde el primer mes de operación.</p>
+    <p class="section-sub" data-i18n="numbers.sub">We don't sell promises. We sell measurable results from the first month of operation.</p>
 
     <div class="numbers-grid">
       <div class="num-cell">
         <div class="num-value">95<span class="unit">%↓</span></div>
-        <div class="num-label">Reducción de tiempos en inspección de seguros</div>
-        <div class="num-source">Sector Seguros · LATAM</div>
+        <div class="num-label" data-i18n="numbers.l1">Reduction in insurance inspection time</div>
+        <div class="num-source" data-i18n="numbers.s1">Insurance Sector · LATAM</div>
       </div>
       <div class="num-cell">
         <div class="num-value">+70<span class="unit">%</span></div>
-        <div class="num-label">Detección automática de fraude vs. modelo manual</div>
-        <div class="num-source">Snnapi · Producción</div>
+        <div class="num-label" data-i18n="numbers.l2">Automatic fraud detection vs. manual model</div>
+        <div class="num-source" data-i18n="numbers.s2">Snnapi · Production</div>
       </div>
       <div class="num-cell">
         <div class="num-value">35<span class="unit">%↑</span></div>
-        <div class="num-label">Mejora en SLA de operaciones telecom</div>
-        <div class="num-source">Sector Telecom · LATAM</div>
+        <div class="num-label" data-i18n="numbers.l3">Improvement in telecom operations SLA</div>
+        <div class="num-source" data-i18n="numbers.s3">Telecom Sector · LATAM</div>
       </div>
       <div class="num-cell">
         <div class="num-value">99<span class="unit">%</span></div>
-        <div class="num-label">Trazabilidad en órdenes de trabajo en campo</div>
-        <div class="num-source">Sector Field Ops · LATAM</div>
+        <div class="num-label" data-i18n="numbers.l4">Traceability in field work orders</div>
+        <div class="num-source" data-i18n="numbers.s4">Field Ops Sector · LATAM</div>
       </div>
     </div>
   </div>
@@ -1146,32 +1137,32 @@ h1.hero-title .accent {
 <!-- ===== PROCESS ===== -->
 <section class="section" id="process" style="background: var(--paper-warm);">
   <div class="section-inner">
-    <div class="section-eyebrow">METODOLOGÍA · 4 PASOS</div>
+    <div class="section-eyebrow" data-i18n="process.eyebrow">METHODOLOGY · 4 STEPS</div>
     <h2 class="section-title">
-      Del primer hello al ROI:<br>
-      <span class="accent">en semanas, no meses.</span>
+      <span data-i18n="process.title.main">From first hello to ROI:</span><br>
+      <span class="accent" data-i18n="process.title.accent">in weeks, not months.</span>
     </h2>
 
     <div class="process-grid">
       <div class="proc-card">
-        <div class="proc-step">DIAGNÓSTICO</div>
-        <h3 class="proc-name">Mapeo del journey</h3>
-        <p class="proc-desc">Analizamos tu operación actual y los puntos de fricción en el customer journey, con métricas de baseline.</p>
+        <div class="proc-step" data-i18n="process.s1.step">DIAGNOSIS</div>
+        <h3 class="proc-name" data-i18n="process.s1.name">Journey mapping</h3>
+        <p class="proc-desc" data-i18n="process.s1.desc">We analyze your current operations and friction points in the customer journey, with baseline metrics.</p>
       </div>
       <div class="proc-card">
-        <div class="proc-step">DISEÑO</div>
-        <h3 class="proc-name">Estrategia y KPIs</h3>
-        <p class="proc-desc">Diseñamos la solución a medida con KPIs de éxito claros y un roadmap de implementación realista.</p>
+        <div class="proc-step" data-i18n="process.s2.step">DESIGN</div>
+        <h3 class="proc-name" data-i18n="process.s2.name">Strategy & KPIs</h3>
+        <p class="proc-desc" data-i18n="process.s2.desc">We design a tailored solution with clear success KPIs and a realistic implementation roadmap.</p>
       </div>
       <div class="proc-card">
-        <div class="proc-step">IMPLEMENTACIÓN</div>
-        <h3 class="proc-name">Despliegue ágil</h3>
-        <p class="proc-desc">Implementación por sprints con capacitación al equipo. Resultados visibles desde el día 1.</p>
+        <div class="proc-step" data-i18n="process.s3.step">IMPLEMENTATION</div>
+        <h3 class="proc-name" data-i18n="process.s3.name">Agile deployment</h3>
+        <p class="proc-desc" data-i18n="process.s3.desc">Sprint-based implementation with team training. Visible results from day 1.</p>
       </div>
       <div class="proc-card">
-        <div class="proc-step">OPTIMIZACIÓN</div>
-        <h3 class="proc-name">Mejora continua</h3>
-        <p class="proc-desc">Tu copiloto IA aprende con cada interacción. Optimización basada en datos reales, no suposiciones.</p>
+        <div class="proc-step" data-i18n="process.s4.step">OPTIMIZATION</div>
+        <h3 class="proc-name" data-i18n="process.s4.name">Continuous improvement</h3>
+        <p class="proc-desc" data-i18n="process.s4.desc">Your AI copilot learns with every interaction. Optimization based on real data, not assumptions.</p>
       </div>
     </div>
   </div>
@@ -1181,12 +1172,12 @@ h1.hero-title .accent {
 <section class="cta-section" id="contact">
   <div class="cta-inner">
     <h2 class="cta-title">
-      ¿Listo para transformar<br>
-      tu CX <span class="accent">desde el día 1?</span>
+      <span data-i18n="cta.title.main">Ready to transform your CX</span><br>
+      <span class="accent" data-i18n="cta.title.accent">from day 1?</span>
     </h2>
-    <p class="cta-sub">Agenda 30 minutos con nuestro equipo. Te mostramos los demos en vivo conectados a casos reales de tu industria.</p>
+    <p class="cta-sub" data-i18n="cta.sub">Book 30 minutes with our team. We'll show you the demos live, connected to real cases in your industry.</p>
     <div class="cta-actions">
-      <a href="https://wa.me/50764671392" class="btn btn-mag btn-large">Agendar demo (30 min)</a>
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27d%20like%20to%20book%20a%20demo" target="_blank" rel="noopener" class="btn btn-mag btn-large" data-i18n="cta.book">Book a demo (30 min)</a>
       <a href="mailto:info@henkancx.com" class="btn btn-light btn-large">info@henkancx.com</a>
     </div>
   </div>
@@ -1198,64 +1189,334 @@ h1.hero-title .accent {
     <div class="footer-top">
       <div class="footer-brand">
         <img src="https://www.henkancx.com/logo-henkancx.png" alt="HenkanCX">
-        <p>Transformamos la experiencia del cliente desde el día 1. Soluciones de IA y automatización para LATAM.</p>
+        <p data-i18n="footer.tagline">Transforming customer experience from day 1. AI and automation solutions for LATAM.</p>
       </div>
       <div class="footer-col">
-        <h4>Demos</h4>
-        <a href="#">Snnapi</a>
-        <a href="#">TeleInspect Suite</a>
-        <a href="#">Contact Center IA</a>
-        <a href="#">Chatbot WhatsApp</a>
-        <a href="#">SIFED</a>
-        <a href="#">Sistema Ganadero</a>
+        <h4 data-i18n="footer.demos">Demos</h4>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Snnapi%20demo" target="_blank" rel="noopener">Snnapi</a>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20TeleInspect%20Suite%20demo" target="_blank" rel="noopener">TeleInspect Suite</a>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Contact%20Center%20AI%20demo" target="_blank" rel="noopener" data-i18n="footer.cc">Contact Center AI</a>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20WhatsApp%20Chatbot%20demo" target="_blank" rel="noopener" data-i18n="footer.wa">WhatsApp Chatbot</a>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20SIFED%20demo" target="_blank" rel="noopener">SIFED</a>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Livestock%20AI%20demo" target="_blank" rel="noopener" data-i18n="footer.gan">Livestock AI</a>
       </div>
       <div class="footer-col">
-        <h4>Empresa</h4>
-        <a href="https://www.henkancx.com">Sitio principal</a>
-        <a href="#">Casos de éxito</a>
-        <a href="#">Sobre nosotros</a>
-        <a href="#">Carreras</a>
+        <h4 data-i18n="footer.company">Company</h4>
+        <a href="https://www.henkancx.com" data-i18n="footer.mainSite">Main site</a>
+        <a href="https://www.henkancx.com" data-i18n="footer.about">About us</a>
       </div>
       <div class="footer-col">
-        <h4>Recursos</h4>
-        <a href="#">Documentación</a>
-        <a href="#">API</a>
-        <a href="#">Blog</a>
-        <a href="#">Brand Kit</a>
-      </div>
-      <div class="footer-col">
-        <h4>Contacto</h4>
-        <a href="https://wa.me/50764671392">+507 6467 1392</a>
+        <h4 data-i18n="footer.contact">Contact</h4>
+        <a href="https://wa.me/50764671392" target="_blank" rel="noopener">+507 6467 1392</a>
         <a href="mailto:info@henkancx.com">info@henkancx.com</a>
-        <a href="#">Ciudad de Panamá</a>
+        <span data-i18n="footer.location">Panama City, Panama</span>
       </div>
     </div>
     <div class="footer-bot">
-      <span>© 2026 HenkanCX. Todos los derechos reservados.</span>
+      <span data-i18n="footer.copyright">© 2026 HenkanCX. All rights reserved.</span>
       <div class="social">
-        <a href="https://linkedin.com/company/henkancx">LinkedIn</a>
-        <a href="https://instagram.com/henkancx">Instagram</a>
-        <a href="#">Privacidad</a>
-        <a href="#">Términos</a>
+        <a href="https://linkedin.com/company/henkancx" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://instagram.com/henkancx" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
   </div>
 </footer>
 
 <script>
-  document.querySelectorAll('.lang-toggle button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-  function scrollGallery(dir) {
-    const track = document.getElementById('gallery-track');
-    const card = track.querySelector('.demo-card');
-    if (!card) return;
-    const w = card.getBoundingClientRect().width + 18;
-    track.scrollBy({ left: dir * w, behavior: 'smooth' });
+// ===== i18n =====
+const i18n = {
+  en: {
+    'nav.solutions': 'AI Solutions',
+    'nav.products': 'Products',
+    'nav.process': 'Process',
+    'nav.contact': 'Contact',
+    'nav.backToSite': 'Back to site',
+    'nav.contactSales': 'Contact sales',
+    'subnav.demos': 'Demos',
+    'subnav.results': 'Results',
+    'subnav.process': 'How it works',
+    'hero.title.main': 'The AI demos portal to transform your CX',
+    'hero.title.accent': ' from day 1',
+    'hero.cta': 'Explore demos →',
+    'hero.trust.left': 'Trusted by +50 LATAM companies',
+    'hero.trust.right': 'No credit card required',
+    'hero.sub': '<b>DemoPortal</b> is where prospects, clients, and innovation teams try HenkanCX solutions live. AI inspections, intelligent contact center, WhatsApp chatbots, sports and livestock management — all in interactive sandboxes, ready in seconds.',
+
+    'snnapi.badge': 'Insurance · Computer Vision',
+    'snnapi.confidence': 'Confidence',
+    'snnapi.time': 'Time',
+    'snnapi.damages': 'Damages',
+    'snnapi.cat': '95% ↓ time · +70% fraud detection',
+    'snnapi.box1': 'DAMAGE · 87%',
+    'snnapi.box2': 'SCRATCH · 62%',
+
+    'tele.badge': 'Telecom · Field Ops',
+    'tele.cat': '99% traceability · 60% ↓ reports',
+    'tele.slaLabel': 'SLA · Last week',
+    'tele.slaTrend': '↑ +35% vs Q3',
+    'tele.alertTitle': 'TWR-042 · Alert',
+    'tele.alertDesc': 'Irregular voltage · -3.2%',
+
+    'cc.badge': 'Live · Voice AI',
+    'cc.label': 'Contact Center AI',
+    'cc.cat': '+30% productivity · 25% ↓ AHT',
+    'cc.coachLabel': 'Coach · Live',
+    'cc.coachMsg': '"Customer raising tone. Validate emotion <b style="color:var(--magenta)">before</b> proposing solution."',
+
+    'wa.badge': 'WhatsApp · Official API',
+    'wa.label': 'AI Chatbot',
+    'wa.cat': '24/7 service · CSAT &gt; 80%',
+    'wa.m1': 'Hi! I had a car accident 🚗',
+    'wa.m2': "So sorry. To start the claim, what's your ID number?",
+    'wa.m3': '8-745-892',
+    'wa.m4': 'Found your policy ✅<br/>Sending you the self-inspection link',
+    'wa.m5': 'Thanks!',
+    'wa.m6': 'How else can I help?',
+
+    'sifed.badge': 'Sports · Federations',
+    'sifed.cat': '360° athlete view',
+    'sifed.stat1': 'PR · 400m',
+    'sifed.stat2': 'vs last month',
+    'sifed.stat3': 'Category',
+
+    'gan.badge': 'Livestock · AI',
+    'gan.cat': '100% traceable · Production cycle',
+    'gan.title': 'Livestock AI',
+    'gan.label': 'Total herd',
+    'gan.trend': '↑ +8 this week',
+
+    'trust.label': 'Deployed across 7 industries · 5 LATAM countries',
+    'industry.insurance': 'Insurance',
+    'industry.telecom': 'Telecom',
+    'industry.retail': 'Retail',
+    'industry.hospitality': 'Hospitality',
+    'industry.automotive': 'Automotive',
+    'industry.brokers': 'Brokers',
+    'industry.fieldOps': 'Field Ops',
+    'industry.sports': 'Sports',
+    'industry.livestock': 'Livestock',
+    'industry.agribusiness': 'Agribusiness',
+
+    'numbers.eyebrow': 'REAL RESULTS · SUCCESS CASES',
+    'numbers.title.main': 'Metrics that move',
+    'numbers.title.accent': 'the business needle.',
+    'numbers.sub': "We don't sell promises. We sell measurable results from the first month of operation.",
+    'numbers.l1': 'Reduction in insurance inspection time',
+    'numbers.s1': 'Insurance Sector · LATAM',
+    'numbers.l2': 'Automatic fraud detection vs. manual model',
+    'numbers.s2': 'Snnapi · Production',
+    'numbers.l3': 'Improvement in telecom operations SLA',
+    'numbers.s3': 'Telecom Sector · LATAM',
+    'numbers.l4': 'Traceability in field work orders',
+    'numbers.s4': 'Field Ops Sector · LATAM',
+
+    'process.eyebrow': 'METHODOLOGY · 4 STEPS',
+    'process.title.main': 'From first hello to ROI:',
+    'process.title.accent': 'in weeks, not months.',
+    'process.s1.step': 'DIAGNOSIS',
+    'process.s1.name': 'Journey mapping',
+    'process.s1.desc': 'We analyze your current operations and friction points in the customer journey, with baseline metrics.',
+    'process.s2.step': 'DESIGN',
+    'process.s2.name': 'Strategy & KPIs',
+    'process.s2.desc': 'We design a tailored solution with clear success KPIs and a realistic implementation roadmap.',
+    'process.s3.step': 'IMPLEMENTATION',
+    'process.s3.name': 'Agile deployment',
+    'process.s3.desc': 'Sprint-based implementation with team training. Visible results from day 1.',
+    'process.s4.step': 'OPTIMIZATION',
+    'process.s4.name': 'Continuous improvement',
+    'process.s4.desc': 'Your AI copilot learns with every interaction. Optimization based on real data, not assumptions.',
+
+    'cta.title.main': 'Ready to transform your CX',
+    'cta.title.accent': 'from day 1?',
+    'cta.sub': "Book 30 minutes with our team. We'll show you the demos live, connected to real cases in your industry.",
+    'cta.book': 'Book a demo (30 min)',
+
+    'footer.tagline': 'Transforming customer experience from day 1. AI and automation solutions for LATAM.',
+    'footer.demos': 'Demos',
+    'footer.cc': 'Contact Center AI',
+    'footer.wa': 'WhatsApp Chatbot',
+    'footer.gan': 'Livestock AI',
+    'footer.company': 'Company',
+    'footer.mainSite': 'Main site',
+    'footer.about': 'About us',
+    'footer.contact': 'Contact',
+    'footer.location': 'Panama City, Panama',
+    'footer.copyright': '© 2026 HenkanCX. All rights reserved.'
+  },
+  es: {
+    'nav.solutions': 'Soluciones IA',
+    'nav.products': 'Productos',
+    'nav.process': 'Proceso',
+    'nav.contact': 'Contacto',
+    'nav.backToSite': 'Volver al sitio',
+    'nav.contactSales': 'Contactar ventas',
+    'subnav.demos': 'Demos',
+    'subnav.results': 'Resultados',
+    'subnav.process': 'Cómo funciona',
+    'hero.title.main': 'El portal de demos de IA para transformar tu CX',
+    'hero.title.accent': ' desde el día 1',
+    'hero.cta': 'Explorar demos →',
+    'hero.trust.left': 'Confiado por +50 empresas LATAM',
+    'hero.trust.right': 'Sin tarjeta de crédito',
+    'hero.sub': '<b>DemoPortal</b> es donde prospectos, clientes y equipos de innovación prueban en vivo las soluciones de HenkanCX. Inspecciones con IA, contact center inteligente, chatbots de WhatsApp, gestión deportiva y ganadera — todo en sandboxes interactivos, listos en segundos.',
+
+    'snnapi.badge': 'Seguros · Computer Vision',
+    'snnapi.confidence': 'Confianza',
+    'snnapi.time': 'Tiempo',
+    'snnapi.damages': 'Daños',
+    'snnapi.cat': '95% ↓ tiempos · +70% fraude',
+    'snnapi.box1': 'DAÑO · 87%',
+    'snnapi.box2': 'RAYÓN · 62%',
+
+    'tele.badge': 'Telecom · Field Ops',
+    'tele.cat': '99% trazabilidad · 60% ↓ reportes',
+    'tele.slaLabel': 'SLA · Última semana',
+    'tele.slaTrend': '↑ +35% vs Q3',
+    'tele.alertTitle': 'TWR-042 · Alerta',
+    'tele.alertDesc': 'Voltaje irregular · -3.2%',
+
+    'cc.badge': 'En vivo · Voice IA',
+    'cc.label': 'Contact Center IA',
+    'cc.cat': '+30% productividad · 25% ↓ AHT',
+    'cc.coachLabel': 'Coach · En vivo',
+    'cc.coachMsg': '"Cliente sube tono. Valida emoción <b style="color:var(--magenta)">antes</b> de proponer solución."',
+
+    'wa.badge': 'WhatsApp · API Oficial',
+    'wa.label': 'Chatbot IA',
+    'wa.cat': '24/7 atención · CSAT &gt; 80%',
+    'wa.m1': '¡Hola! tuve un choque 🚗',
+    'wa.m2': 'Lo siento. Para iniciar reclamo, ¿me das tu cédula?',
+    'wa.m3': '8-745-892',
+    'wa.m4': 'Encontré tu póliza ✅<br/>Te envío link de auto-inspección',
+    'wa.m5': '¡Gracias!',
+    'wa.m6': '¿En qué más te ayudo?',
+
+    'sifed.badge': 'Deportivo · Federaciones',
+    'sifed.cat': '360° del atleta',
+    'sifed.stat1': 'PR · 400m',
+    'sifed.stat2': 'vs últ. mes',
+    'sifed.stat3': 'Categoría',
+
+    'gan.badge': 'Ganadería · IA',
+    'gan.cat': '100% trazable · Ciclo productivo',
+    'gan.title': 'Sistema Ganadero IA',
+    'gan.label': 'Hato total',
+    'gan.trend': '↑ +8 esta semana',
+
+    'trust.label': 'Implementado en 7 industrias · 5 países LATAM',
+    'industry.insurance': 'Seguros',
+    'industry.telecom': 'Telecom',
+    'industry.retail': 'Retail',
+    'industry.hospitality': 'Hotelería',
+    'industry.automotive': 'Automotriz',
+    'industry.brokers': 'Brokers',
+    'industry.fieldOps': 'Field Ops',
+    'industry.sports': 'Deportivo',
+    'industry.livestock': 'Ganadería',
+    'industry.agribusiness': 'Agroindustria',
+
+    'numbers.eyebrow': 'RESULTADOS REALES · CASOS DE ÉXITO',
+    'numbers.title.main': 'Métricas que mueven',
+    'numbers.title.accent': 'la aguja del negocio.',
+    'numbers.sub': 'No vendemos promesas. Vendemos resultados medibles desde el primer mes de operación.',
+    'numbers.l1': 'Reducción de tiempos en inspección de seguros',
+    'numbers.s1': 'Sector Seguros · LATAM',
+    'numbers.l2': 'Detección automática de fraude vs. modelo manual',
+    'numbers.s2': 'Snnapi · Producción',
+    'numbers.l3': 'Mejora en SLA de operaciones telecom',
+    'numbers.s3': 'Sector Telecom · LATAM',
+    'numbers.l4': 'Trazabilidad en órdenes de trabajo en campo',
+    'numbers.s4': 'Sector Field Ops · LATAM',
+
+    'process.eyebrow': 'METODOLOGÍA · 4 PASOS',
+    'process.title.main': 'Del primer hello al ROI:',
+    'process.title.accent': 'en semanas, no meses.',
+    'process.s1.step': 'DIAGNÓSTICO',
+    'process.s1.name': 'Mapeo del journey',
+    'process.s1.desc': 'Analizamos tu operación actual y los puntos de fricción en el customer journey, con métricas de baseline.',
+    'process.s2.step': 'DISEÑO',
+    'process.s2.name': 'Estrategia y KPIs',
+    'process.s2.desc': 'Diseñamos la solución a medida con KPIs de éxito claros y un roadmap de implementación realista.',
+    'process.s3.step': 'IMPLEMENTACIÓN',
+    'process.s3.name': 'Despliegue ágil',
+    'process.s3.desc': 'Implementación por sprints con capacitación al equipo. Resultados visibles desde el día 1.',
+    'process.s4.step': 'OPTIMIZACIÓN',
+    'process.s4.name': 'Mejora continua',
+    'process.s4.desc': 'Tu copiloto IA aprende con cada interacción. Optimización basada en datos reales, no suposiciones.',
+
+    'cta.title.main': '¿Listo para transformar tu CX',
+    'cta.title.accent': 'desde el día 1?',
+    'cta.sub': 'Agenda 30 minutos con nuestro equipo. Te mostramos los demos en vivo conectados a casos reales de tu industria.',
+    'cta.book': 'Agendar demo (30 min)',
+
+    'footer.tagline': 'Transformamos la experiencia del cliente desde el día 1. Soluciones de IA y automatización para LATAM.',
+    'footer.demos': 'Demos',
+    'footer.cc': 'Contact Center IA',
+    'footer.wa': 'Chatbot WhatsApp',
+    'footer.gan': 'Sistema Ganadero IA',
+    'footer.company': 'Empresa',
+    'footer.mainSite': 'Sitio principal',
+    'footer.about': 'Sobre nosotros',
+    'footer.contact': 'Contacto',
+    'footer.location': 'Ciudad de Panamá, Panamá',
+    'footer.copyright': '© 2026 HenkanCX. Todos los derechos reservados.'
   }
+};
+
+function applyLang(lang) {
+  if (!i18n[lang]) lang = 'en';
+  document.documentElement.lang = lang;
+  localStorage.setItem('demoportal_lang', lang);
+
+  // Update text nodes
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = i18n[lang][key];
+    if (val === undefined) return;
+    if (el.hasAttribute('data-i18n-html')) {
+      el.innerHTML = val;
+    } else {
+      el.textContent = val;
+    }
+  });
+
+  // Update SVG <text> nodes (textContent only)
+  document.querySelectorAll('[data-i18n-svg]').forEach(el => {
+    const key = el.getAttribute('data-i18n-svg');
+    const val = i18n[lang][key];
+    if (val !== undefined) el.textContent = val;
+  });
+
+  // Update toggle UI
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+}
+
+// Init: stored > browser default > 'en'
+(function initLang() {
+  const stored = localStorage.getItem('demoportal_lang');
+  let lang = stored;
+  if (!lang) {
+    const browser = (navigator.language || 'en').toLowerCase();
+    lang = browser.startsWith('es') ? 'es' : 'en';
+  }
+  applyLang(lang);
+})();
+
+// Wire up toggle
+document.querySelectorAll('.lang-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
+
+// Gallery scroll
+function scrollGallery(dir) {
+  const track = document.getElementById('gallery-track');
+  const card = track.querySelector('.demo-card');
+  if (!card) return;
+  const w = card.getBoundingClientRect().width + 18;
+  track.scrollBy({ left: dir * w, behavior: 'smooth' });
+}
 </script>
 </body>
 </html>
