@@ -36,33 +36,12 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== Built-in logo (CSS-only) ===== */
+/* ===== Logo (PNG with transparent background) ===== */
 .logo-mark {
   width: 32px; height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy) 49.5%, var(--magenta) 50.5%, var(--magenta) 100%);
-  position: relative;
   flex-shrink: 0;
   display: inline-block;
-}
-.logo-mark::before {
-  content: '';
-  position: absolute;
-  width: 15px; height: 15px;
-  top: 8px; left: 8px;
-  border: 2px solid white;
-  border-radius: 50%;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  transform: rotate(45deg);
-}
-.logo-mark::after {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  background: white;
-  border-radius: 50%;
-  top: 11px; right: 7px;
+  object-fit: contain;
 }
 .logo-word {
   font-family: 'Poppins', sans-serif;
@@ -546,8 +525,6 @@ h1.hero-title .accent {
 }
 .footer-brand { display: flex; align-items: center; gap: 10px; }
 .footer-brand .logo-mark { width: 26px; height: 26px; }
-.footer-brand .logo-mark::before { width: 12px; height: 12px; top: 7px; left: 7px; border-width: 1.6px; }
-.footer-brand .logo-mark::after { width: 4px; height: 4px; top: 9px; right: 6px; }
 .footer-brand .logo-word { font-size: 15px; }
 .footer-link {
   color: var(--slate);
@@ -579,7 +556,7 @@ h1.hero-title .accent {
 <!-- ===== NAV (minimal) ===== -->
 <nav class="nav">
   <a href="/" class="nav-brand">
-    <span class="logo-mark"></span>
+    <img class="logo-mark" src="/logo-henkan.png" alt="HenkanCX">
     <span class="logo-word">henkancx</span>
     <span class="sub-pill">DemoPortal</span>
   </a>
@@ -894,7 +871,7 @@ h1.hero-title .accent {
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <span class="logo-mark"></span>
+      <img class="logo-mark" src="/logo-henkan.png" alt="HenkanCX">
       <span class="logo-word">henkancx</span>
       <span class="sub-pill">DemoPortal</span>
     </div>
