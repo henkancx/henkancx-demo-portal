@@ -5,6 +5,12 @@
 <title>DemoPortal · HenkanCX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Interactive sandboxes of HenkanCX AI solutions. Try them live before implementing.">
+<meta name="theme-color" content="#0D1B2A">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -190,27 +196,16 @@ h1.hero-title .accent {
 .gallery { padding: 30px 32px 60px; position: relative; }
 .gallery-inner { max-width: 1480px; margin: 0 auto; position: relative; }
 .gallery-track {
-  display: flex;
-  gap: 18px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding: 0 32px;
-  padding-bottom: 28px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--line-strong) transparent;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
-.gallery-track::-webkit-scrollbar { height: 4px; }
-.gallery-track::-webkit-scrollbar-track { background: transparent; }
-.gallery-track::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 2px; }
 
 .demo-card {
-  flex: 0 0 calc((100% - 36px) / 3);
-  min-width: 320px;
   aspect-ratio: 4 / 5;
   border-radius: 28px;
   overflow: hidden;
   position: relative;
-  scroll-snap-align: start;
   cursor: pointer;
   text-decoration: none;
   background: var(--navy);
@@ -488,25 +483,6 @@ h1.hero-title .accent {
 .gan-stats .l { font-size: 10px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.06em; }
 .gan-stats .t { font-family: 'Fira Code'; font-size: 10px; color: #44d97a; margin-top: 2px; }
 
-.gallery-arrow {
-  position: absolute;
-  right: 0; top: 38%;
-  z-index: 5;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: white;
-  border: 1px solid var(--line-strong);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  color: var(--navy);
-  box-shadow: 0 4px 14px rgba(13,27,42,0.06);
-  transition: all .2s;
-}
-.gallery-arrow:hover { transform: translateX(2px); }
-.gallery-arrow.left { right: auto; left: 0; transform: rotate(180deg); }
-.gallery-arrow.left:hover { transform: rotate(180deg) translateX(2px); }
-
 /* ===== FOOTER (minimal) ===== */
 .footer {
   border-top: 1px solid var(--line);
@@ -537,15 +513,15 @@ h1.hero-title .accent {
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: 1fr; gap: 32px; align-items: start; }
   .hero-side { padding-bottom: 0; }
-  .demo-card { flex: 0 0 calc((100% - 18px) / 2); }
-  .gallery-arrow { display: none; }
+  .gallery-track { grid-template-columns: repeat(2, 1fr); }
   .nav .sub-pill { display: none; }
 }
 @media (max-width: 640px) {
   .nav { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
   .hero { padding: 50px 18px 30px; }
   .gallery { padding: 20px 18px 40px; }
-  .demo-card { flex: 0 0 88%; min-width: 280px; aspect-ratio: 4 / 5.4; }
+  .gallery-track { grid-template-columns: 1fr; }
+  .demo-card { aspect-ratio: 4 / 5.4; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .nav-actions .back-link { display: none; }
 }
@@ -590,9 +566,6 @@ h1.hero-title .accent {
 <!-- ===== GALLERY ===== -->
 <section class="gallery" id="demos">
   <div class="gallery-inner">
-    <button class="gallery-arrow left" aria-label="Previous" onclick="scrollGallery(-1)">→</button>
-    <button class="gallery-arrow" aria-label="Next" onclick="scrollGallery(1)">→</button>
-
     <div class="gallery-track" id="gallery-track">
 
       <!-- 1. SNNAPI -->
@@ -1032,14 +1005,6 @@ function applyLang(lang) {
 document.querySelectorAll('.lang-toggle button').forEach(btn => {
   btn.addEventListener('click', () => applyLang(btn.dataset.lang));
 });
-
-function scrollGallery(dir) {
-  const track = document.getElementById('gallery-track');
-  const card = track.querySelector('.demo-card');
-  if (!card) return;
-  const w = card.getBoundingClientRect().width + 18;
-  track.scrollBy({ left: dir * w, behavior: 'smooth' });
-}
 </script>
 </body>
 </html>
