@@ -559,6 +559,38 @@ h1.hero-title .accent {
 }
 .modal-close:hover { background: rgba(13,27,42,0.14); }
 
+/* Audio toggle button */
+.audio-toggle {
+  position: absolute;
+  top: 18px; right: 64px;
+  z-index: 10;
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 38px;
+  padding: 0 14px 0 12px;
+  border-radius: 999px;
+  background: rgba(13,27,42,0.08);
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--navy);
+  transition: background .2s;
+}
+.audio-toggle:hover { background: rgba(13,27,42,0.14); }
+.audio-toggle svg { width: 16px; height: 16px; flex-shrink: 0; }
+.audio-toggle .ico-on, .audio-toggle .ico-off { display: none; }
+.audio-toggle[data-state="on"] .ico-on { display: block; }
+.audio-toggle[data-state="off"] .ico-off { display: block; }
+.audio-toggle[data-state="off"] { opacity: 0.6; }
+.audio-toggle .pulse-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--magenta);
+  animation: livePulseRed 1.6s ease-out infinite;
+}
+.audio-toggle[data-state="off"] .pulse-dot { background: var(--slate-2); animation: none; }
+
 .modal-header { padding: 36px 40px 24px; }
 .modal-tag {
   display: inline-flex; align-items: center; gap: 8px;
@@ -764,7 +796,7 @@ h1.hero-title .accent {
 }
 .cc-tone-bar .label .v {
   font-family: 'Fira Code', monospace;
-  color: #f55c5c;
+  color: #ffb800;
   font-weight: 600;
 }
 .cc-tone-bar .track {
@@ -776,19 +808,20 @@ h1.hero-title .accent {
 .cc-tone-bar .fill {
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, #44d97a 0%, #ffb800 50%, #f55c5c 90%);
+  background: linear-gradient(90deg, #44d97a 0%, #ffb800 70%, #f55c5c 100%);
   border-radius: 3px;
   animation: tonefill 2s ease forwards;
   animation-delay: 7.2s;
 }
-@keyframes tonefill { to { width: 84%; } }
+@keyframes tonefill { to { width: 56%; } }
 
 .cc-transcript {
   display: flex; flex-direction: column; gap: 8px;
   font-size: 12px;
   line-height: 1.4;
-  max-height: 180px;
+  max-height: 200px;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 .cc-msg {
   display: flex; gap: 8px;
@@ -810,8 +843,11 @@ h1.hero-title .accent {
 .cc-msg .body { color: rgba(255,255,255,0.85); flex: 1; }
 .cc-msg .ts { color: var(--slate-2); font-family: 'Fira Code', monospace; font-size: 9px; }
 .cc-msg.m1 { animation-delay: 3.5s; }
-.cc-msg.m2 { animation-delay: 5.5s; }
-.cc-msg.m3 { animation-delay: 9.5s; }
+.cc-msg.m2 { animation-delay: 7s; }
+.cc-msg.m3 { animation-delay: 10.5s; }
+.cc-msg.m4 { animation-delay: 14s; }
+.cc-msg.m5 { animation-delay: 19s; }
+.cc-msg.m6 { animation-delay: 22s; }
 
 /* Coach panel */
 .cc-coach-card {
@@ -825,8 +861,8 @@ h1.hero-title .accent {
   animation: fadeInUp .55s ease forwards;
 }
 .cc-coach-card:nth-of-type(1) { animation-delay: 2.5s; }
-.cc-coach-card:nth-of-type(2) { animation-delay: 8s; }
-.cc-coach-card:nth-of-type(3) { animation-delay: 12s; }
+.cc-coach-card:nth-of-type(2) { animation-delay: 11s; }
+.cc-coach-card:nth-of-type(3) { animation-delay: 21.5s; }
 .cc-coach-card .header {
   display: flex; align-items: center; gap: 8px;
   margin-bottom: 8px;
@@ -857,83 +893,109 @@ h1.hero-title .accent {
   to { opacity: 1; transform: none; }
 }
 
-/* ----- Hand-drawn annotations (3 pencil interventions) ----- */
-.annotation {
+/* ----- Speech bubbles (3 coach interventions) ----- */
+.bubble {
   position: absolute;
   z-index: 5;
-  opacity: 0;
-  pointer-events: none;
-  animation: showAnnotation .5s ease forwards;
-}
-.annotation .ann-arrow {
-  position: absolute;
-  width: 100px; height: 60px;
-  color: var(--magenta);
-  filter: drop-shadow(0 2px 6px rgba(203,108,230,0.5));
-}
-.annotation .ann-arrow path {
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: drawAnnArrow 1s cubic-bezier(.6,.1,.3,1) forwards;
-}
-.annotation .ann-text {
-  position: absolute;
+  background: white;
+  border-radius: 14px;
+  padding: 10px 16px 10px 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0,0,0,0.15);
   font-family: 'Caveat', cursive;
   font-weight: 600;
-  font-size: 22px;
-  color: var(--magenta);
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--navy);
   white-space: nowrap;
-  overflow: hidden;
-  width: 0;
-  animation: writeText 1.3s steps(40, end) forwards;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+  border: 2px solid var(--magenta);
+  opacity: 0;
+  transform: scale(0.4) translateY(6px);
+  pointer-events: none;
+  animation: bubblePop 0.55s cubic-bezier(.34, 1.56, .64, 1) forwards;
 }
-.annotation .ann-text::after {
-  content: '✏️';
-  font-size: 16px;
-  margin-left: 2px;
-  display: inline-block;
-  animation: pencilWiggle .4s ease infinite alternate;
-  filter: grayscale(0.2);
+.bubble .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  margin-right: 8px;
+  vertical-align: 1px;
 }
-@keyframes pencilWiggle {
-  to { transform: rotate(8deg) translateY(-1px); }
-}
-@keyframes drawAnnArrow {
-  to { stroke-dashoffset: 0; }
-}
-@keyframes writeText {
-  to { width: 100%; }
-}
-@keyframes showAnnotation {
-  to { opacity: 1; }
+@keyframes bubblePop {
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.annotation-1 {
-  top: 20px; left: 250px;
-  animation-delay: 4s;
+/* Pointer (triangle pointing down) */
+.bubble.point-down::before,
+.bubble.point-down::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  width: 0; height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
 }
-.annotation-1 .ann-arrow { top: 0; left: 0; transform: rotate(-2deg); }
-.annotation-1 .ann-text { top: 0; left: 90px; animation-delay: 5s; }
+.bubble.point-down::before {
+  border-top: 10px solid var(--magenta);
+  z-index: 0;
+}
+.bubble.point-down::after {
+  bottom: -7px;
+  border-left-width: 7px; border-right-width: 7px;
+  border-top: 7px solid white;
+  z-index: 1;
+}
 
-.annotation-2 {
-  top: 230px; left: 38%;
-  animation-delay: 9s;
-}
-.annotation-2 .ann-arrow { top: 0; left: 0; transform: rotate(8deg); width: 80px; height: 50px; }
-.annotation-2 .ann-text { top: -10px; left: 75px; animation-delay: 10s; }
+/* Pointer left/right offset variants */
+.bubble.point-down.point-left::before { left: 24px; }
+.bubble.point-down.point-left::after  { left: 26px; }
+.bubble.point-down.point-center::before { left: 50%; transform: translateX(-50%); }
+.bubble.point-down.point-center::after  { left: 50%; transform: translateX(-50%); }
+.bubble.point-down.point-right::before { right: 24px; }
+.bubble.point-down.point-right::after  { right: 26px; }
 
-.annotation-3 {
-  top: 320px; right: 80px;
-  animation-delay: 14s;
+/* Three bubbles — positions and timing */
+.bubble-1 {
+  top: 14px;
+  left: 130px;
+  transform-origin: bottom left;
+  animation-delay: 5s;
+  transform: scale(0.4) translateY(6px) rotate(-2deg);
 }
-.annotation-3 .ann-arrow { top: 0; right: 0; transform: scaleX(-1) rotate(-6deg); width: 90px; height: 56px; }
-.annotation-3 .ann-text { top: 8px; right: 86px; animation-delay: 15s; text-align: right; }
+.bubble-1.show { transform: scale(1) translateY(0) rotate(-2deg); }
+
+.bubble-2 {
+  top: 158px;
+  left: 36%;
+  transform-origin: bottom center;
+  animation-delay: 13s;
+  transform: scale(0.4) translateY(6px) rotate(1.5deg);
+}
+
+.bubble-3 {
+  top: 268px;
+  right: 30px;
+  transform-origin: bottom right;
+  animation-delay: 22.5s;
+  transform: scale(0.4) translateY(6px) rotate(-1.5deg);
+}
+
+/* Override animation end-state per bubble (preserve rotations) */
+@keyframes bubblePop1 { to { opacity: 1; transform: scale(1) translateY(0) rotate(-2deg); } }
+@keyframes bubblePop2 { to { opacity: 1; transform: scale(1) translateY(0) rotate(1.5deg); } }
+@keyframes bubblePop3 { to { opacity: 1; transform: scale(1) translateY(0) rotate(-1.5deg); } }
+.bubble-1 { animation-name: bubblePop1; }
+.bubble-2 { animation-name: bubblePop2; }
+.bubble-3 { animation-name: bubblePop3; }
+
+/* Mobile: hide bubbles (no space) */
+@media (max-width: 880px) {
+  .bubble { display: none; }
+}
 
 /* Animations gated on .playing class */
 .cc-stage:not(.playing) .cc-customer-avatar,
@@ -942,9 +1004,7 @@ h1.hero-title .accent {
 .cc-stage:not(.playing) .cc-tone-bar .fill,
 .cc-stage:not(.playing) .cc-msg,
 .cc-stage:not(.playing) .cc-coach-card,
-.cc-stage:not(.playing) .annotation,
-.cc-stage:not(.playing) .annotation .ann-arrow path,
-.cc-stage:not(.playing) .annotation .ann-text {
+.cc-stage:not(.playing) .bubble {
   animation-play-state: paused;
 }
 
@@ -971,7 +1031,6 @@ h1.hero-title .accent {
   .modal-window { max-height: 100vh; max-width: 100%; border-radius: 0; }
   .modal-header { padding: 28px 22px 18px; }
   .cc-stage { grid-template-columns: 1fr; margin: 8px 14px 14px; padding: 16px; min-height: auto; }
-  .annotation { display: none; }
   .modal-footer { padding: 18px 22px 28px; flex-direction: column; align-items: stretch; }
   .modal-footer .actions { flex-direction: column; }
   .modal-footer .btn { width: 100%; justify-content: center; }
@@ -1354,13 +1413,19 @@ h1.hero-title .accent {
   <div class="modal-backdrop" data-close></div>
   <div class="modal-window">
     <button class="modal-close" data-close aria-label="Close">×</button>
+    <button class="audio-toggle" id="audio-toggle" data-state="on" type="button" aria-label="Toggle audio">
+      <span class="pulse-dot"></span>
+      <svg class="ico-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+      <svg class="ico-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+      <span class="audio-label">Audio</span>
+    </button>
 
     <header class="modal-header">
       <span class="modal-tag"><span class="dot"></span><span data-i18n="modal.cc.tag">Live Preview · Contact Center AI</span></span>
       <h2 class="modal-title" id="cc-modal-title">
         <span data-i18n="modal.cc.title.l1">El coach que </span><em data-i18n="modal.cc.title.l2">ningún agente</em><span data-i18n="modal.cc.title.l3"> tuvo antes.</span>
       </h2>
-      <p class="modal-sub" data-i18n="modal.cc.sub">Mira cómo la IA acompaña al agente en tiempo real durante una llamada de seguros — identificación, análisis de tono y coaching, sin pausar la conversación.</p>
+      <p class="modal-sub" data-i18n="modal.cc.sub">Mira cómo la IA acompaña al agente en tiempo real durante una llamada de soporte técnico — identificación de producto, diagnóstico por voz y coaching, sin pausar la conversación.</p>
     </header>
 
     <div class="cc-stage" id="cc-stage">
@@ -1369,16 +1434,16 @@ h1.hero-title .accent {
       <div class="cc-panel">
         <div class="cc-panel-label" data-i18n="modal.cc.customerLabel">Cliente identificado</div>
         <div class="cc-customer-avatar">
-          <div class="av">MR</div>
+          <div class="av">CM</div>
           <div>
-            <div class="name">María Rodríguez</div>
-            <div class="meta">CÉD · 8-742-156</div>
+            <div class="name">Carlos Mendoza</div>
+            <div class="meta">ID · 8-715-2042</div>
           </div>
         </div>
         <div class="cc-customer-data">
-          <div class="row"><span class="l" data-i18n="modal.cc.row1">Póliza</span><span class="v">LATAM-AUT-2026-9483</span></div>
-          <div class="row"><span class="l" data-i18n="modal.cc.row2">Estado</span><span class="v ok" data-i18n="modal.cc.rowActive">Activa</span></div>
-          <div class="row"><span class="l" data-i18n="modal.cc.row3">Último siniestro</span><span class="v" data-i18n="modal.cc.row3v">Hace 18 meses</span></div>
+          <div class="row"><span class="l" data-i18n="modal.cc.row1">Modelo</span><span class="v">WM-2024-FRONT-XL</span></div>
+          <div class="row"><span class="l" data-i18n="modal.cc.row2">Garantía</span><span class="v ok" data-i18n="modal.cc.rowActive">Activa</span></div>
+          <div class="row"><span class="l" data-i18n="modal.cc.row3">Compra</span><span class="v" data-i18n="modal.cc.row3v">Hace 14 meses</span></div>
           <div class="row"><span class="l" data-i18n="modal.cc.row4">Sentiment histórico</span><span class="v warn" data-i18n="modal.cc.row4v">Neutral</span></div>
         </div>
       </div>
@@ -1393,22 +1458,34 @@ h1.hero-title .accent {
         <div class="cc-tone-bar">
           <div class="label">
             <span class="l" data-i18n="modal.cc.tone">Tono detectado</span>
-            <span class="v" data-i18n="modal.cc.toneVal">FRUSTRACIÓN ALTA</span>
+            <span class="v" data-i18n="modal.cc.toneVal">PREOCUPACIÓN MEDIA</span>
           </div>
           <div class="track"><div class="fill"></div></div>
         </div>
         <div class="cc-transcript">
           <div class="cc-msg client m1">
             <span class="who" data-i18n="modal.cc.client">Cliente</span>
-            <span class="body" data-i18n="modal.cc.msg1">"Buenas tardes, tuve un accidente esta mañana en la 50 con vía España..."</span>
+            <span class="body" data-i18n="modal.cc.msg1">"Hola, mi lavadora dejó de centrifugar desde ayer."</span>
           </div>
-          <div class="cc-msg client m2">
-            <span class="who" data-i18n="modal.cc.client">Cliente</span>
-            <span class="body" data-i18n="modal.cc.msg2">"...y llevo más de dos horas esperando que alguien me atienda."</span>
-          </div>
-          <div class="cc-msg agent m3">
+          <div class="cc-msg agent m2">
             <span class="who" data-i18n="modal.cc.agent">Agente</span>
-            <span class="body" data-i18n="modal.cc.msg3">"Lamento mucho la espera, María. Vamos a resolver esto ahora."</span>
+            <span class="body" data-i18n="modal.cc.msg2">"Hola Carlos. ¿Muestra algún código de error en pantalla?"</span>
+          </div>
+          <div class="cc-msg client m3">
+            <span class="who" data-i18n="modal.cc.client">Cliente</span>
+            <span class="body" data-i18n="modal.cc.msg3">"Sí, parpadea E14 y hace un zumbido fuerte."</span>
+          </div>
+          <div class="cc-msg agent m4">
+            <span class="who" data-i18n="modal.cc.agent">Agente</span>
+            <span class="body" data-i18n="modal.cc.msg4">"El código E14 indica problema en la bomba. Revisa el filtro de pelusa."</span>
+          </div>
+          <div class="cc-msg client m5">
+            <span class="who" data-i18n="modal.cc.client">Cliente</span>
+            <span class="body" data-i18n="modal.cc.msg5">"Está sucio. ¿Cómo lo limpio?"</span>
+          </div>
+          <div class="cc-msg agent m6">
+            <span class="who" data-i18n="modal.cc.agent">Agente</span>
+            <span class="body" data-i18n="modal.cc.msg6">"Te guío paso a paso. Si no se resuelve, mando técnico hoy sin costo."</span>
           </div>
         </div>
       </div>
@@ -1421,44 +1498,35 @@ h1.hero-title .accent {
             <span class="ai-ico">AI</span>
             <span class="tag" data-i18n="modal.cc.suggestion">Sugerencia · 1</span>
           </div>
-          <div class="text" data-i18n="modal.cc.coach1" data-i18n-html>Cliente identificado por <b>voz</b> en 0.3s. Saluda con su nombre.</div>
+          <div class="text" data-i18n="modal.cc.coach1" data-i18n-html>Producto identificado: <b>WM-2024</b>. Saluda con nombre y modelo.</div>
         </div>
         <div class="cc-coach-card">
           <div class="header">
             <span class="ai-ico">AI</span>
             <span class="tag" data-i18n="modal.cc.suggestion2">Sugerencia · 2</span>
           </div>
-          <div class="text" data-i18n="modal.cc.coach2" data-i18n-html>Tono frustrado detectado. <b>Valida la emoción</b> antes de proponer solución.</div>
+          <div class="text" data-i18n="modal.cc.coach2" data-i18n-html>Código <b>E14</b> detectado en voz. Activa guía visual de diagnóstico.</div>
         </div>
         <div class="cc-coach-card">
           <div class="header">
             <span class="ai-ico">AI</span>
             <span class="tag" data-i18n="modal.cc.suggestion3">Sugerencia · 3</span>
           </div>
-          <div class="text" data-i18n="modal.cc.coach3" data-i18n-html>Mantén ritmo pausado. <b>Repite los detalles</b> del siniestro para confirmar.</div>
+          <div class="text" data-i18n="modal.cc.coach3" data-i18n-html>Cliente colaborativo. Ofrece <b>visita técnica</b> y satisfacción 24h.</div>
         </div>
       </div>
 
-      <!-- 3 hand-drawn annotations -->
-      <div class="annotation annotation-1">
-        <svg class="ann-arrow" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 50 Q 25 15, 60 25 T 90 18 M85 13 L92 18 M88 24 L93 16"/>
-        </svg>
-        <span class="ann-text" data-i18n="modal.cc.ann1">identificado por voz en 0.3s</span>
+      <!-- 3 speech bubbles (coach interventions) -->
+      <div class="bubble bubble-1 point-down point-left">
+        <span class="num">1</span><span data-i18n="modal.cc.ann1">modelo identificado en CRM</span>
       </div>
 
-      <div class="annotation annotation-2">
-        <svg class="ann-arrow" viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 5 Q 30 35, 60 30 T 75 38 M70 33 L77 39 M73 44 L78 36"/>
-        </svg>
-        <span class="ann-text" data-i18n="modal.cc.ann2">tono detectado: frustración alta</span>
+      <div class="bubble bubble-2 point-down point-center">
+        <span class="num">2</span><span data-i18n="modal.cc.ann2">código E14 detectado en voz</span>
       </div>
 
-      <div class="annotation annotation-3">
-        <svg class="ann-arrow" viewBox="0 0 90 56" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 40 Q 30 8, 65 20 T 88 12 M82 8 L90 12 M85 18 L91 10"/>
-        </svg>
-        <span class="ann-text" data-i18n="modal.cc.ann3">tu copiloto, sin pausar la llamada</span>
+      <div class="bubble bubble-3 point-down point-right">
+        <span class="num">3</span><span data-i18n="modal.cc.ann3">guía visual disparada por IA</span>
       </div>
 
     </div>
@@ -1532,34 +1600,37 @@ const i18n = {
     'modal.cc.title.l1': 'The coach ',
     'modal.cc.title.l2': 'no agent ',
     'modal.cc.title.l3': 'ever had before.',
-    'modal.cc.sub': 'See how AI assists the agent in real time during an insurance call — identification, tone analysis and coaching, without pausing the conversation.',
+    'modal.cc.sub': 'See how AI assists the agent in real time during a tech-support call — product identification, voice diagnosis and coaching, without pausing the conversation.',
     'modal.cc.customerLabel': 'Customer identified',
-    'modal.cc.row1': 'Policy',
-    'modal.cc.row2': 'Status',
+    'modal.cc.row1': 'Model',
+    'modal.cc.row2': 'Warranty',
     'modal.cc.rowActive': 'Active',
-    'modal.cc.row3': 'Last claim',
-    'modal.cc.row3v': '18 months ago',
+    'modal.cc.row3': 'Purchase',
+    'modal.cc.row3v': '14 months ago',
     'modal.cc.row4': 'Historical sentiment',
     'modal.cc.row4v': 'Neutral',
     'modal.cc.callLabel': 'Call',
     'modal.cc.live': 'LIVE',
     'modal.cc.tone': 'Detected tone',
-    'modal.cc.toneVal': 'HIGH FRUSTRATION',
+    'modal.cc.toneVal': 'MEDIUM CONCERN',
     'modal.cc.client': 'Customer',
     'modal.cc.agent': 'Agent',
-    'modal.cc.msg1': '"Good afternoon, I had an accident this morning on Avenue 50 and Vía España..."',
-    'modal.cc.msg2': '"...and I\'ve been waiting more than two hours for someone to help me."',
-    'modal.cc.msg3': '"I\'m so sorry for the wait, María. Let\'s solve this right now."',
+    'modal.cc.msg1': '"Hi, my washing machine stopped spinning since yesterday."',
+    'modal.cc.msg2': '"Hi Carlos. Does it show any error code on the display?"',
+    'modal.cc.msg3': '"Yes, it blinks E14 and makes a loud humming noise."',
+    'modal.cc.msg4': '"Code E14 means a pump issue. Please check the lint filter."',
+    'modal.cc.msg5': '"It\'s dirty. How do I clean it?"',
+    'modal.cc.msg6': '"I\'ll guide you step by step. If it doesn\'t work, I send a technician today, no cost."',
     'modal.cc.coachLabel': 'AI Coach · suggestions',
     'modal.cc.suggestion': 'Suggestion · 1',
     'modal.cc.suggestion2': 'Suggestion · 2',
     'modal.cc.suggestion3': 'Suggestion · 3',
-    'modal.cc.coach1': 'Customer identified by <b>voice</b> in 0.3s. Greet by name.',
-    'modal.cc.coach2': 'Frustrated tone detected. <b>Validate emotion</b> before proposing solution.',
-    'modal.cc.coach3': 'Keep a calm pace. <b>Repeat the incident details</b> to confirm.',
-    'modal.cc.ann1': 'identified by voice in 0.3s',
-    'modal.cc.ann2': 'tone detected: high frustration',
-    'modal.cc.ann3': 'your copilot, without pausing the call',
+    'modal.cc.coach1': 'Product identified: <b>WM-2024</b>. Greet by name and model.',
+    'modal.cc.coach2': 'Code <b>E14</b> detected by voice. Trigger visual diagnostic guide.',
+    'modal.cc.coach3': 'Customer cooperative. Offer <b>technician visit</b> + 24h satisfaction.',
+    'modal.cc.ann1': 'model identified in CRM',
+    'modal.cc.ann2': 'E14 code detected by voice',
+    'modal.cc.ann3': 'visual guide triggered by AI',
     'modal.cc.pitch': 'Connects straight into your <b>CRM</b>, your <b>telephony</b> and your data layer. Turnkey in 3 to 6 weeks.',
     'modal.cc.cta': 'Talk to the team'
   },
@@ -1620,34 +1691,37 @@ const i18n = {
     'modal.cc.title.l1': 'El coach que ',
     'modal.cc.title.l2': 'ningún agente',
     'modal.cc.title.l3': ' tuvo antes.',
-    'modal.cc.sub': 'Mira cómo la IA acompaña al agente en tiempo real durante una llamada de seguros — identificación, análisis de tono y coaching, sin pausar la conversación.',
+    'modal.cc.sub': 'Mira cómo la IA acompaña al agente en tiempo real durante una llamada de soporte técnico — identificación de producto, diagnóstico por voz y coaching, sin pausar la conversación.',
     'modal.cc.customerLabel': 'Cliente identificado',
-    'modal.cc.row1': 'Póliza',
-    'modal.cc.row2': 'Estado',
+    'modal.cc.row1': 'Modelo',
+    'modal.cc.row2': 'Garantía',
     'modal.cc.rowActive': 'Activa',
-    'modal.cc.row3': 'Último siniestro',
-    'modal.cc.row3v': 'Hace 18 meses',
+    'modal.cc.row3': 'Compra',
+    'modal.cc.row3v': 'Hace 14 meses',
     'modal.cc.row4': 'Sentiment histórico',
     'modal.cc.row4v': 'Neutral',
     'modal.cc.callLabel': 'Llamada',
     'modal.cc.live': 'EN VIVO',
     'modal.cc.tone': 'Tono detectado',
-    'modal.cc.toneVal': 'FRUSTRACIÓN ALTA',
+    'modal.cc.toneVal': 'PREOCUPACIÓN MEDIA',
     'modal.cc.client': 'Cliente',
     'modal.cc.agent': 'Agente',
-    'modal.cc.msg1': '"Buenas tardes, tuve un accidente esta mañana en la 50 con vía España..."',
-    'modal.cc.msg2': '"...y llevo más de dos horas esperando que alguien me atienda."',
-    'modal.cc.msg3': '"Lamento mucho la espera, María. Vamos a resolver esto ahora."',
+    'modal.cc.msg1': '"Hola, mi lavadora dejó de centrifugar desde ayer."',
+    'modal.cc.msg2': '"Hola Carlos. ¿Muestra algún código de error en pantalla?"',
+    'modal.cc.msg3': '"Sí, parpadea E14 y hace un zumbido fuerte."',
+    'modal.cc.msg4': '"El código E14 indica problema en la bomba. Revisa el filtro de pelusa."',
+    'modal.cc.msg5': '"Está sucio. ¿Cómo lo limpio?"',
+    'modal.cc.msg6': '"Te guío paso a paso. Si no se resuelve, mando técnico hoy sin costo."',
     'modal.cc.coachLabel': 'Coach IA · sugerencias',
     'modal.cc.suggestion': 'Sugerencia · 1',
     'modal.cc.suggestion2': 'Sugerencia · 2',
     'modal.cc.suggestion3': 'Sugerencia · 3',
-    'modal.cc.coach1': 'Cliente identificado por <b>voz</b> en 0.3s. Saluda con su nombre.',
-    'modal.cc.coach2': 'Tono frustrado detectado. <b>Valida la emoción</b> antes de proponer solución.',
-    'modal.cc.coach3': 'Mantén ritmo pausado. <b>Repite los detalles</b> del siniestro para confirmar.',
-    'modal.cc.ann1': 'identificado por voz en 0.3s',
-    'modal.cc.ann2': 'tono detectado: frustración alta',
-    'modal.cc.ann3': 'tu copiloto, sin pausar la llamada',
+    'modal.cc.coach1': 'Producto identificado: <b>WM-2024</b>. Saluda con nombre y modelo.',
+    'modal.cc.coach2': 'Código <b>E14</b> detectado en voz. Activa guía visual de diagnóstico.',
+    'modal.cc.coach3': 'Cliente colaborativo. Ofrece <b>visita técnica</b> y satisfacción 24h.',
+    'modal.cc.ann1': 'modelo identificado en CRM',
+    'modal.cc.ann2': 'código E14 detectado en voz',
+    'modal.cc.ann3': 'guía visual disparada por IA',
     'modal.cc.pitch': 'Esto se conecta directo a tu <b>CRM</b>, tu <b>telefonía</b> y tu base de datos. Llave en mano en 3 a 6 semanas.',
     'modal.cc.cta': 'Hablar con el equipo'
   }
@@ -1724,27 +1798,192 @@ function stopCCClock() {
   if (ccClockInterval) { clearInterval(ccClockInterval); ccClockInterval = null; }
 }
 
+// ===== AUDIO (call simulation) =====
+let audioEnabled = true;
+let scheduledAudioTimeouts = [];
+let audioCtx = null;
+let availableVoices = [];
+
+function loadVoices() {
+  if (window.speechSynthesis) {
+    availableVoices = window.speechSynthesis.getVoices();
+  }
+}
+if (window.speechSynthesis) {
+  loadVoices();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+}
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) { return null; }
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playDialTone() {
+  if (!audioEnabled) return;
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  try {
+    const osc1 = ctx.createOscillator();
+    const osc2 = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc1.frequency.value = 350;
+    osc2.frequency.value = 440;
+    osc1.connect(gain); osc2.connect(gain);
+    gain.connect(ctx.destination);
+    const now = ctx.currentTime;
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.04, now + 0.08);
+    gain.gain.setValueAtTime(0.04, now + 1.2);
+    gain.gain.linearRampToValueAtTime(0, now + 1.5);
+    osc1.start(now); osc2.start(now);
+    osc1.stop(now + 1.5); osc2.stop(now + 1.5);
+  } catch (e) { /* swallow */ }
+}
+
+function pickVoice(langPrefix, preferFemale) {
+  if (!availableVoices.length) return null;
+  const langMatches = availableVoices.filter(v => v.lang.toLowerCase().startsWith(langPrefix));
+  if (!langMatches.length) return availableVoices[0];
+  // Try to find a female-sounding voice for "preferFemale"
+  const femaleHints = ['mujer', 'female', 'monica', 'paulina', 'soledad', 'sara', 'esperanza', 'samantha', 'victoria', 'marisol', 'helena'];
+  const maleHints   = ['hombre', 'male', 'jorge', 'diego', 'carlos', 'juan', 'pablo', 'daniel', 'alex'];
+  const wanted = preferFemale ? femaleHints : maleHints;
+  const picked = langMatches.find(v => wanted.some(h => v.name.toLowerCase().includes(h)));
+  return picked || langMatches[0];
+}
+
+function speakLine(text, profile) {
+  if (!audioEnabled || !window.speechSynthesis) return;
+  try {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    const lang = (document.documentElement.lang || 'es');
+    utter.lang = lang === 'en' ? 'en-US' : 'es-ES';
+    utter.rate = profile.rate || 1;
+    utter.pitch = profile.pitch || 1;
+    utter.volume = 0.9;
+    const v = pickVoice(lang === 'en' ? 'en' : 'es', profile.female);
+    if (v) utter.voice = v;
+    window.speechSynthesis.speak(utter);
+  } catch (e) { /* swallow */ }
+}
+
+const PROFILE_CLIENT = { rate: 1.0,  pitch: 0.85, female: false };  // Masculino, ligeramente preocupado
+const PROFILE_AGENT  = { rate: 1.0,  pitch: 1.10, female: true };   // Femenino, profesional
+
+function getDialogueLines() {
+  const lang = document.documentElement.lang || 'es';
+  if (lang === 'en') {
+    return {
+      msg1: 'Hi, my washing machine stopped spinning since yesterday.',
+      msg2: 'Hi Carlos. Does it show any error code on the display?',
+      msg3: 'Yes, it blinks E14 and makes a loud humming noise.',
+      msg4: 'Code E14 means a pump issue. Please check the lint filter.',
+      msg5: 'It is dirty. How do I clean it?',
+      msg6: 'I will guide you step by step. If it does not work, I send a technician today, no cost.'
+    };
+  }
+  return {
+    msg1: 'Hola, mi lavadora dejó de centrifugar desde ayer.',
+    msg2: 'Hola Carlos. ¿Muestra algún código de error en pantalla?',
+    msg3: 'Sí, parpadea E14 y hace un zumbido fuerte.',
+    msg4: 'El código E14 indica problema en la bomba. Revisa el filtro de pelusa.',
+    msg5: 'Está sucio. ¿Cómo lo limpio?',
+    msg6: 'Te guío paso a paso. Si no se resuelve, mando técnico hoy sin costo.'
+  };
+}
+
+// Sync timing matches CSS animation-delay for each message
+const DIALOGUE_TIMING = [
+  { at: 3500,  line: 'msg1', profile: 'CLIENT' },
+  { at: 7000,  line: 'msg2', profile: 'AGENT'  },
+  { at: 10500, line: 'msg3', profile: 'CLIENT' },
+  { at: 14000, line: 'msg4', profile: 'AGENT'  },
+  { at: 19000, line: 'msg5', profile: 'CLIENT' },
+  { at: 22000, line: 'msg6', profile: 'AGENT'  }
+];
+
+function scheduleCallAudio() {
+  cancelCallAudio();
+  // Always schedule transcript auto-scroll, regardless of audio toggle
+  DIALOGUE_TIMING.forEach(({ at }) => {
+    scheduledAudioTimeouts.push(setTimeout(() => {
+      const transcript = document.querySelector('.cc-transcript');
+      if (transcript) transcript.scrollTo({ top: transcript.scrollHeight, behavior: 'smooth' });
+    }, at + 600));
+  });
+
+  if (!audioEnabled) return;
+  const lines = getDialogueLines();
+  scheduledAudioTimeouts.push(setTimeout(playDialTone, 500));
+  DIALOGUE_TIMING.forEach(({ at, line, profile }) => {
+    const prof = profile === 'CLIENT' ? PROFILE_CLIENT : PROFILE_AGENT;
+    scheduledAudioTimeouts.push(setTimeout(() => speakLine(lines[line], prof), at));
+  });
+}
+
+function cancelCallAudio() {
+  scheduledAudioTimeouts.forEach(clearTimeout);
+  scheduledAudioTimeouts = [];
+  if (window.speechSynthesis) {
+    try { window.speechSynthesis.cancel(); } catch(e){}
+  }
+}
+
+function setAudioState(on) {
+  audioEnabled = on;
+  const btn = document.getElementById('audio-toggle');
+  if (btn) {
+    btn.setAttribute('data-state', on ? 'on' : 'off');
+    const lbl = btn.querySelector('.audio-label');
+    if (lbl) {
+      const lang = document.documentElement.lang || 'es';
+      lbl.textContent = on
+        ? (lang === 'en' ? 'Audio on' : 'Audio en vivo')
+        : (lang === 'en' ? 'Audio off' : 'Audio off');
+    }
+  }
+  if (!on) cancelCallAudio();
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('#audio-toggle');
+  if (!t) return;
+  e.preventDefault();
+  setAudioState(!audioEnabled);
+});
+
 function openModal(id) {
   const m = document.getElementById('modal-' + id);
   if (!m) return;
   m.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-  // Reset and restart animations on the stage
   if (id === 'cc') {
     const stage = m.querySelector('.cc-stage');
     if (stage) {
       stage.classList.remove('playing');
-      // Force reflow to restart CSS animations
       void stage.offsetWidth;
       stage.classList.add('playing');
     }
     startCCClock();
+    // Set audio button label to current language
+    setAudioState(audioEnabled);
+    scheduleCallAudio();
   }
 }
 function closeModal(m) {
   m.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
   stopCCClock();
+  cancelCallAudio();
 }
 
 document.querySelectorAll('[data-modal-target]').forEach(el => {
