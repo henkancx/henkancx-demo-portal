@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>DemoPortal · HenkanCX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The AI demos portal to transform your CX from day 1. Interactive sandboxes of HenkanCX solutions.">
+<meta name="description" content="Interactive sandboxes of HenkanCX AI solutions. Try them live before implementing.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -16,13 +16,11 @@
   --purple: #833AE0;
   --slate: #4A4E69;
   --slate-2: #6b7089;
-  --slate-3: #9296a8;
   --cloud: #F5F6F8;
   --paper: #FBFAF7;
   --paper-warm: #F2F1EE;
   --line: rgba(13, 27, 42, 0.08);
   --line-strong: rgba(13, 27, 42, 0.16);
-  --line-dark: rgba(255, 255, 255, 0.10);
   --gradient: linear-gradient(135deg, #833AE0 0%, #CB6CE6 100%);
 }
 
@@ -38,29 +36,71 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== NAV ===== */
-.nav-wrap {
+/* ===== Built-in logo (CSS-only) ===== */
+.logo-mark {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy) 49.5%, var(--magenta) 50.5%, var(--magenta) 100%);
+  position: relative;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.logo-mark::before {
+  content: '';
+  position: absolute;
+  width: 15px; height: 15px;
+  top: 8px; left: 8px;
+  border: 2px solid white;
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotate(45deg);
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  width: 5px; height: 5px;
+  background: white;
+  border-radius: 50%;
+  top: 11px; right: 7px;
+}
+.logo-word {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--navy);
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+/* ===== NAV (minimal) ===== */
+.nav {
   position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px;
   background: rgba(251, 250, 247, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-}
-.nav-top {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 32px;
   border-bottom: 1px solid var(--line);
 }
-.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.nav-brand img { height: 40px; width: auto; }
-.nav-top-links { display: flex; gap: 30px; }
-.nav-top-links a {
-  text-decoration: none; color: var(--navy);
-  font-size: 13px; font-weight: 500;
-  letter-spacing: -0.005em;
-  transition: opacity .2s;
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+.sub-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  background: rgba(131, 58, 224, 0.08);
+  border: 1px solid rgba(131, 58, 224, 0.18);
+  border-radius: 999px;
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--purple);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-left: 4px;
 }
-.nav-top-links a:hover { opacity: 0.55; }
-.nav-top-actions { display: flex; gap: 10px; align-items: center; }
+
+.nav-actions { display: flex; gap: 12px; align-items: center; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   font-family: inherit;
@@ -73,6 +113,7 @@ body {
   letter-spacing: -0.005em;
   white-space: nowrap;
 }
+.btn-large { font-size: 15px; padding: 13px 24px; }
 .btn-dark { background: var(--navy); color: white; }
 .btn-dark:hover { background: black; transform: translateY(-1px); }
 .btn-light { background: white; color: var(--navy); border: 1px solid var(--line-strong); }
@@ -82,8 +123,6 @@ body {
   box-shadow: 0 4px 24px rgba(131, 58, 224, 0.3);
 }
 .btn-mag:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(131, 58, 224, 0.4); }
-.btn-large { font-size: 15px; padding: 13px 24px; font-weight: 500; }
-
 .lang-toggle {
   display: flex; gap: 2px;
   background: var(--cloud);
@@ -102,85 +141,37 @@ body {
   letter-spacing: 0.04em;
 }
 .lang-toggle button.active { background: var(--navy); color: white; }
-.back-to-site {
+.back-link {
   font-size: 13px;
   color: var(--slate);
   text-decoration: none;
   display: inline-flex; align-items: center; gap: 6px;
   font-weight: 500;
-}
-.back-to-site:hover { color: var(--navy); }
-.back-to-site::before { content: '←'; }
-
-.nav-sub {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 32px;
-}
-.sub-brand {
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none;
-  color: var(--navy);
-}
-.sub-mark {
-  width: 30px; height: 30px;
-  border-radius: 9px;
-  background: var(--gradient);
-  display: flex; align-items: center; justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-.sub-mark::before {
-  content: '';
-  position: absolute;
-  width: 14px; height: 14px;
-  border: 2.2px solid white;
-  border-radius: 50%;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  transform: rotate(45deg);
-}
-.sub-mark::after {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  background: white;
-  border-radius: 50%;
-  top: 11px; right: 7px;
-}
-.sub-name {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 17px;
-  letter-spacing: -0.025em;
-}
-.sub-name b { font-weight: 700; }
-.nav-sub-links { display: flex; gap: 30px; }
-.nav-sub-links a {
-  text-decoration: none; color: var(--slate);
-  font-size: 14px; font-weight: 500;
-  letter-spacing: -0.005em;
   transition: color .2s;
 }
-.nav-sub-links a:hover, .nav-sub-links a.active { color: var(--navy); }
+.back-link:hover { color: var(--navy); }
+.back-link::before { content: '←'; }
 
-/* ===== HERO ===== */
-.hero { padding: 80px 32px 40px; position: relative; }
+/* ===== HERO (compact) ===== */
+.hero {
+  padding: 80px 32px 60px;
+  position: relative;
+}
 .hero-inner {
-  max-width: 1480px; margin: 0 auto;
+  max-width: 1480px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: 80px;
   align-items: end;
-  padding-bottom: 64px;
 }
 h1.hero-title {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(48px, 6vw, 92px);
+  font-size: clamp(40px, 5vw, 76px);
   font-weight: 700;
   line-height: 1.04;
   letter-spacing: -0.04em;
   color: var(--navy);
-  margin-bottom: 36px;
   max-width: 880px;
 }
 h1.hero-title .accent {
@@ -193,26 +184,31 @@ h1.hero-title .accent {
   color: transparent;
   letter-spacing: -0.015em;
 }
-.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
-.hero-trust {
-  font-size: 14px;
-  color: var(--slate-2);
-  font-style: italic;
-  font-family: 'Instrument Serif', serif;
-  font-weight: 400;
-}
-.hero-trust .sep { margin: 0 12px; }
-.hero-side { padding-bottom: 8px; }
+.hero-side { padding-bottom: 12px; }
 .hero-sub {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.55;
   color: var(--slate);
   max-width: 460px;
 }
-.hero-sub b { color: var(--navy); font-weight: 600; }
+.hero-meta {
+  margin-top: 18px;
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--slate-2);
+  letter-spacing: 0.04em;
+}
+.hero-meta .dot {
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--magenta);
+  margin: 0 10px;
+  vertical-align: 2px;
+}
 
 /* ===== GALLERY ===== */
-.gallery { padding: 0 32px 40px; position: relative; }
+.gallery { padding: 30px 32px 60px; position: relative; }
 .gallery-inner { max-width: 1480px; margin: 0 auto; position: relative; }
 .gallery-track {
   display: flex;
@@ -532,258 +528,84 @@ h1.hero-title .accent {
 .gallery-arrow.left { right: auto; left: 0; transform: rotate(180deg); }
 .gallery-arrow.left:hover { transform: rotate(180deg) translateX(2px); }
 
-/* ===== TRUST ===== */
-.trust { padding: 60px 32px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper-warm); }
-.trust-inner { max-width: 1480px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 30px; }
-.trust-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.18em; color: var(--slate-2); }
-.trust-marquee { width: 100%; overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); }
-.trust-track { display: flex; gap: 56px; animation: scroll 36s linear infinite; width: max-content; }
-.trust-track span {
-  font-family: 'Poppins', sans-serif;
-  font-size: 30px; font-weight: 600;
-  color: var(--navy); opacity: 0.45;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  transition: opacity .3s;
+/* ===== FOOTER (minimal) ===== */
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+  padding: 40px 32px;
+  margin-top: 40px;
 }
-.trust-track span:hover { opacity: 1; }
-@keyframes scroll { to { transform: translateX(-50%); } }
-
-/* ===== Sections ===== */
-.section { padding: 120px 32px; }
-.section-inner { max-width: 1480px; margin: 0 auto; }
-.section-eyebrow {
-  font-family: 'Fira Code';
-  font-size: 12px; font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--purple);
-  margin-bottom: 16px;
-  display: flex; align-items: center; gap: 8px;
+.footer-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--slate-2);
 }
-.section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--purple); }
-.section-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(40px, 5vw, 72px);
-  font-weight: 700; line-height: 1.04;
-  letter-spacing: -0.04em;
-  margin-bottom: 24px;
-  max-width: 920px;
+.footer-brand { display: flex; align-items: center; gap: 10px; }
+.footer-brand .logo-mark { width: 26px; height: 26px; }
+.footer-brand .logo-mark::before { width: 12px; height: 12px; top: 7px; left: 7px; border-width: 1.6px; }
+.footer-brand .logo-mark::after { width: 4px; height: 4px; top: 9px; right: 6px; }
+.footer-brand .logo-word { font-size: 15px; }
+.footer-link {
+  color: var(--slate);
+  text-decoration: none;
+  transition: color .2s;
 }
-.section-title .accent {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-weight: 400;
-  background: var(--gradient);
-  -webkit-background-clip: text; background-clip: text;
-  color: transparent;
-}
-.section-sub { font-size: 18px; line-height: 1.55; color: var(--slate); max-width: 620px; }
-
-/* ===== Numbers ===== */
-.numbers-section {
-  background: var(--navy); color: white;
-  padding: 130px 32px;
-  position: relative; overflow: hidden;
-}
-.numbers-section::before {
-  content: ''; position: absolute;
-  top: -300px; right: -200px;
-  width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(131,58,224,0.4), transparent 60%);
-  pointer-events: none;
-}
-.numbers-section::after {
-  content: ''; position: absolute;
-  bottom: -200px; left: -100px;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(203,108,230,0.2), transparent 60%);
-  pointer-events: none;
-}
-.numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 80px; position: relative; }
-.num-cell { padding: 32px 24px; border-left: 1px solid var(--line-dark); }
-.num-cell:first-child { border-left: 0; padding-left: 0; }
-.num-value {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(56px, 6vw, 92px);
-  font-weight: 700; line-height: 1;
-  letter-spacing: -0.045em;
-  background: linear-gradient(180deg, white 0%, rgba(255,255,255,0.55) 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 14px;
-}
-.num-value .unit { font-size: 0.45em; font-weight: 300; -webkit-text-fill-color: var(--magenta); margin-left: 4px; }
-.num-label { font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.65); max-width: 220px; }
-.num-source { font-family: 'Fira Code'; font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 14px; letter-spacing: 0.02em; }
-.numbers-section .section-eyebrow { color: var(--magenta); }
-.numbers-section .section-eyebrow::before { background: var(--magenta); }
-.numbers-section .section-title { color: white; }
-.numbers-section .section-title .accent { color: var(--magenta); background: none; -webkit-text-fill-color: var(--magenta); }
-.numbers-section .section-sub { color: rgba(255,255,255,0.65); }
-
-/* ===== Process ===== */
-.process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 64px; }
-.proc-card { padding: 32px 0 0; }
-.proc-step {
-  font-family: 'Fira Code'; font-size: 12px; font-weight: 500;
-  color: var(--slate-2); letter-spacing: 0.04em;
-  margin-bottom: 24px;
-  display: flex; align-items: center; gap: 10px;
-}
-.proc-step::before {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 600; color: var(--purple);
-}
-.proc-card:nth-child(1) .proc-step::before { content: '01'; }
-.proc-card:nth-child(2) .proc-step::before { content: '02'; }
-.proc-card:nth-child(3) .proc-step::before { content: '03'; }
-.proc-card:nth-child(4) .proc-step::before { content: '04'; }
-.proc-name { font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 600; letter-spacing: -0.025em; margin-bottom: 12px; }
-.proc-desc { font-size: 14px; line-height: 1.55; color: var(--slate); }
-
-/* ===== CTA ===== */
-.cta-section { padding: 130px 32px; background: var(--paper-warm); position: relative; overflow: hidden; }
-.cta-inner { max-width: 1100px; margin: 0 auto; text-align: center; position: relative; }
-.cta-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(40px, 5.5vw, 84px);
-  font-weight: 700; line-height: 1.04;
-  letter-spacing: -0.04em;
-  margin-bottom: 28px;
-}
-.cta-title .accent {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic; font-weight: 400;
-  background: var(--gradient);
-  -webkit-background-clip: text; background-clip: text;
-  color: transparent;
-}
-.cta-sub { font-size: 18px; color: var(--slate); max-width: 580px; margin: 0 auto 40px; line-height: 1.55; }
-.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.cta-section::before, .cta-section::after {
-  content: ''; position: absolute;
-  width: 380px; height: 380px;
-  border-radius: 50%; filter: blur(90px);
-  opacity: 0.4; pointer-events: none;
-}
-.cta-section::before { top: -120px; left: -120px; background: var(--magenta); }
-.cta-section::after { bottom: -120px; right: -120px; background: var(--purple); }
-
-/* ===== Footer ===== */
-.footer { background: var(--navy); color: rgba(255,255,255,0.7); padding: 80px 32px 40px; }
-.footer-inner { max-width: 1480px; margin: 0 auto; }
-.footer-top {
-  display: grid; grid-template-columns: 2.4fr 1fr 1fr 1fr;
-  gap: 48px; padding-bottom: 56px;
-  border-bottom: 1px solid var(--line-dark);
-}
-.footer-brand img { height: 42px; width: auto; margin-bottom: 22px; filter: brightness(0) invert(1); }
-.footer-brand p { font-size: 14px; line-height: 1.6; max-width: 320px; }
-.footer-col h4 { font-family: 'Poppins', sans-serif; color: white; font-size: 13px; font-weight: 600; margin-bottom: 18px; letter-spacing: -0.01em; }
-.footer-col a { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-size: 14px; margin-bottom: 12px; transition: color .2s; }
-.footer-col a:hover { color: white; }
-.footer-col span { display: block; color: rgba(255,255,255,0.55); font-size: 14px; margin-bottom: 12px; }
-.footer-bot {
-  display: flex; justify-content: space-between; align-items: center;
-  padding-top: 28px; font-size: 13px;
-  color: rgba(255,255,255,0.45);
-  flex-wrap: wrap; gap: 16px;
-}
-.footer-bot .social { display: flex; gap: 16px; }
-.footer-bot .social a { color: rgba(255,255,255,0.45); text-decoration: none; }
-.footer-bot .social a:hover { color: var(--magenta); }
+.footer-link:hover { color: var(--navy); }
+.footer-meta { display: flex; gap: 24px; align-items: center; }
 
 @media (max-width: 1024px) {
-  .nav-top-links, .nav-sub-links { display: none; }
   .hero-inner { grid-template-columns: 1fr; gap: 32px; align-items: start; }
   .hero-side { padding-bottom: 0; }
-  h1.hero-title { margin-bottom: 28px; }
   .demo-card { flex: 0 0 calc((100% - 18px) / 2); }
-  .numbers-grid { grid-template-columns: repeat(2, 1fr); }
-  .num-cell:nth-child(3) { border-left: 0; padding-left: 0; }
-  .num-cell { border-top: 1px solid var(--line-dark); padding-top: 32px; }
-  .num-cell:nth-child(1), .num-cell:nth-child(2) { border-top: 0; padding-top: 0; }
-  .process-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-top { grid-template-columns: 1fr 1fr; }
   .gallery-arrow { display: none; }
+  .nav .sub-pill { display: none; }
 }
 @media (max-width: 640px) {
-  .nav-top { padding: 14px 18px; }
-  .nav-brand img { height: 32px; }
-  .nav-sub { padding: 14px 18px; }
+  .nav { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
   .hero { padding: 50px 18px 30px; }
-  .gallery { padding: 0 18px 30px; }
-  .section { padding: 80px 18px; }
+  .gallery { padding: 20px 18px 40px; }
   .demo-card { flex: 0 0 88%; min-width: 280px; aspect-ratio: 4 / 5.4; }
-  .hero-cta { flex-direction: column; align-items: stretch; }
-  .hero-cta .btn { justify-content: center; }
-  .numbers-grid { grid-template-columns: 1fr; }
-  .num-cell { border-left: 0; padding-left: 0; padding-right: 0; }
-  .process-grid { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr; }
-  .nav-top-actions .back-to-site { display: none; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .nav-actions .back-link { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- ===== NAV ===== -->
-<div class="nav-wrap">
-  <div class="nav-top">
-    <a href="https://www.henkancx.com" class="nav-brand">
-      <img src="https://www.henkancx.com/logo-henkancx.png" alt="HenkanCX">
-    </a>
-    <div class="nav-top-links">
-      <a href="https://www.henkancx.com#solutions" data-i18n="nav.solutions">AI Solutions</a>
-      <a href="https://www.henkancx.com#products" data-i18n="nav.products">Products</a>
-      <a href="https://www.henkancx.com#process" data-i18n="nav.process">Process</a>
-      <a href="https://www.henkancx.com#contact" data-i18n="nav.contact">Contact</a>
-    </div>
-    <div class="nav-top-actions">
-      <a href="https://www.henkancx.com" class="back-to-site" data-i18n="nav.backToSite">Back to site</a>
-      <a href="#contact" class="btn btn-dark" data-i18n="nav.contactSales">Contact sales</a>
+<!-- ===== NAV (minimal) ===== -->
+<nav class="nav">
+  <a href="/" class="nav-brand">
+    <span class="logo-mark"></span>
+    <span class="logo-word">henkancx</span>
+    <span class="sub-pill">DemoPortal</span>
+  </a>
+  <div class="nav-actions">
+    <a href="https://henkancx.com" class="back-link" data-i18n="nav.back">Back to henkancx.com</a>
+    <div class="lang-toggle">
+      <button data-lang="en" class="active">EN</button>
+      <button data-lang="es">ES</button>
     </div>
   </div>
-  <div class="nav-sub">
-    <a href="#" class="sub-brand">
-      <span class="sub-mark"></span>
-      <span class="sub-name">Demo<b>Portal</b></span>
-    </a>
-    <div class="nav-sub-links">
-      <a href="#demos" class="active" data-i18n="subnav.demos">Demos</a>
-      <a href="#numbers" data-i18n="subnav.results">Results</a>
-      <a href="#process" data-i18n="subnav.process">How it works</a>
-    </div>
-    <div style="display:flex; gap:10px; align-items:center;">
-      <div class="lang-toggle">
-        <button data-lang="en" class="active">EN</button>
-        <button data-lang="es">ES</button>
-      </div>
-    </div>
-  </div>
-</div>
+</nav>
 
-<!-- ===== HERO ===== -->
+<!-- ===== HERO (compact) ===== -->
 <section class="hero">
   <div class="hero-inner">
     <div>
       <h1 class="hero-title">
-        <span data-i18n="hero.title.main">The AI demos portal to transform your CX</span>
-        <span class="accent" data-i18n="hero.title.accent"> from day 1</span>
+        <span data-i18n="hero.l1">Six AI sandboxes.</span><br>
+        <span class="accent" data-i18n="hero.l2">Tap any to try it live.</span>
       </h1>
-      <div class="hero-cta">
-        <a href="#demos" class="btn btn-mag btn-large" data-i18n="hero.cta">Explore demos →</a>
-      </div>
-      <div class="hero-trust">
-        <span data-i18n="hero.trust.left">Trusted by +50 LATAM companies</span><span class="sep">·</span><span data-i18n="hero.trust.right">No credit card required</span>
-      </div>
     </div>
     <div class="hero-side">
-      <p class="hero-sub" data-i18n="hero.sub" data-i18n-html>
-        <b>DemoPortal</b> is where prospects, clients, and innovation teams try HenkanCX solutions live. AI inspections, intelligent contact center, WhatsApp chatbots, sports and livestock management — all in interactive sandboxes, ready in seconds.
-      </p>
+      <p class="hero-sub" data-i18n="hero.sub">Each card opens an interactive demo of one HenkanCX solution. Tap, click, drag, fill, run — see how it actually works before talking implementation.</p>
+      <div class="hero-meta">
+        <span data-i18n="hero.meta">06 demos<span class="dot"></span>Live preview</span>
+      </div>
     </div>
   </div>
 </section>
@@ -835,7 +657,7 @@ h1.hero-title .accent {
         <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat" data-i18n="snnapi.cat">95% ↓ time · +70% fraud</span>
+            <span class="demo-cat" data-i18n="snnapi.cat">Auto-inspection · Damage AI</span>
             <span class="demo-label">Snnapi</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -882,7 +704,7 @@ h1.hero-title .accent {
         <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat" data-i18n="tele.cat">99% traceability · 60% ↓ reports</span>
+            <span class="demo-cat" data-i18n="tele.cat">Inspections · Predictive ops</span>
             <span class="demo-label">TeleInspect Suite</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -920,7 +742,7 @@ h1.hero-title .accent {
         <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat" data-i18n="cc.cat">+30% productivity · 25% ↓ AHT</span>
+            <span class="demo-cat" data-i18n="cc.cat">Live coaching · Tone analysis</span>
             <span class="demo-label" data-i18n="cc.label">Contact Center AI</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -945,7 +767,7 @@ h1.hero-title .accent {
         <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat" data-i18n="wa.cat">24/7 service · CSAT &gt; 80%</span>
+            <span class="demo-cat" data-i18n="wa.cat">Conversational · 24/7</span>
             <span class="demo-label" data-i18n="wa.label">AI Chatbot</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -999,7 +821,7 @@ h1.hero-title .accent {
         <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat" data-i18n="sifed.cat">360° athlete view</span>
+            <span class="demo-cat" data-i18n="sifed.cat">Athlete tracking · Performance</span>
             <span class="demo-label">SIFED</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -1057,7 +879,7 @@ h1.hero-title .accent {
         <button class="demo-mute" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg></button>
         <div class="demo-foot">
           <div>
-            <span class="demo-cat" data-i18n="gan.cat">100% traceable · Production cycle</span>
+            <span class="demo-cat" data-i18n="gan.cat">Inventory · Production cycle</span>
             <span class="demo-label" data-i18n="gan.title">Livestock AI</span>
           </div>
           <span class="demo-arrow">↗</span>
@@ -1068,190 +890,40 @@ h1.hero-title .accent {
   </div>
 </section>
 
-<!-- ===== TRUST ===== -->
-<section class="trust">
-  <div class="trust-inner">
-    <div class="trust-label" data-i18n="trust.label">Deployed across 7 industries · 5 LATAM countries</div>
-    <div class="trust-marquee">
-      <div class="trust-track" id="trust-track">
-        <span data-i18n="industry.insurance">Insurance</span>
-        <span data-i18n="industry.telecom">Telecom</span>
-        <span data-i18n="industry.retail">Retail</span>
-        <span data-i18n="industry.hospitality">Hospitality</span>
-        <span data-i18n="industry.automotive">Automotive</span>
-        <span data-i18n="industry.brokers">Brokers</span>
-        <span data-i18n="industry.fieldOps">Field Ops</span>
-        <span data-i18n="industry.sports">Sports</span>
-        <span data-i18n="industry.livestock">Livestock</span>
-        <span data-i18n="industry.agribusiness">Agribusiness</span>
-        <span data-i18n="industry.insurance">Insurance</span>
-        <span data-i18n="industry.telecom">Telecom</span>
-        <span data-i18n="industry.retail">Retail</span>
-        <span data-i18n="industry.hospitality">Hospitality</span>
-        <span data-i18n="industry.automotive">Automotive</span>
-        <span data-i18n="industry.brokers">Brokers</span>
-        <span data-i18n="industry.fieldOps">Field Ops</span>
-        <span data-i18n="industry.sports">Sports</span>
-        <span data-i18n="industry.livestock">Livestock</span>
-        <span data-i18n="industry.agribusiness">Agribusiness</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== NUMBERS ===== -->
-<section class="numbers-section" id="numbers">
-  <div class="section-inner">
-    <div class="section-eyebrow" data-i18n="numbers.eyebrow">REAL RESULTS · SUCCESS CASES</div>
-    <h2 class="section-title">
-      <span data-i18n="numbers.title.main">Metrics that move</span><br>
-      <span class="accent" data-i18n="numbers.title.accent">the business needle.</span>
-    </h2>
-    <p class="section-sub" data-i18n="numbers.sub">We don't sell promises. We sell measurable results from the first month of operation.</p>
-
-    <div class="numbers-grid">
-      <div class="num-cell">
-        <div class="num-value">95<span class="unit">%↓</span></div>
-        <div class="num-label" data-i18n="numbers.l1">Reduction in insurance inspection time</div>
-        <div class="num-source" data-i18n="numbers.s1">Insurance Sector · LATAM</div>
-      </div>
-      <div class="num-cell">
-        <div class="num-value">+70<span class="unit">%</span></div>
-        <div class="num-label" data-i18n="numbers.l2">Automatic fraud detection vs. manual model</div>
-        <div class="num-source" data-i18n="numbers.s2">Snnapi · Production</div>
-      </div>
-      <div class="num-cell">
-        <div class="num-value">35<span class="unit">%↑</span></div>
-        <div class="num-label" data-i18n="numbers.l3">Improvement in telecom operations SLA</div>
-        <div class="num-source" data-i18n="numbers.s3">Telecom Sector · LATAM</div>
-      </div>
-      <div class="num-cell">
-        <div class="num-value">99<span class="unit">%</span></div>
-        <div class="num-label" data-i18n="numbers.l4">Traceability in field work orders</div>
-        <div class="num-source" data-i18n="numbers.s4">Field Ops Sector · LATAM</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PROCESS ===== -->
-<section class="section" id="process" style="background: var(--paper-warm);">
-  <div class="section-inner">
-    <div class="section-eyebrow" data-i18n="process.eyebrow">METHODOLOGY · 4 STEPS</div>
-    <h2 class="section-title">
-      <span data-i18n="process.title.main">From first hello to ROI:</span><br>
-      <span class="accent" data-i18n="process.title.accent">in weeks, not months.</span>
-    </h2>
-
-    <div class="process-grid">
-      <div class="proc-card">
-        <div class="proc-step" data-i18n="process.s1.step">DIAGNOSIS</div>
-        <h3 class="proc-name" data-i18n="process.s1.name">Journey mapping</h3>
-        <p class="proc-desc" data-i18n="process.s1.desc">We analyze your current operations and friction points in the customer journey, with baseline metrics.</p>
-      </div>
-      <div class="proc-card">
-        <div class="proc-step" data-i18n="process.s2.step">DESIGN</div>
-        <h3 class="proc-name" data-i18n="process.s2.name">Strategy & KPIs</h3>
-        <p class="proc-desc" data-i18n="process.s2.desc">We design a tailored solution with clear success KPIs and a realistic implementation roadmap.</p>
-      </div>
-      <div class="proc-card">
-        <div class="proc-step" data-i18n="process.s3.step">IMPLEMENTATION</div>
-        <h3 class="proc-name" data-i18n="process.s3.name">Agile deployment</h3>
-        <p class="proc-desc" data-i18n="process.s3.desc">Sprint-based implementation with team training. Visible results from day 1.</p>
-      </div>
-      <div class="proc-card">
-        <div class="proc-step" data-i18n="process.s4.step">OPTIMIZATION</div>
-        <h3 class="proc-name" data-i18n="process.s4.name">Continuous improvement</h3>
-        <p class="proc-desc" data-i18n="process.s4.desc">Your AI copilot learns with every interaction. Optimization based on real data, not assumptions.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CTA ===== -->
-<section class="cta-section" id="contact">
-  <div class="cta-inner">
-    <h2 class="cta-title">
-      <span data-i18n="cta.title.main">Ready to transform your CX</span><br>
-      <span class="accent" data-i18n="cta.title.accent">from day 1?</span>
-    </h2>
-    <p class="cta-sub" data-i18n="cta.sub">Book 30 minutes with our team. We'll show you the demos live, connected to real cases in your industry.</p>
-    <div class="cta-actions">
-      <a href="https://wa.me/50764671392?text=Hi%21%20I%27d%20like%20to%20book%20a%20demo" target="_blank" rel="noopener" class="btn btn-mag btn-large" data-i18n="cta.book">Book a demo (30 min)</a>
-      <a href="mailto:info@henkancx.com" class="btn btn-light btn-large">info@henkancx.com</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FOOTER ===== -->
+<!-- ===== FOOTER (minimal) ===== -->
 <footer class="footer">
   <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <img src="https://www.henkancx.com/logo-henkancx.png" alt="HenkanCX">
-        <p data-i18n="footer.tagline">Transforming customer experience from day 1. AI and automation solutions for LATAM.</p>
-      </div>
-      <div class="footer-col">
-        <h4 data-i18n="footer.demos">Demos</h4>
-        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Snnapi%20demo" target="_blank" rel="noopener">Snnapi</a>
-        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20TeleInspect%20Suite%20demo" target="_blank" rel="noopener">TeleInspect Suite</a>
-        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Contact%20Center%20AI%20demo" target="_blank" rel="noopener" data-i18n="footer.cc">Contact Center AI</a>
-        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20WhatsApp%20Chatbot%20demo" target="_blank" rel="noopener" data-i18n="footer.wa">WhatsApp Chatbot</a>
-        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20SIFED%20demo" target="_blank" rel="noopener">SIFED</a>
-        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Livestock%20AI%20demo" target="_blank" rel="noopener" data-i18n="footer.gan">Livestock AI</a>
-      </div>
-      <div class="footer-col">
-        <h4 data-i18n="footer.company">Company</h4>
-        <a href="https://www.henkancx.com" data-i18n="footer.mainSite">Main site</a>
-        <a href="https://www.henkancx.com" data-i18n="footer.about">About us</a>
-      </div>
-      <div class="footer-col">
-        <h4 data-i18n="footer.contact">Contact</h4>
-        <a href="https://wa.me/50764671392" target="_blank" rel="noopener">+507 6467 1392</a>
-        <a href="mailto:info@henkancx.com">info@henkancx.com</a>
-        <span data-i18n="footer.location">Panama City, Panama</span>
-      </div>
+    <div class="footer-brand">
+      <span class="logo-mark"></span>
+      <span class="logo-word">henkancx</span>
+      <span class="sub-pill">DemoPortal</span>
     </div>
-    <div class="footer-bot">
-      <span data-i18n="footer.copyright">© 2026 HenkanCX. All rights reserved.</span>
-      <div class="social">
-        <a href="https://linkedin.com/company/henkancx" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://instagram.com/henkancx" target="_blank" rel="noopener">Instagram</a>
-      </div>
+    <div class="footer-meta">
+      <a href="https://henkancx.com" class="footer-link" data-i18n="foot.main">henkancx.com</a>
+      <span data-i18n="foot.copy">© 2026 HenkanCX</span>
     </div>
   </div>
 </footer>
 
 <script>
-// ===== i18n =====
 const i18n = {
   en: {
-    'nav.solutions': 'AI Solutions',
-    'nav.products': 'Products',
-    'nav.process': 'Process',
-    'nav.contact': 'Contact',
-    'nav.backToSite': 'Back to site',
-    'nav.contactSales': 'Contact sales',
-    'subnav.demos': 'Demos',
-    'subnav.results': 'Results',
-    'subnav.process': 'How it works',
-    'hero.title.main': 'The AI demos portal to transform your CX',
-    'hero.title.accent': ' from day 1',
-    'hero.cta': 'Explore demos →',
-    'hero.trust.left': 'Trusted by +50 LATAM companies',
-    'hero.trust.right': 'No credit card required',
-    'hero.sub': '<b>DemoPortal</b> is where prospects, clients, and innovation teams try HenkanCX solutions live. AI inspections, intelligent contact center, WhatsApp chatbots, sports and livestock management — all in interactive sandboxes, ready in seconds.',
+    'nav.back': 'Back to henkancx.com',
+    'hero.l1': 'Six AI sandboxes.',
+    'hero.l2': 'Tap any to try it live.',
+    'hero.sub': 'Each card opens an interactive demo of one HenkanCX solution. Tap, click, drag, fill, run — see how it actually works before talking implementation.',
+    'hero.meta': '06 demos',
 
     'snnapi.badge': 'Insurance · Computer Vision',
     'snnapi.confidence': 'Confidence',
     'snnapi.time': 'Time',
     'snnapi.damages': 'Damages',
-    'snnapi.cat': '95% ↓ time · +70% fraud detection',
+    'snnapi.cat': 'Auto-inspection · Damage AI',
     'snnapi.box1': 'DAMAGE · 87%',
     'snnapi.box2': 'SCRATCH · 62%',
 
     'tele.badge': 'Telecom · Field Ops',
-    'tele.cat': '99% traceability · 60% ↓ reports',
+    'tele.cat': 'Inspections · Predictive ops',
     'tele.slaLabel': 'SLA · Last week',
     'tele.slaTrend': '↑ +35% vs Q3',
     'tele.alertTitle': 'TWR-042 · Alert',
@@ -1259,13 +931,13 @@ const i18n = {
 
     'cc.badge': 'Live · Voice AI',
     'cc.label': 'Contact Center AI',
-    'cc.cat': '+30% productivity · 25% ↓ AHT',
+    'cc.cat': 'Live coaching · Tone analysis',
     'cc.coachLabel': 'Coach · Live',
     'cc.coachMsg': '"Customer raising tone. Validate emotion <b style="color:var(--magenta)">before</b> proposing solution."',
 
     'wa.badge': 'WhatsApp · Official API',
     'wa.label': 'AI Chatbot',
-    'wa.cat': '24/7 service · CSAT &gt; 80%',
+    'wa.cat': 'Conversational · 24/7',
     'wa.m1': 'Hi! I had a car accident 🚗',
     'wa.m2': "So sorry. To start the claim, what's your ID number?",
     'wa.m3': '8-745-892',
@@ -1274,102 +946,37 @@ const i18n = {
     'wa.m6': 'How else can I help?',
 
     'sifed.badge': 'Sports · Federations',
-    'sifed.cat': '360° athlete view',
+    'sifed.cat': 'Athlete tracking · Performance',
     'sifed.stat1': 'PR · 400m',
     'sifed.stat2': 'vs last month',
     'sifed.stat3': 'Category',
 
     'gan.badge': 'Livestock · AI',
-    'gan.cat': '100% traceable · Production cycle',
+    'gan.cat': 'Inventory · Production cycle',
     'gan.title': 'Livestock AI',
     'gan.label': 'Total herd',
     'gan.trend': '↑ +8 this week',
 
-    'trust.label': 'Deployed across 7 industries · 5 LATAM countries',
-    'industry.insurance': 'Insurance',
-    'industry.telecom': 'Telecom',
-    'industry.retail': 'Retail',
-    'industry.hospitality': 'Hospitality',
-    'industry.automotive': 'Automotive',
-    'industry.brokers': 'Brokers',
-    'industry.fieldOps': 'Field Ops',
-    'industry.sports': 'Sports',
-    'industry.livestock': 'Livestock',
-    'industry.agribusiness': 'Agribusiness',
-
-    'numbers.eyebrow': 'REAL RESULTS · SUCCESS CASES',
-    'numbers.title.main': 'Metrics that move',
-    'numbers.title.accent': 'the business needle.',
-    'numbers.sub': "We don't sell promises. We sell measurable results from the first month of operation.",
-    'numbers.l1': 'Reduction in insurance inspection time',
-    'numbers.s1': 'Insurance Sector · LATAM',
-    'numbers.l2': 'Automatic fraud detection vs. manual model',
-    'numbers.s2': 'Snnapi · Production',
-    'numbers.l3': 'Improvement in telecom operations SLA',
-    'numbers.s3': 'Telecom Sector · LATAM',
-    'numbers.l4': 'Traceability in field work orders',
-    'numbers.s4': 'Field Ops Sector · LATAM',
-
-    'process.eyebrow': 'METHODOLOGY · 4 STEPS',
-    'process.title.main': 'From first hello to ROI:',
-    'process.title.accent': 'in weeks, not months.',
-    'process.s1.step': 'DIAGNOSIS',
-    'process.s1.name': 'Journey mapping',
-    'process.s1.desc': 'We analyze your current operations and friction points in the customer journey, with baseline metrics.',
-    'process.s2.step': 'DESIGN',
-    'process.s2.name': 'Strategy & KPIs',
-    'process.s2.desc': 'We design a tailored solution with clear success KPIs and a realistic implementation roadmap.',
-    'process.s3.step': 'IMPLEMENTATION',
-    'process.s3.name': 'Agile deployment',
-    'process.s3.desc': 'Sprint-based implementation with team training. Visible results from day 1.',
-    'process.s4.step': 'OPTIMIZATION',
-    'process.s4.name': 'Continuous improvement',
-    'process.s4.desc': 'Your AI copilot learns with every interaction. Optimization based on real data, not assumptions.',
-
-    'cta.title.main': 'Ready to transform your CX',
-    'cta.title.accent': 'from day 1?',
-    'cta.sub': "Book 30 minutes with our team. We'll show you the demos live, connected to real cases in your industry.",
-    'cta.book': 'Book a demo (30 min)',
-
-    'footer.tagline': 'Transforming customer experience from day 1. AI and automation solutions for LATAM.',
-    'footer.demos': 'Demos',
-    'footer.cc': 'Contact Center AI',
-    'footer.wa': 'WhatsApp Chatbot',
-    'footer.gan': 'Livestock AI',
-    'footer.company': 'Company',
-    'footer.mainSite': 'Main site',
-    'footer.about': 'About us',
-    'footer.contact': 'Contact',
-    'footer.location': 'Panama City, Panama',
-    'footer.copyright': '© 2026 HenkanCX. All rights reserved.'
+    'foot.main': 'henkancx.com',
+    'foot.copy': '© 2026 HenkanCX'
   },
   es: {
-    'nav.solutions': 'Soluciones IA',
-    'nav.products': 'Productos',
-    'nav.process': 'Proceso',
-    'nav.contact': 'Contacto',
-    'nav.backToSite': 'Volver al sitio',
-    'nav.contactSales': 'Contactar ventas',
-    'subnav.demos': 'Demos',
-    'subnav.results': 'Resultados',
-    'subnav.process': 'Cómo funciona',
-    'hero.title.main': 'El portal de demos de IA para transformar tu CX',
-    'hero.title.accent': ' desde el día 1',
-    'hero.cta': 'Explorar demos →',
-    'hero.trust.left': 'Confiado por +50 empresas LATAM',
-    'hero.trust.right': 'Sin tarjeta de crédito',
-    'hero.sub': '<b>DemoPortal</b> es donde prospectos, clientes y equipos de innovación prueban en vivo las soluciones de HenkanCX. Inspecciones con IA, contact center inteligente, chatbots de WhatsApp, gestión deportiva y ganadera — todo en sandboxes interactivos, listos en segundos.',
+    'nav.back': 'Volver a henkancx.com',
+    'hero.l1': 'Seis sandboxes de IA.',
+    'hero.l2': 'Toca uno para probarlo en vivo.',
+    'hero.sub': 'Cada card abre un demo interactivo de una solución HenkanCX. Toca, haz click, arrastra, llena, corre — ve cómo funciona antes de hablar de implementación.',
+    'hero.meta': '06 demos',
 
     'snnapi.badge': 'Seguros · Computer Vision',
     'snnapi.confidence': 'Confianza',
     'snnapi.time': 'Tiempo',
     'snnapi.damages': 'Daños',
-    'snnapi.cat': '95% ↓ tiempos · +70% fraude',
+    'snnapi.cat': 'Auto-inspección · Daños IA',
     'snnapi.box1': 'DAÑO · 87%',
     'snnapi.box2': 'RAYÓN · 62%',
 
     'tele.badge': 'Telecom · Field Ops',
-    'tele.cat': '99% trazabilidad · 60% ↓ reportes',
+    'tele.cat': 'Inspecciones · Predictivo',
     'tele.slaLabel': 'SLA · Última semana',
     'tele.slaTrend': '↑ +35% vs Q3',
     'tele.alertTitle': 'TWR-042 · Alerta',
@@ -1377,13 +984,13 @@ const i18n = {
 
     'cc.badge': 'En vivo · Voice IA',
     'cc.label': 'Contact Center IA',
-    'cc.cat': '+30% productividad · 25% ↓ AHT',
+    'cc.cat': 'Coaching en vivo · Análisis tono',
     'cc.coachLabel': 'Coach · En vivo',
     'cc.coachMsg': '"Cliente sube tono. Valida emoción <b style="color:var(--magenta)">antes</b> de proponer solución."',
 
     'wa.badge': 'WhatsApp · API Oficial',
     'wa.label': 'Chatbot IA',
-    'wa.cat': '24/7 atención · CSAT &gt; 80%',
+    'wa.cat': 'Conversacional · 24/7',
     'wa.m1': '¡Hola! tuve un choque 🚗',
     'wa.m2': 'Lo siento. Para iniciar reclamo, ¿me das tu cédula?',
     'wa.m3': '8-745-892',
@@ -1392,74 +999,19 @@ const i18n = {
     'wa.m6': '¿En qué más te ayudo?',
 
     'sifed.badge': 'Deportivo · Federaciones',
-    'sifed.cat': '360° del atleta',
+    'sifed.cat': 'Rendimiento · Atletas',
     'sifed.stat1': 'PR · 400m',
     'sifed.stat2': 'vs últ. mes',
     'sifed.stat3': 'Categoría',
 
     'gan.badge': 'Ganadería · IA',
-    'gan.cat': '100% trazable · Ciclo productivo',
+    'gan.cat': 'Inventario · Ciclo productivo',
     'gan.title': 'Sistema Ganadero IA',
     'gan.label': 'Hato total',
     'gan.trend': '↑ +8 esta semana',
 
-    'trust.label': 'Implementado en 7 industrias · 5 países LATAM',
-    'industry.insurance': 'Seguros',
-    'industry.telecom': 'Telecom',
-    'industry.retail': 'Retail',
-    'industry.hospitality': 'Hotelería',
-    'industry.automotive': 'Automotriz',
-    'industry.brokers': 'Brokers',
-    'industry.fieldOps': 'Field Ops',
-    'industry.sports': 'Deportivo',
-    'industry.livestock': 'Ganadería',
-    'industry.agribusiness': 'Agroindustria',
-
-    'numbers.eyebrow': 'RESULTADOS REALES · CASOS DE ÉXITO',
-    'numbers.title.main': 'Métricas que mueven',
-    'numbers.title.accent': 'la aguja del negocio.',
-    'numbers.sub': 'No vendemos promesas. Vendemos resultados medibles desde el primer mes de operación.',
-    'numbers.l1': 'Reducción de tiempos en inspección de seguros',
-    'numbers.s1': 'Sector Seguros · LATAM',
-    'numbers.l2': 'Detección automática de fraude vs. modelo manual',
-    'numbers.s2': 'Snnapi · Producción',
-    'numbers.l3': 'Mejora en SLA de operaciones telecom',
-    'numbers.s3': 'Sector Telecom · LATAM',
-    'numbers.l4': 'Trazabilidad en órdenes de trabajo en campo',
-    'numbers.s4': 'Sector Field Ops · LATAM',
-
-    'process.eyebrow': 'METODOLOGÍA · 4 PASOS',
-    'process.title.main': 'Del primer hello al ROI:',
-    'process.title.accent': 'en semanas, no meses.',
-    'process.s1.step': 'DIAGNÓSTICO',
-    'process.s1.name': 'Mapeo del journey',
-    'process.s1.desc': 'Analizamos tu operación actual y los puntos de fricción en el customer journey, con métricas de baseline.',
-    'process.s2.step': 'DISEÑO',
-    'process.s2.name': 'Estrategia y KPIs',
-    'process.s2.desc': 'Diseñamos la solución a medida con KPIs de éxito claros y un roadmap de implementación realista.',
-    'process.s3.step': 'IMPLEMENTACIÓN',
-    'process.s3.name': 'Despliegue ágil',
-    'process.s3.desc': 'Implementación por sprints con capacitación al equipo. Resultados visibles desde el día 1.',
-    'process.s4.step': 'OPTIMIZACIÓN',
-    'process.s4.name': 'Mejora continua',
-    'process.s4.desc': 'Tu copiloto IA aprende con cada interacción. Optimización basada en datos reales, no suposiciones.',
-
-    'cta.title.main': '¿Listo para transformar tu CX',
-    'cta.title.accent': 'desde el día 1?',
-    'cta.sub': 'Agenda 30 minutos con nuestro equipo. Te mostramos los demos en vivo conectados a casos reales de tu industria.',
-    'cta.book': 'Agendar demo (30 min)',
-
-    'footer.tagline': 'Transformamos la experiencia del cliente desde el día 1. Soluciones de IA y automatización para LATAM.',
-    'footer.demos': 'Demos',
-    'footer.cc': 'Contact Center IA',
-    'footer.wa': 'Chatbot WhatsApp',
-    'footer.gan': 'Sistema Ganadero IA',
-    'footer.company': 'Empresa',
-    'footer.mainSite': 'Sitio principal',
-    'footer.about': 'Sobre nosotros',
-    'footer.contact': 'Contacto',
-    'footer.location': 'Ciudad de Panamá, Panamá',
-    'footer.copyright': '© 2026 HenkanCX. Todos los derechos reservados.'
+    'foot.main': 'henkancx.com',
+    'foot.copy': '© 2026 HenkanCX'
   }
 };
 
@@ -1468,7 +1020,6 @@ function applyLang(lang) {
   document.documentElement.lang = lang;
   localStorage.setItem('demoportal_lang', lang);
 
-  // Update text nodes
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     const val = i18n[lang][key];
@@ -1480,20 +1031,17 @@ function applyLang(lang) {
     }
   });
 
-  // Update SVG <text> nodes (textContent only)
   document.querySelectorAll('[data-i18n-svg]').forEach(el => {
     const key = el.getAttribute('data-i18n-svg');
     const val = i18n[lang][key];
     if (val !== undefined) el.textContent = val;
   });
 
-  // Update toggle UI
   document.querySelectorAll('.lang-toggle button').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
 }
 
-// Init: stored > browser default > 'en'
 (function initLang() {
   const stored = localStorage.getItem('demoportal_lang');
   let lang = stored;
@@ -1504,12 +1052,10 @@ function applyLang(lang) {
   applyLang(lang);
 })();
 
-// Wire up toggle
 document.querySelectorAll('.lang-toggle button').forEach(btn => {
   btn.addEventListener('click', () => applyLang(btn.dataset.lang));
 });
 
-// Gallery scroll
 function scrollGallery(dir) {
   const track = document.getElementById('gallery-track');
   const card = track.querySelector('.demo-card');
