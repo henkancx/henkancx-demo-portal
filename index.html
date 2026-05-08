@@ -687,100 +687,84 @@ h1.hero-title .accent {
    Right leg leads opposite to left arm. Cycle ~0.7s for natural cadence.
 */
 .sifed-runner {
-  animation: sifedBob 0.35s ease-in-out infinite alternate;
+  /* Subtle vertical bob — body lifts slightly with each footfall (twice per gait cycle) */
+  animation: sifedBob 0.425s ease-in-out infinite alternate;
   transform-origin: center bottom;
 }
 @keyframes sifedBob {
-  /* Subtle vertical bobble in sync with the gait — peaks when both feet briefly off ground */
   from { transform: translate(-50%, -56%); }
-  to   { transform: translate(-50%, -58.5%); }
+  to   { transform: translate(-50%, -59%); }
 }
 
-/* Body counter-bob (slight forward lean shifting) */
-.sifed-body {
-  transform-origin: 48px 78px;
-  animation: sifedBodyLean 0.7s ease-in-out infinite;
-}
-@keyframes sifedBodyLean {
-  0%, 100% { transform: rotate(-1deg) translateY(0); }
-  25%      { transform: rotate(0deg)  translateY(-0.5px); }
-  50%      { transform: rotate(1deg)  translateY(0); }
-  75%      { transform: rotate(0deg)  translateY(-0.5px); }
-}
+/* All limb groups: JS sets `transform="rotate(deg cx cy)"` directly each frame.
+   No CSS animations on these — JS produces continuous sin/cos motion that
+   never stutters between keyframes. */
+.sifed-body         { transform-box: view-box; }
+.sifed-leg-r-thigh  { transform-box: view-box; }
+.sifed-leg-r-shin   { transform-box: view-box; }
+.sifed-leg-l-thigh  { transform-box: view-box; }
+.sifed-leg-l-shin   { transform-box: view-box; }
+.sifed-arm-r-upper  { transform-box: view-box; }
+.sifed-arm-r-fore   { transform-box: view-box; }
+.sifed-arm-l-upper  { transform-box: view-box; }
+.sifed-arm-l-fore   { transform-box: view-box; }
 
-/* ============================================================
-   RIGHT LEG (front in original drawing)
-   Cycle phases:
-     0%   foot in front (contact)   →  +30°
-     25%  body passes over (support) →   0°
-     50%  push-off (extending back) →  -25°
-     75%  knee swings up forward    →  +15°  (knee bent — drawn here as rotation)
-     100% back to contact           →  +30°
-============================================================= */
-.sifed-leg-front {
-  transform-origin: 48px 78px;
-  animation: sifedLegRight 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
-}
-@keyframes sifedLegRight {
-  0%   { transform: rotate(30deg); }
-  25%  { transform: rotate(0deg); }
-  50%  { transform: rotate(-25deg); }
-  75%  { transform: rotate(15deg); }
-  100% { transform: rotate(30deg); }
-}
-
-/* ============================================================
-   LEFT LEG (back in original drawing)
-   Same cycle, but offset by 50% (the legs are out of phase).
-   When right leg is at contact (0%), left leg is at push-off (50%).
-============================================================= */
-.sifed-leg-back {
-  transform-origin: 48px 78px;
-  animation: sifedLegLeft 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
-}
-@keyframes sifedLegLeft {
-  0%   { transform: rotate(-25deg); }   /* push-off */
-  25%  { transform: rotate(15deg); }    /* knee swing */
-  50%  { transform: rotate(30deg); }    /* contact */
-  75%  { transform: rotate(0deg); }     /* support */
-  100% { transform: rotate(-25deg); }
-}
-
-/* ============================================================
-   ARMS — opposite to legs (right arm with left leg, left arm with right leg)
-   Lower amplitude (~22°) than legs (~30°), tighter motion.
-============================================================= */
-.sifed-arm-front {
-  /* Right arm — opposite phase to right leg */
-  transform-origin: 50px 38px;
-  animation: sifedArmRight 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
-}
-@keyframes sifedArmRight {
-  0%   { transform: rotate(-22deg); }  /* arm back when leg front */
-  25%  { transform: rotate(0deg); }
-  50%  { transform: rotate(22deg); }   /* arm front when leg back */
-  75%  { transform: rotate(0deg); }
-  100% { transform: rotate(-22deg); }
-}
-
-.sifed-arm-back {
-  /* Left arm — opposite phase to left leg */
-  transform-origin: 58px 38px;
-  animation: sifedArmLeft 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
-}
-@keyframes sifedArmLeft {
-  0%   { transform: rotate(22deg); }
-  25%  { transform: rotate(0deg); }
-  50%  { transform: rotate(-22deg); }
-  75%  { transform: rotate(0deg); }
-  100% { transform: rotate(22deg); }
-}
-
-/* Speed lines flicker - synced to bob frequency (so they pulse with each footfall) */
-.sifed-speed { animation: sifedSpeedFlicker 0.35s linear infinite; }
+/* Speed lines flicker with each footfall */
+.sifed-speed { animation: sifedSpeedFlicker 0.425s linear infinite; }
 @keyframes sifedSpeedFlicker {
   0%, 100% { opacity: 1; transform: translateX(0); }
   50%      { opacity: 0.4; transform: translateX(-3px); }
+}
+
+/* ============================================================
+   SWEAT DROPS — staggered falls with slight horizontal drift
+============================================================ */
+.sifed-sweat .sweat-drop {
+  opacity: 0;
+  filter: drop-shadow(0 0 2px rgba(180,200,255,0.6));
+}
+.sweat-drop.sd1 { animation: sweatFall1 1.6s ease-in 0s    infinite; }
+.sweat-drop.sd2 { animation: sweatFall2 1.8s ease-in 0.4s  infinite; }
+.sweat-drop.sd3 { animation: sweatFall3 1.5s ease-in 0.9s  infinite; }
+.sweat-drop.sd4 { animation: sweatFall4 1.7s ease-in 0.2s  infinite; }
+.sweat-drop.sd5 { animation: sweatFall5 1.9s ease-in 0.7s  infinite; }
+.sweat-drop.sd6 { animation: sweatFall6 1.6s ease-in 1.1s  infinite; }
+
+@keyframes sweatFall1 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15%  { opacity: 1; transform: translate(-0.5px, 4px) scale(1); }
+  85%  { opacity: 0.7; transform: translate(-3px, 38px) scale(1); }
+  100% { opacity: 0; transform: translate(-3px, 50px) scale(0.8); }
+}
+@keyframes sweatFall2 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15%  { opacity: 1; transform: translate(0.5px, 4px) scale(1); }
+  85%  { opacity: 0.7; transform: translate(3px, 35px) scale(1); }
+  100% { opacity: 0; transform: translate(3px, 48px) scale(0.8); }
+}
+@keyframes sweatFall3 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15%  { opacity: 1; transform: translate(1px, 4px) scale(1); }
+  85%  { opacity: 0.7; transform: translate(4px, 32px) scale(1); }
+  100% { opacity: 0; transform: translate(4px, 44px) scale(0.8); }
+}
+@keyframes sweatFall4 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15%  { opacity: 1; transform: translate(-1px, 4px) scale(1); }
+  85%  { opacity: 0.7; transform: translate(-4px, 30px) scale(1); }
+  100% { opacity: 0; transform: translate(-4px, 42px) scale(0.8); }
+}
+@keyframes sweatFall5 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15%  { opacity: 1; transform: translate(0.5px, 4px) scale(1); }
+  85%  { opacity: 0.7; transform: translate(2px, 28px) scale(1); }
+  100% { opacity: 0; transform: translate(2px, 40px) scale(0.8); }
+}
+@keyframes sweatFall6 {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15%  { opacity: 1; transform: translate(-1.5px, 4px) scale(1); }
+  85%  { opacity: 0.7; transform: translate(-5px, 36px) scale(1); }
+  100% { opacity: 0; transform: translate(-5px, 48px) scale(0.8); }
 }
 
 /* Track curve (pre-existing) */
@@ -2094,63 +2078,78 @@ h1.hero-title .accent {
                 <stop offset="100%" stop-color="#CB6CE6" stop-opacity="0.7"/>
               </linearGradient>
               <linearGradient id="runShadow" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#CB6CE6" stop-opacity="0.4"/>
-                <stop offset="100%" stop-color="#833AE0" stop-opacity="0.6"/>
+                <stop offset="0%" stop-color="#CB6CE6" stop-opacity="0.45"/>
+                <stop offset="100%" stop-color="#833AE0" stop-opacity="0.65"/>
               </linearGradient>
+              <radialGradient id="sweatG" cx="50%" cy="30%" r="60%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.95)"/>
+                <stop offset="60%" stop-color="rgba(180,200,255,0.85)"/>
+                <stop offset="100%" stop-color="rgba(120,160,255,0.5)"/>
+              </radialGradient>
             </defs>
 
-            <!-- Body (trunk) - moves up/down with bobbing -->
+            <!-- Body trunk (head + torso) -->
             <g class="sifed-body">
-              <!-- Head -->
-              <circle cx="55" cy="22" r="9" fill="url(#runG)"/>
-              <!-- Neck/torso -->
-              <path d="M50 30 Q48 50 45 68" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
-              <!-- Lower torso -->
-              <path d="M45 68 L48 78" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <circle cx="50" cy="22" r="8" fill="url(#runG)"/>
+              <path d="M44 18 Q50 13 56 18" stroke="#CB6CE6" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+              <line x1="50" y1="30" x2="48" y2="38" stroke="url(#runG)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M48 38 Q46 55 45 72" stroke="url(#runG)" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <ellipse cx="46" cy="74" rx="6" ry="3" fill="url(#runG)" opacity="0.85"/>
             </g>
 
-            <!-- Front (right) leg group -->
-            <g class="sifed-leg-front">
-              <!-- Upper leg (thigh) -->
-              <path d="M48 78 L60 95" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
-              <!-- Lower leg (shin) -->
-              <path d="M60 95 L66 110" stroke="url(#runG)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-              <!-- Foot -->
-              <path d="M66 110 L72 112" stroke="url(#runG)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- ==================== RIGHT ARM (rigged: shoulder + elbow) ==================== -->
+            <g class="sifed-arm-r-upper">
+              <line x1="50" y1="38" x2="50" y2="55" stroke="url(#runG)" stroke-width="5" stroke-linecap="round"/>
+              <g class="sifed-arm-r-fore">
+                <line x1="50" y1="55" x2="50" y2="68" stroke="url(#runG)" stroke-width="4.5" stroke-linecap="round"/>
+                <circle cx="50" cy="70" r="2.5" fill="url(#runG)"/>
+              </g>
             </g>
 
-            <!-- Back (left) leg group -->
-            <g class="sifed-leg-back">
-              <!-- Upper leg -->
-              <path d="M48 78 L36 92" stroke="url(#runShadow)" stroke-width="6" fill="none" stroke-linecap="round"/>
-              <!-- Lower leg -->
-              <path d="M36 92 L26 102" stroke="url(#runShadow)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-              <!-- Foot -->
-              <path d="M26 102 L20 100" stroke="url(#runShadow)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- ==================== LEFT ARM ==================== -->
+            <g class="sifed-arm-l-upper">
+              <line x1="46" y1="38" x2="46" y2="55" stroke="url(#runShadow)" stroke-width="5" stroke-linecap="round"/>
+              <g class="sifed-arm-l-fore">
+                <line x1="46" y1="55" x2="46" y2="68" stroke="url(#runShadow)" stroke-width="4.5" stroke-linecap="round"/>
+                <circle cx="46" cy="70" r="2.5" fill="url(#runShadow)"/>
+              </g>
             </g>
 
-            <!-- Front (right) arm — opposite phase to front leg -->
-            <g class="sifed-arm-front">
-              <!-- Upper arm -->
-              <path d="M50 38 L42 50" stroke="url(#runG)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-              <!-- Forearm -->
-              <path d="M42 50 L38 62" stroke="url(#runG)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- ==================== RIGHT LEG (rigged: hip + knee) ==================== -->
+            <g class="sifed-leg-r-thigh">
+              <line x1="46" y1="76" x2="46" y2="96" stroke="url(#runG)" stroke-width="6.5" stroke-linecap="round"/>
+              <g class="sifed-leg-r-shin">
+                <line x1="46" y1="96" x2="46" y2="116" stroke="url(#runG)" stroke-width="5.5" stroke-linecap="round"/>
+                <ellipse cx="49" cy="118" rx="6" ry="2.5" fill="url(#runG)"/>
+              </g>
             </g>
 
-            <!-- Back (left) arm — opposite phase to back leg -->
-            <g class="sifed-arm-back">
-              <!-- Upper arm -->
-              <path d="M58 38 L70 46" stroke="url(#runShadow)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-              <!-- Forearm -->
-              <path d="M70 46 L78 38" stroke="url(#runShadow)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- ==================== LEFT LEG ==================== -->
+            <g class="sifed-leg-l-thigh">
+              <line x1="46" y1="76" x2="46" y2="96" stroke="url(#runShadow)" stroke-width="6.5" stroke-linecap="round"/>
+              <g class="sifed-leg-l-shin">
+                <line x1="46" y1="96" x2="46" y2="116" stroke="url(#runShadow)" stroke-width="5.5" stroke-linecap="round"/>
+                <ellipse cx="49" cy="118" rx="6" ry="2.5" fill="url(#runShadow)"/>
+              </g>
             </g>
 
-            <!-- Speed lines (motion blur) -->
+            <!-- ==================== SWEAT DROPS ==================== -->
+            <g class="sifed-sweat">
+              <ellipse class="sweat-drop sd1" cx="44" cy="18" rx="1.2" ry="1.7" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd2" cx="56" cy="20" rx="1" ry="1.5" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd3" cx="52" cy="32" rx="1.1" ry="1.6" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd4" cx="40" cy="50" rx="1" ry="1.4" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd5" cx="55" cy="58" rx="1.2" ry="1.7" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd6" cx="34" cy="44" rx="0.9" ry="1.3" fill="url(#sweatG)"/>
+            </g>
+
+            <!-- Speed lines -->
             <g class="sifed-speed">
-              <line x1="0" y1="55" x2="22" y2="55" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-              <line x1="0" y1="65" x2="16" y2="65" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-              <line x1="0" y1="75" x2="24" y2="75" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
-              <line x1="0" y1="88" x2="14" y2="88" stroke="rgba(203,108,230,0.5)" stroke-width="1.5"/>
+              <line x1="-2" y1="50" x2="22" y2="50" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
+              <line x1="-2" y1="62" x2="16" y2="62" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <line x1="-2" y1="78" x2="26" y2="78" stroke="rgba(255,255,255,0.65)" stroke-width="1.5"/>
+              <line x1="-2" y1="92" x2="14" y2="92" stroke="rgba(203,108,230,0.55)" stroke-width="1.5"/>
+              <line x1="-2" y1="105" x2="20" y2="105" stroke="rgba(203,108,230,0.45)" stroke-width="1.5"/>
             </g>
           </svg>
           <div class="sifed-stat-card">
@@ -3928,6 +3927,77 @@ if ('IntersectionObserver' in window && counters.length) {
       renderer.setSize(W(), H());
     }, 150);
   });
+})();
+
+// ===== SIFED: rigged runner with smooth requestAnimationFrame =====
+(function initSifedRunner() {
+  const svg = document.querySelector('.sifed-runner');
+  if (!svg) return;
+
+  const body         = svg.querySelector('.sifed-body');
+  const thighR       = svg.querySelector('.sifed-leg-r-thigh');
+  const shinR        = svg.querySelector('.sifed-leg-r-shin');
+  const thighL       = svg.querySelector('.sifed-leg-l-thigh');
+  const shinL        = svg.querySelector('.sifed-leg-l-shin');
+  const upperArmR    = svg.querySelector('.sifed-arm-r-upper');
+  const foreArmR     = svg.querySelector('.sifed-arm-r-fore');
+  const upperArmL    = svg.querySelector('.sifed-arm-l-upper');
+  const foreArmL     = svg.querySelector('.sifed-arm-l-fore');
+
+  if (!thighR || !thighL) return;
+
+  /* Smooth gait via continuous sin/cos waves at the cycle frequency.
+     Each joint is an independent oscillator with its own phase + harmonics.
+     This produces NATURAL, never-stutter motion (no keyframe jumps). */
+  const CYCLE_MS = 850;
+
+  // Honor reduced motion
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  const startT = performance.now();
+  function frame(now) {
+    const t = ((now - startT) % CYCLE_MS) / CYCLE_MS;
+    const tL = (t + 0.5) % 1;
+
+    // RIGHT LEG: thigh swings ±32° around 5° forward bias
+    const thighR_a = 5 + 32 * Math.cos(2 * Math.PI * t);
+    // RIGHT LEG: shin always somewhat bent; peak flex (~−110°) during swing
+    const shinR_a =
+      -55 +
+      -55 * Math.cos(2 * Math.PI * (t - 0.25)) +
+      -6  * Math.cos(2 * Math.PI * 2 * (t - 0.05));
+
+    // LEFT LEG (offset 0.5)
+    const thighL_a = 5 + 32 * Math.cos(2 * Math.PI * tL);
+    const shinL_a =
+      -55 +
+      -55 * Math.cos(2 * Math.PI * (tL - 0.25)) +
+      -6  * Math.cos(2 * Math.PI * 2 * (tL - 0.05));
+
+    // ARMS opposite to same-side leg
+    const upArmR_a   = 25 * Math.cos(2 * Math.PI * tL);
+    const foreArmR_a = -90 + 12 * Math.cos(2 * Math.PI * (tL + 0.10));
+    const upArmL_a   = 25 * Math.cos(2 * Math.PI * t);
+    const foreArmL_a = -90 + 12 * Math.cos(2 * Math.PI * (t + 0.10));
+
+    // BODY: gentle forward lean tilting at 2× freq (one tilt per footfall)
+    const bodyTilt = 2 + 1.2 * Math.cos(2 * Math.PI * 2 * t);
+
+    thighR.setAttribute('transform',    `rotate(${thighR_a.toFixed(2)} 46 76)`);
+    shinR.setAttribute('transform',     `rotate(${shinR_a.toFixed(2)} 46 96)`);
+    thighL.setAttribute('transform',    `rotate(${thighL_a.toFixed(2)} 46 76)`);
+    shinL.setAttribute('transform',     `rotate(${shinL_a.toFixed(2)} 46 96)`);
+    upperArmR.setAttribute('transform', `rotate(${upArmR_a.toFixed(2)} 50 38)`);
+    foreArmR.setAttribute('transform',  `rotate(${foreArmR_a.toFixed(2)} 50 55)`);
+    upperArmL.setAttribute('transform', `rotate(${upArmL_a.toFixed(2)} 46 38)`);
+    foreArmL.setAttribute('transform',  `rotate(${foreArmL_a.toFixed(2)} 46 55)`);
+    if (body) body.setAttribute('transform', `rotate(${bodyTilt.toFixed(2)} 46 76)`);
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
