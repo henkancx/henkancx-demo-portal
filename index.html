@@ -197,20 +197,17 @@ h1.hero-title .accent {
 .gallery-inner { max-width: 1480px; margin: 0 auto; position: relative; }
 .gallery-track {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 6px;
 }
-/* Tablet: 4 cols intermedio para que no queden demasiado pequeños */
-@media (max-width: 1280px) {
-  .gallery-track { grid-template-columns: repeat(4, 1fr); gap: 12px; }
-}
-@media (max-width: 880px) {
-  .gallery-track { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-}
+/* Breakpoints intermedios para que en pantallas pequeñas no quede ilegible */
+@media (max-width: 1600px) { .gallery-track { grid-template-columns: repeat(8, 1fr); gap: 8px; } }
+@media (max-width: 1280px) { .gallery-track { grid-template-columns: repeat(6, 1fr); gap: 10px; } }
+@media (max-width: 880px)  { .gallery-track { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
 
 .demo-card {
   aspect-ratio: 5 / 6;
-  border-radius: 14px;
+  border-radius: 8px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -231,13 +228,13 @@ h1.hero-title .accent {
 
 .demo-badge {
   position: absolute;
-  top: 10px; left: 10px; z-index: 2;
-  display: inline-flex; align-items: center; gap: 6px;
+  top: 6px; left: 6px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 4px;
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
-  padding: 4px 9px 4px 5px;
+  padding: 2px 6px 2px 3px;
   border-radius: 999px;
-  font-size: 9px; font-weight: 500;
+  font-size: 7px; font-weight: 500;
   color: var(--navy);
   letter-spacing: -0.005em;
 }
@@ -275,34 +272,34 @@ h1.hero-title .accent {
 
 .demo-foot {
   position: absolute;
-  bottom: 12px; left: 14px; right: 14px; z-index: 2;
+  bottom: 7px; left: 8px; right: 8px; z-index: 2;
   display: flex; align-items: center; justify-content: space-between;
   color: white;
 }
 .demo-label {
   font-family: 'Poppins', sans-serif;
-  font-size: 13px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.1;
 }
 .demo-cat {
   font-family: 'Fira Code', monospace;
-  font-size: 9px;
+  font-size: 7px;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.65);
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   display: block;
 }
 .demo-arrow {
-  width: 24px; height: 24px;
+  width: 16px; height: 16px;
   border-radius: 50%;
   background: white;
   color: var(--navy);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
+  font-size: 8px;
   flex-shrink: 0;
   transition: transform .25s ease;
 }
@@ -1500,6 +1497,43 @@ h1.hero-title .accent {
 .modal-footer .pitch b { color: var(--navy); }
 .modal-footer .actions { display: flex; gap: 10px; }
 
+/* ====================================================================
+   WhatsApp modal — compact vertical layout for the embedded phone demo
+   ==================================================================== */
+.modal-window.modal-wa {
+  max-width: 520px;
+  background: linear-gradient(180deg, #0f1f33 0%, #0a1424 100%);
+  color: white;
+}
+.modal-wa .modal-header { padding: 22px 24px 14px; }
+.modal-wa .modal-tag { color: rgba(255,255,255,0.85); }
+.modal-wa .modal-title { color: white; }
+.modal-wa .modal-sub { color: rgba(255,255,255,0.65); }
+.modal-wa .modal-close { color: white; background: rgba(255,255,255,0.08); }
+.modal-wa .wa-stage {
+  position: relative;
+  margin: 0 16px 16px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 20%, rgba(203,108,230,0.15), transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(131,58,224,0.18), transparent 50%),
+              #0a1424;
+  height: min(78vh, 760px);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-wa .wa-stage iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.modal-wa .modal-footer { border-top: 1px solid rgba(255,255,255,0.08); }
+.modal-wa .modal-footer .pitch { color: rgba(255,255,255,0.7); }
+.modal-wa .modal-footer .pitch b { color: white; }
+@media (max-width: 880px) {
+  .modal-wa .wa-stage { height: calc(100vh - 280px); margin: 0 12px 12px; }
+}
+
 /* Modal mobile */
 @media (max-width: 880px) {
   .modal-root { padding: 0; align-items: stretch; }
@@ -1724,7 +1758,7 @@ h1.hero-title .accent {
       </a>
 
       <!-- 4. WHATSAPP -->
-      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20WhatsApp%20AI%20Chatbot%20demo" target="_blank" rel="noopener" class="demo-card">
+      <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20WhatsApp%20AI%20Chatbot%20demo" target="_blank" rel="noopener" class="demo-card" data-modal-target="wa">
         <div class="demo-img wa">
           <div class="wa-phone">
             <div class="wa-screen animated">
@@ -2036,6 +2070,41 @@ h1.hero-title .accent {
 </footer>
 
 <!-- ===== MODAL: Contact Center IA Live Preview ===== -->
+<!-- ============= WHATSAPP DEMO MODAL ============= -->
+<div class="modal-root" id="modal-wa" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wa-modal-title">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-window modal-wa">
+    <button class="modal-close" data-close aria-label="Close">×</button>
+
+    <header class="modal-header">
+      <span class="modal-tag"><span class="dot"></span><span data-i18n="modal.wa.tag">Live Preview · WhatsApp AI Chatbot</span></span>
+      <h2 class="modal-title" id="wa-modal-title">
+        <span data-i18n="modal.wa.title.l1">Soporte sin </span><em data-i18n="modal.wa.title.l2">fricción</em><span data-i18n="modal.wa.title.l3">, 24/7.</span>
+      </h2>
+      <p class="modal-sub" data-i18n="modal.wa.sub">Henky entiende texto, voz e imágenes; consulta CRM y ERP; y resuelve en autogestión total sobre WhatsApp Business API oficial.</p>
+    </header>
+
+    <div class="wa-stage">
+      <iframe
+        id="wa-demo-iframe"
+        data-src="https://henky-demo.henkancx.com/?embed=1"
+        title="HenkanCX WhatsApp demo"
+        loading="lazy"
+        allow="autoplay">
+      </iframe>
+    </div>
+
+    <footer class="modal-footer">
+      <p class="pitch" data-i18n="modal.wa.pitch" data-i18n-html>API oficial de WhatsApp + IA generativa + integración con tu <b>CRM/ERP</b>. Llave en mano en 4 a 6 semanas.</p>
+      <div class="actions">
+        <a href="https://wa.me/50764671392?text=Hola%21%20vi%20el%20demo%20de%20WhatsApp%20IA%20y%20me%20interesa%20hablar" target="_blank" rel="noopener" class="btn btn-mag btn-large" data-i18n="modal.wa.cta">Hablar con el equipo</a>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<!-- ============= CONTACT CENTER DEMO MODAL ============= -->
 <div class="modal-root" id="modal-cc" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cc-modal-title">
   <div class="modal-backdrop" data-close></div>
   <div class="modal-window">
@@ -2611,12 +2680,23 @@ function openModal(id) {
     setAudioState(audioEnabled);
     scheduleCallAudio();
   }
+  if (id === 'wa') {
+    // Lazy-load + restart the WhatsApp demo each time the modal opens
+    const iframe = m.querySelector('#wa-demo-iframe');
+    if (iframe) {
+      const src = iframe.getAttribute('data-src');
+      if (src) iframe.src = src;  // reassigning forces reload even if same URL
+    }
+  }
 }
 function closeModal(m) {
   m.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
   stopCCClock();
   cancelCallAudio();
+  // Stop the WhatsApp iframe so its animation/audio doesn't keep running
+  const waIframe = m.querySelector('#wa-demo-iframe');
+  if (waIframe) waIframe.removeAttribute('src');
 }
 
 document.querySelectorAll('[data-modal-target]').forEach(el => {
