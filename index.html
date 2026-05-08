@@ -194,20 +194,20 @@ h1.hero-title .accent {
 
 /* ===== GALLERY ===== */
 .gallery { padding: 30px 32px 60px; position: relative; }
-.gallery-inner { max-width: 1480px; margin: 0 auto; position: relative; }
+.gallery-inner { max-width: 1200px; margin: 0 auto; position: relative; }
 .gallery-track {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 6px;
+  gap: 5px;
 }
 /* Breakpoints intermedios para que en pantallas pequeñas no quede ilegible */
-@media (max-width: 1600px) { .gallery-track { grid-template-columns: repeat(8, 1fr); gap: 8px; } }
-@media (max-width: 1280px) { .gallery-track { grid-template-columns: repeat(6, 1fr); gap: 10px; } }
-@media (max-width: 880px)  { .gallery-track { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
+@media (max-width: 1600px) { .gallery-track { grid-template-columns: repeat(8, 1fr); gap: 7px; } }
+@media (max-width: 1280px) { .gallery-track { grid-template-columns: repeat(6, 1fr); gap: 9px; } }
+@media (max-width: 880px)  { .gallery-track { grid-template-columns: repeat(4, 1fr); gap: 10px; } }
 
 .demo-card {
-  aspect-ratio: 5 / 6;
-  border-radius: 8px;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -272,20 +272,20 @@ h1.hero-title .accent {
 
 .demo-foot {
   position: absolute;
-  bottom: 7px; left: 8px; right: 8px; z-index: 2;
+  bottom: 6px; left: 7px; right: 7px; z-index: 2;
   display: flex; align-items: center; justify-content: space-between;
   color: white;
 }
 .demo-label {
   font-family: 'Poppins', sans-serif;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.1;
 }
 .demo-cat {
   font-family: 'Fira Code', monospace;
-  font-size: 7px;
+  font-size: 6px;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -294,12 +294,12 @@ h1.hero-title .accent {
   display: block;
 }
 .demo-arrow {
-  width: 16px; height: 16px;
+  width: 14px; height: 14px;
   border-radius: 50%;
   background: white;
   color: var(--navy);
   display: flex; align-items: center; justify-content: center;
-  font-size: 8px;
+  font-size: 7px;
   flex-shrink: 0;
   transition: transform .25s ease;
 }
