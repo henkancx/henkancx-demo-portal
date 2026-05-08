@@ -198,12 +198,12 @@ h1.hero-title .accent {
 .gallery-track {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 18px;
 }
 
 .demo-card {
-  aspect-ratio: 4 / 5;
-  border-radius: 28px;
+  aspect-ratio: 5 / 6;
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -274,14 +274,14 @@ h1.hero-title .accent {
 }
 .demo-label {
   font-family: 'Poppins', sans-serif;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.1;
 }
 .demo-cat {
   font-family: 'Fira Code', monospace;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -306,6 +306,474 @@ h1.hero-title .accent {
 .demo-img.wa { background: radial-gradient(circle at 30% 70%, rgba(37, 211, 102, 0.18), transparent 50%), linear-gradient(180deg, #0d1b2a 0%, #0a1929 100%); }
 .demo-img.sifed { background: radial-gradient(circle at 70% 80%, rgba(203,108,230,0.30), transparent 50%), linear-gradient(160deg, #2a1052 0%, #0d1b2a 70%); }
 .demo-img.gan { background: radial-gradient(circle at 20% 80%, rgba(131,58,224,0.18), transparent 60%), linear-gradient(180deg, #1a2940 0%, #0d1b2a 50%, #0a1424 100%); }
+
+/* ===========================================================
+   Demo Animations
+   =========================================================== */
+
+/* === SNNAPI: Three.js wireframe sedan === */
+.snnapi-stage {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center 35%, rgba(203,108,230,0.18), transparent 60%),
+    linear-gradient(180deg, #050912 0%, #0a1424 50%, #050912 100%);
+}
+/* Perspective grid floor (CSS only, animated forward) */
+.snnapi-grid {
+  position: absolute;
+  bottom: 0; left: -10%; right: -10%;
+  height: 55%;
+  perspective: 320px;
+  perspective-origin: 50% 0%;
+  pointer-events: none;
+  z-index: 1;
+}
+.snnapi-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: rotateX(62deg);
+  transform-origin: 50% 0%;
+  background-image:
+    linear-gradient(to right,  rgba(203,108,230,0.32) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(203,108,230,0.45) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: snnapiGridSlide 2.5s linear infinite;
+  mask-image: radial-gradient(ellipse at center 30%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center 30%, black 30%, transparent 80%);
+}
+@keyframes snnapiGridSlide {
+  from { background-position: 0 0; }
+  to   { background-position: 0 32px; }
+}
+
+.snnapi-horizon {
+  position: absolute;
+  top: 42%;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--magenta) 50%, transparent 100%);
+  opacity: 0.4;
+  filter: blur(0.5px);
+  z-index: 1;
+}
+
+/* The Three.js canvas mounts here */
+.snnapi-canvas-wrap {
+  position: absolute;
+  top: 8%; left: 0; right: 0; bottom: 22%;
+  z-index: 2;
+}
+.snnapi-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(203,108,230,0.45));
+}
+
+/* HUD scan line stays */
+.snnapi-scan {
+  position: absolute;
+  top: 22%; left: 8%; right: 8%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--magenta) 30%, white 50%, var(--magenta) 70%, transparent 100%);
+  filter: blur(0.5px);
+  box-shadow: 0 0 14px var(--magenta), 0 0 28px rgba(203,108,230,0.6);
+  animation: snnapiScanLine 4s ease-in-out infinite;
+  opacity: 0.95;
+  z-index: 3;
+}
+@keyframes snnapiScanLine {
+  0%, 100% { top: 22%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  50% { top: 64%; }
+}
+
+/* HUD tags driven by JS class toggles */
+.snnapi-tag {
+  position: absolute;
+  font-family: 'Fira Code', monospace;
+  font-size: 9px; font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(203,108,230,0.10);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--magenta);
+  color: var(--magenta);
+  white-space: nowrap;
+  box-shadow: 0 0 10px rgba(203,108,230,0.4);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity .35s ease, transform .35s cubic-bezier(.34, 1.56, .64, 1);
+  z-index: 5;
+  pointer-events: none;
+}
+.snnapi-tag::before {
+  content: '';
+  position: absolute;
+  width: 22px; height: 1px;
+  background: var(--magenta);
+  box-shadow: 0 0 4px var(--magenta);
+}
+.snnapi-tag.t1 { top: 38%; left: 22%; }
+.snnapi-tag.t1::before { top: 50%; right: -22px; }
+.snnapi-tag.t2 { top: 52%; right: 18%; }
+.snnapi-tag.t2::before { top: 50%; left: -22px; }
+.snnapi-tag.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* HUD corner crosshairs */
+.snnapi-corner {
+  position: absolute;
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--magenta);
+  opacity: 0.6;
+  z-index: 4;
+}
+.snnapi-corner.tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+.snnapi-corner.tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
+.snnapi-corner.bl { bottom: 80px; left: 14px; border-right: 0; border-top: 0; }
+.snnapi-corner.br { bottom: 80px; right: 14px; border-left: 0; border-top: 0; }
+
+
+
+/* === TELEINSPECT: Three.js wireframe lattice tower === */
+.tele-stage {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center 35%, rgba(131,58,224,0.18), transparent 65%),
+    linear-gradient(180deg, #050912 0%, #0a1424 50%, #050912 100%);
+}
+/* Ground perspective grid */
+.tele-grid-floor {
+  position: absolute;
+  bottom: 0; left: -10%; right: -10%;
+  height: 50%;
+  perspective: 320px;
+  perspective-origin: 50% 0%;
+  pointer-events: none;
+  z-index: 1;
+}
+.tele-grid-floor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: rotateX(62deg);
+  transform-origin: 50% 0%;
+  background-image:
+    linear-gradient(to right,  rgba(131,58,224,0.32) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(203,108,230,0.45) 1px, transparent 1px);
+  background-size: 28px 28px;
+  animation: teleGridSlide 3s linear infinite;
+  mask-image: radial-gradient(ellipse at center 30%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center 30%, black 30%, transparent 80%);
+}
+@keyframes teleGridSlide {
+  from { background-position: 0 0; }
+  to   { background-position: 0 28px; }
+}
+
+.tele-horizon {
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--purple) 50%, transparent 100%);
+  opacity: 0.35;
+  z-index: 1;
+}
+
+/* Three.js mount */
+.tele-canvas-wrap {
+  position: absolute;
+  top: 4%; left: 0; right: 0; bottom: 22%;
+  z-index: 2;
+}
+.tele-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(131,58,224,0.55));
+}
+
+@keyframes telePulseRed {
+  50% { box-shadow: 0 0 0 7px rgba(245,92,92,0.30), 0 0 0 14px rgba(245,92,92,0.12); }
+}
+
+/* HUD corner crosshairs */
+.tele-corner {
+  position: absolute;
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--purple);
+  opacity: 0.6;
+  z-index: 3;
+}
+.tele-corner.tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+.tele-corner.tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
+.tele-corner.bl { bottom: 80px; left: 14px; border-right: 0; border-top: 0; }
+.tele-corner.br { bottom: 80px; right: 14px; border-left: 0; border-top: 0; }
+
+/* HUD tag for alert */
+.tele-tag {
+  position: absolute;
+  top: 36%; right: 18%;
+  font-family: 'Fira Code', monospace;
+  font-size: 9px; font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(245, 92, 92, 0.10);
+  backdrop-filter: blur(4px);
+  border: 1px solid #f55c5c;
+  color: #ff8a8a;
+  white-space: nowrap;
+  box-shadow: 0 0 10px rgba(245, 92, 92, 0.4);
+  display: inline-flex; align-items: center; gap: 6px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity .35s ease, transform .35s cubic-bezier(.34, 1.56, .64, 1);
+  z-index: 5;
+  pointer-events: none;
+}
+.tele-tag::before {
+  content: '';
+  position: absolute;
+  width: 22px; height: 1px;
+  background: #f55c5c;
+  box-shadow: 0 0 4px #f55c5c;
+  top: 50%; left: -22px;
+}
+.tele-tag-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #f55c5c;
+  animation: telePulseRed 1.6s ease-in-out infinite;
+}
+.tele-tag.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* === WHATSAPP: typing chat === */
+.wa-screen.animated .wa-msg {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: waMsgIn 0.5s ease forwards;
+}
+.wa-screen.animated .wa-msg:nth-child(1) { animation-delay: 0.5s; }
+.wa-screen.animated .wa-msg:nth-child(2) { animation-delay: 2s; }
+.wa-screen.animated .wa-msg:nth-child(3) { animation-delay: 3.5s; }
+.wa-screen.animated .wa-msg:nth-child(4) { animation-delay: 5s; }
+.wa-screen.animated .wa-msg:nth-child(5) { animation-delay: 6.5s; }
+.wa-screen.animated .wa-msg:nth-child(6) { animation-delay: 8s; }
+@keyframes waMsgIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.wa-typing {
+  display: inline-flex; gap: 3px;
+  padding: 6px 9px;
+  background: white;
+  border-radius: 11px;
+  border-bottom-left-radius: 3px;
+  align-self: flex-start;
+  max-width: fit-content;
+  opacity: 0;
+  animation: typingShow 9s ease-in-out infinite;
+}
+.wa-typing span {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #888;
+  animation: typingDot 1.4s ease-in-out infinite;
+}
+.wa-typing span:nth-child(2) { animation-delay: 0.2s; }
+.wa-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-3px); opacity: 1; }
+}
+@keyframes typingShow {
+  0%, 18% { opacity: 0; }
+  20%, 35% { opacity: 1; }
+  37%, 100% { opacity: 0; }
+}
+
+/* === SIFED: real running cycle ===
+   A natural running gait has 4 phases per leg:
+     Contact (foot lands) → Mid-support → Push-off → Swing forward
+   Right leg leads opposite to left arm. Cycle ~0.7s for natural cadence.
+*/
+.sifed-runner {
+  animation: sifedBob 0.35s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+}
+@keyframes sifedBob {
+  /* Subtle vertical bobble in sync with the gait — peaks when both feet briefly off ground */
+  from { transform: translate(-50%, -56%); }
+  to   { transform: translate(-50%, -58.5%); }
+}
+
+/* Body counter-bob (slight forward lean shifting) */
+.sifed-body {
+  transform-origin: 48px 78px;
+  animation: sifedBodyLean 0.7s ease-in-out infinite;
+}
+@keyframes sifedBodyLean {
+  0%, 100% { transform: rotate(-1deg) translateY(0); }
+  25%      { transform: rotate(0deg)  translateY(-0.5px); }
+  50%      { transform: rotate(1deg)  translateY(0); }
+  75%      { transform: rotate(0deg)  translateY(-0.5px); }
+}
+
+/* ============================================================
+   RIGHT LEG (front in original drawing)
+   Cycle phases:
+     0%   foot in front (contact)   →  +30°
+     25%  body passes over (support) →   0°
+     50%  push-off (extending back) →  -25°
+     75%  knee swings up forward    →  +15°  (knee bent — drawn here as rotation)
+     100% back to contact           →  +30°
+============================================================= */
+.sifed-leg-front {
+  transform-origin: 48px 78px;
+  animation: sifedLegRight 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
+}
+@keyframes sifedLegRight {
+  0%   { transform: rotate(30deg); }
+  25%  { transform: rotate(0deg); }
+  50%  { transform: rotate(-25deg); }
+  75%  { transform: rotate(15deg); }
+  100% { transform: rotate(30deg); }
+}
+
+/* ============================================================
+   LEFT LEG (back in original drawing)
+   Same cycle, but offset by 50% (the legs are out of phase).
+   When right leg is at contact (0%), left leg is at push-off (50%).
+============================================================= */
+.sifed-leg-back {
+  transform-origin: 48px 78px;
+  animation: sifedLegLeft 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
+}
+@keyframes sifedLegLeft {
+  0%   { transform: rotate(-25deg); }   /* push-off */
+  25%  { transform: rotate(15deg); }    /* knee swing */
+  50%  { transform: rotate(30deg); }    /* contact */
+  75%  { transform: rotate(0deg); }     /* support */
+  100% { transform: rotate(-25deg); }
+}
+
+/* ============================================================
+   ARMS — opposite to legs (right arm with left leg, left arm with right leg)
+   Lower amplitude (~22°) than legs (~30°), tighter motion.
+============================================================= */
+.sifed-arm-front {
+  /* Right arm — opposite phase to right leg */
+  transform-origin: 50px 38px;
+  animation: sifedArmRight 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
+}
+@keyframes sifedArmRight {
+  0%   { transform: rotate(-22deg); }  /* arm back when leg front */
+  25%  { transform: rotate(0deg); }
+  50%  { transform: rotate(22deg); }   /* arm front when leg back */
+  75%  { transform: rotate(0deg); }
+  100% { transform: rotate(-22deg); }
+}
+
+.sifed-arm-back {
+  /* Left arm — opposite phase to left leg */
+  transform-origin: 58px 38px;
+  animation: sifedArmLeft 0.7s cubic-bezier(.5, 0, .5, 1) infinite;
+}
+@keyframes sifedArmLeft {
+  0%   { transform: rotate(22deg); }
+  25%  { transform: rotate(0deg); }
+  50%  { transform: rotate(-22deg); }
+  75%  { transform: rotate(0deg); }
+  100% { transform: rotate(22deg); }
+}
+
+/* Speed lines flicker - synced to bob frequency (so they pulse with each footfall) */
+.sifed-speed { animation: sifedSpeedFlicker 0.35s linear infinite; }
+@keyframes sifedSpeedFlicker {
+  0%, 100% { opacity: 1; transform: translateX(0); }
+  50%      { opacity: 0.4; transform: translateX(-3px); }
+}
+
+/* Track curve (pre-existing) */
+.sifed-curve-path {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: sifedCurveDraw 2.5s ease forwards;
+  animation-delay: 0.5s;
+}
+@keyframes sifedCurveDraw { to { stroke-dashoffset: 0; } }
+.sifed-curve-dot {
+  opacity: 0;
+  animation: sifedDot 0.4s ease forwards;
+}
+.sifed-curve-dot.d1 { animation-delay: 1.2s; }
+.sifed-curve-dot.d2 { animation-delay: 1.6s; }
+.sifed-curve-dot.d3 { animation-delay: 2s; }
+.sifed-curve-dot.d4 { animation-delay: 2.4s; }
+.sifed-curve-dot.d5 { animation-delay: 2.8s; }
+@keyframes sifedDot { to { opacity: 1; transform: scale(1); } }
+
+
+
+/* === GANADERO: real cattle bobble + sun pulse === */
+.gan-stage { position: absolute; inset: 0; }
+.gan-sun {
+  animation: ganSunBreath 4s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes ganSunBreath {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+.gan-cow {
+  animation: ganCowBobble 1.6s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+.gan-cow.c2 { animation-delay: 0.4s; animation-duration: 1.4s; }
+.gan-cow.c3 { animation-delay: 0.8s; animation-duration: 1.8s; }
+@keyframes ganCowBobble {
+  from { transform: translateY(0); }
+  to { transform: translateY(-1.5px); }
+}
+.gan-rfid {
+  fill: var(--magenta);
+  animation: ganRfidPulse 2s ease-in-out infinite;
+}
+.gan-rfid.r2 { animation-delay: 1s; fill: var(--purple); }
+@keyframes ganRfidPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; filter: drop-shadow(0 0 4px var(--magenta)); }
+}
+
+/* === Counter-up base style === */
+.counter[data-counter] { font-variant-numeric: tabular-nums; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .snnapi-car, .snnapi-scan, .snnapi-tag,
+  .tele-tower-svg .signal-arc, .tele-node.regular, .tele-node.alert, .gan-cow, .gan-sun, .gan-rfid,
+  .sifed-runner, .sifed-curve-path, .sifed-curve-dot,
+  .wa-screen.animated .wa-msg, .wa-typing,
+  .snnapi-platform::after {
+    animation: none !important;
+  }
+  .snnapi-car svg { transform: rotateY(20deg); }
+  .sifed-curve-path { stroke-dashoffset: 0 !important; }
+}
+
+
 
 .snnapi-scene { position: absolute; inset: 0; }
 .snnapi-scene svg { width: 100%; height: 100%; }
@@ -1124,36 +1592,31 @@ h1.hero-title .accent {
       <!-- 1. SNNAPI -->
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Snnapi%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img snnapi">
-          <div class="snnapi-scene">
-            <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <ellipse cx="200" cy="290" rx="180" ry="22" fill="rgba(0,0,0,0.4)" filter="blur(6px)"/>
-              <path d="M70 260 L100 200 L150 175 L260 175 L320 200 L350 260 L350 285 L70 285 Z" fill="#0e1a2c" stroke="#5a7099" stroke-width="2"/>
-              <path d="M150 180 L170 195 L260 195 L255 180 Z" fill="#1c2a40" stroke="#7592bd" stroke-width="1.5"/>
-              <line x1="210" y1="180" x2="210" y2="195" stroke="#0e1a2c" stroke-width="2"/>
-              <line x1="170" y1="200" x2="170" y2="260" stroke="#3a5070" stroke-width="1"/>
-              <line x1="240" y1="200" x2="240" y2="260" stroke="#3a5070" stroke-width="1"/>
-              <circle cx="115" cy="280" r="18" fill="#0a0f1a" stroke="#5a7099" stroke-width="2"/>
-              <circle cx="115" cy="280" r="9" fill="#1c2a40"/>
-              <circle cx="305" cy="280" r="18" fill="#0a0f1a" stroke="#5a7099" stroke-width="2"/>
-              <circle cx="305" cy="280" r="9" fill="#1c2a40"/>
-              <rect x="140" y="225" width="55" height="35" fill="none" stroke="#CB6CE6" stroke-width="2.5" stroke-dasharray="5 3"/>
-              <text x="140" y="220" fill="#CB6CE6" font-family="Fira Code, monospace" font-size="11" font-weight="700" data-i18n-svg="snnapi.box1">DAMAGE · 87%</text>
-              <rect x="255" y="195" width="55" height="32" fill="none" stroke="#833AE0" stroke-width="2" stroke-dasharray="5 3"/>
-              <text x="255" y="190" fill="#833AE0" font-family="Fira Code, monospace" font-size="10" font-weight="700" data-i18n-svg="snnapi.box2">SCRATCH · 62%</text>
-              <line x1="0" y1="120" x2="400" y2="120" stroke="rgba(203,108,230,0.3)" stroke-width="1"/>
-              <line x1="0" y1="350" x2="400" y2="350" stroke="rgba(203,108,230,0.2)" stroke-width="1"/>
-              <g stroke="rgba(203,108,230,0.5)" stroke-width="1.5" fill="none">
-                <path d="M30 30 L30 50 M30 30 L50 30"/>
-                <path d="M370 30 L370 50 M370 30 L350 30"/>
-                <path d="M30 470 L30 450 M30 470 L50 470"/>
-                <path d="M370 470 L370 450 M370 470 L350 470"/>
-              </g>
-            </svg>
+          <div class="snnapi-stage" data-snnapi-stage>
+            <!-- Perspective grid floor -->
+            <div class="snnapi-grid"></div>
+            <!-- Horizon line -->
+            <div class="snnapi-horizon"></div>
+            <!-- HUD corner crosshairs -->
+            <span class="snnapi-corner tl"></span>
+            <span class="snnapi-corner tr"></span>
+            <span class="snnapi-corner bl"></span>
+            <span class="snnapi-corner br"></span>
+
+            <!-- Three.js canvas mount point -->
+            <div class="snnapi-canvas-wrap" data-snnapi-canvas></div>
+
+            <!-- Scan line -->
+            <div class="snnapi-scan"></div>
+
+            <!-- Damage HUD tags (driven by JS coreography) -->
+            <div class="snnapi-tag t1" data-snnapi-tag="t1" data-i18n="snnapi.tag1">DAÑO 87%</div>
+            <div class="snnapi-tag t2" data-snnapi-tag="t2" data-i18n="snnapi.tag2">RAYÓN 62%</div>
           </div>
           <div class="snnapi-overlay">
-            <div><span class="l" data-i18n="snnapi.confidence">Confidence</span><span class="v">94.2%</span></div>
-            <div><span class="l" data-i18n="snnapi.time">Time</span><span class="v">2.4s</span></div>
-            <div><span class="l" data-i18n="snnapi.damages">Damages</span><span class="v">2</span></div>
+            <div><span class="l" data-i18n="snnapi.confidence">Confianza</span><span class="v"><span class="counter" data-counter="94.2" data-decimals="1" data-suffix="%">94.2%</span></span></div>
+            <div><span class="l" data-i18n="snnapi.time">Tiempo</span><span class="v"><span class="counter" data-counter="2.4" data-decimals="1" data-suffix="s">2.4s</span></span></div>
+            <div><span class="l" data-i18n="snnapi.damages">Daños</span><span class="v"><span class="counter" data-counter="2">2</span></span></div>
           </div>
         </div>
         <div class="demo-badge"><span class="ico">🛡</span><span data-i18n="snnapi.badge">Insurance · Computer Vision</span></div>
@@ -1170,37 +1633,38 @@ h1.hero-title .accent {
       <!-- 2. TELEINSPECT -->
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20TeleInspect%20Suite%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img tele">
-          <div class="tele-grid"></div>
-          <div class="tele-towers">
-            <div class="tele-tower" style="top: 18%; left: 15%;"></div>
-            <div class="tele-tower alert" style="top: 32%; left: 42%;"></div>
-            <div class="tele-tower" style="top: 50%; left: 70%;"></div>
-            <div class="tele-tower" style="top: 64%; left: 28%;"></div>
-            <div class="tele-tower" style="top: 75%; left: 60%;"></div>
-            <div class="tele-line" style="top: 20%; left: 16%; width: 28%; transform: rotate(8deg); transform-origin: left;"></div>
-            <div class="tele-line" style="top: 35%; left: 43%; width: 30%; transform: rotate(12deg); transform-origin: left;"></div>
-            <div class="tele-line" style="top: 65%; left: 28%; width: 35%; transform: rotate(-8deg); transform-origin: left;"></div>
+          <div class="tele-stage">
+            <!-- Perspective ground grid -->
+            <div class="tele-grid-floor"></div>
+            <!-- Horizon -->
+            <div class="tele-horizon"></div>
+            <!-- HUD corners -->
+            <span class="tele-corner tl"></span>
+            <span class="tele-corner tr"></span>
+            <span class="tele-corner bl"></span>
+            <span class="tele-corner br"></span>
+
+            <!-- Three.js canvas mount point -->
+            <div class="tele-canvas-wrap" data-tele-canvas></div>
+
+            <!-- HUD tag (driven by JS coreography) -->
+            <div class="tele-tag" data-tele-tag>
+              <span class="tele-tag-dot"></span>
+              <span data-i18n="tele.tagAlert">TWR-042 · Voltaje irregular</span>
+            </div>
           </div>
-          <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; opacity:0.3;">
-            <defs>
-              <radialGradient id="glowT" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#CB6CE6" stop-opacity="0.6"/>
-                <stop offset="100%" stop-color="#CB6CE6" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <circle cx="180" cy="180" r="100" fill="url(#glowT)"/>
-          </svg>
+
           <div class="tele-stat">
-            <div class="l" data-i18n="tele.slaLabel">SLA · Last week</div>
-            <div class="v">98.7%</div>
+            <div class="l" data-i18n="tele.slaLabel">SLA · Última semana</div>
+            <div class="v"><span class="counter" data-counter="98.7" data-decimals="1" data-suffix="%">98.7%</span></div>
             <div class="t" data-i18n="tele.slaTrend">↑ +35% vs Q3</div>
           </div>
-          <div style="position:absolute; bottom:100px; left:22px; background:rgba(13,27,42,0.9); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:11px 14px; color:white; font-size:11px;">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-              <span style="width:8px; height:8px; background:#f55c5c; border-radius:50%; animation: pulseAlert 1.6s ease-in-out infinite;"></span>
-              <span style="font-weight:600;" data-i18n="tele.alertTitle">TWR-042 · Alert</span>
+          <div style="position:absolute; bottom:80px; left:18px; right:18px; background:rgba(13,27,42,0.9); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:9px 12px; color:white; font-size:10px; z-index: 4;">
+            <div style="display:flex; align-items:center; gap:7px; margin-bottom:3px;">
+              <span style="width:7px; height:7px; background:#f55c5c; border-radius:50%; animation: telePulseRed 1.6s ease-in-out infinite;"></span>
+              <span style="font-weight:600;" data-i18n="tele.alertTitle">TWR-042 · Alerta</span>
             </div>
-            <div style="font-family:'Fira Code'; font-size:10px; opacity:0.7;" data-i18n="tele.alertDesc">Irregular voltage · -3.2%</div>
+            <div style="font-family:'Fira Code'; font-size:9px; opacity:0.65;" data-i18n="tele.alertDesc">Voltaje irregular · -3.2%</div>
           </div>
         </div>
         <div class="demo-badge"><span class="ico">📡</span><span data-i18n="tele.badge">Telecom · Field Ops</span></div>
@@ -1256,7 +1720,7 @@ h1.hero-title .accent {
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20WhatsApp%20AI%20Chatbot%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img wa">
           <div class="wa-phone">
-            <div class="wa-screen">
+            <div class="wa-screen animated">
               <div class="wa-msg in" data-i18n="wa.m1">Hi! I had a car accident 🚗</div>
               <div class="wa-msg out" data-i18n="wa.m2">So sorry. To start the claim, what's your ID number?</div>
               <div class="wa-msg in" data-i18n="wa.m3">8-745-892</div>
@@ -1291,12 +1755,12 @@ h1.hero-title .accent {
                 <stop offset="100%" stop-color="#833AE0"/>
               </linearGradient>
             </defs>
-            <path d="M40 250 Q120 220 200 180 T380 100" stroke="url(#perfG)" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <circle cx="80" cy="240" r="5" fill="white"/>
-            <circle cx="160" cy="200" r="5" fill="white"/>
-            <circle cx="240" cy="160" r="5" fill="white"/>
-            <circle cx="320" cy="120" r="5" fill="white"/>
-            <circle cx="380" cy="100" r="6" fill="#CB6CE6" stroke="white" stroke-width="2"/>
+            <path class="sifed-curve-path" d="M40 250 Q120 220 200 180 T380 100" stroke="url(#perfG)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle class="sifed-curve-dot d1" cx="80" cy="240" r="5" fill="white"/>
+            <circle class="sifed-curve-dot d2" cx="160" cy="200" r="5" fill="white"/>
+            <circle class="sifed-curve-dot d3" cx="240" cy="160" r="5" fill="white"/>
+            <circle class="sifed-curve-dot d4" cx="320" cy="120" r="5" fill="white"/>
+            <circle class="sifed-curve-dot d5" cx="380" cy="100" r="6" fill="#CB6CE6" stroke="white" stroke-width="2"/>
           </svg>
           <svg class="sifed-runner" viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -1304,20 +1768,70 @@ h1.hero-title .accent {
                 <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
                 <stop offset="100%" stop-color="#CB6CE6" stop-opacity="0.7"/>
               </linearGradient>
+              <linearGradient id="runShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#CB6CE6" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#833AE0" stop-opacity="0.6"/>
+              </linearGradient>
             </defs>
-            <circle cx="55" cy="20" r="9" fill="url(#runG)"/>
-            <path d="M50 28 Q48 50 45 68 L42 78 Q45 75 50 76 L58 78 Q63 76 65 80 L70 92 Q68 100 64 105 L58 108" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
-            <path d="M48 75 L30 92 L20 110" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
-            <path d="M60 38 Q72 42 78 30" stroke="url(#runG)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-            <path d="M50 38 Q40 48 28 50" stroke="url(#runG)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-            <line x1="0" y1="55" x2="20" y2="55" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-            <line x1="0" y1="65" x2="15" y2="65" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-            <line x1="0" y1="75" x2="22" y2="75" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+
+            <!-- Body (trunk) - moves up/down with bobbing -->
+            <g class="sifed-body">
+              <!-- Head -->
+              <circle cx="55" cy="22" r="9" fill="url(#runG)"/>
+              <!-- Neck/torso -->
+              <path d="M50 30 Q48 50 45 68" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <!-- Lower torso -->
+              <path d="M45 68 L48 78" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Front (right) leg group -->
+            <g class="sifed-leg-front">
+              <!-- Upper leg (thigh) -->
+              <path d="M48 78 L60 95" stroke="url(#runG)" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <!-- Lower leg (shin) -->
+              <path d="M60 95 L66 110" stroke="url(#runG)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <!-- Foot -->
+              <path d="M66 110 L72 112" stroke="url(#runG)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Back (left) leg group -->
+            <g class="sifed-leg-back">
+              <!-- Upper leg -->
+              <path d="M48 78 L36 92" stroke="url(#runShadow)" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <!-- Lower leg -->
+              <path d="M36 92 L26 102" stroke="url(#runShadow)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <!-- Foot -->
+              <path d="M26 102 L20 100" stroke="url(#runShadow)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Front (right) arm — opposite phase to front leg -->
+            <g class="sifed-arm-front">
+              <!-- Upper arm -->
+              <path d="M50 38 L42 50" stroke="url(#runG)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <!-- Forearm -->
+              <path d="M42 50 L38 62" stroke="url(#runG)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Back (left) arm — opposite phase to back leg -->
+            <g class="sifed-arm-back">
+              <!-- Upper arm -->
+              <path d="M58 38 L70 46" stroke="url(#runShadow)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <!-- Forearm -->
+              <path d="M70 46 L78 38" stroke="url(#runShadow)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- Speed lines (motion blur) -->
+            <g class="sifed-speed">
+              <line x1="0" y1="55" x2="22" y2="55" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+              <line x1="0" y1="65" x2="16" y2="65" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+              <line x1="0" y1="75" x2="24" y2="75" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+              <line x1="0" y1="88" x2="14" y2="88" stroke="rgba(203,108,230,0.5)" stroke-width="1.5"/>
+            </g>
           </svg>
           <div class="sifed-stat-card">
-            <div class="stat"><div class="v">47.2s</div><div class="l" data-i18n="sifed.stat1">PR · 400m</div></div>
-            <div class="stat"><div class="v">+3.2%</div><div class="l" data-i18n="sifed.stat2">vs last month</div></div>
-            <div class="stat"><div class="v">A1</div><div class="l" data-i18n="sifed.stat3">Category</div></div>
+            <div class="stat"><div class="v"><span class="counter" data-counter="47.2" data-decimals="1" data-suffix="s">47.2s</span></div><div class="l" data-i18n="sifed.stat1">PR · 400m</div></div>
+            <div class="stat"><div class="v">+<span class="counter" data-counter="3.2" data-decimals="1" data-suffix="%">3.2%</span></div><div class="l" data-i18n="sifed.stat2">vs últ. mes</div></div>
+            <div class="stat"><div class="v">A1</div><div class="l" data-i18n="sifed.stat3">Categoría</div></div>
           </div>
         </div>
         <div class="demo-badge"><span class="ico" style="background: linear-gradient(135deg, #ffb800, #ff6b00);">🏆</span><span data-i18n="sifed.badge">Sports · Federations</span></div>
@@ -1334,48 +1848,154 @@ h1.hero-title .accent {
       <!-- 6. GANADERO -->
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Livestock%20AI%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img gan">
-          <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="gan-landscape">
-            <path d="M0 380 Q100 340 200 360 T400 350 L400 500 L0 500 Z" fill="#1a3050" opacity="0.7"/>
-            <path d="M0 420 Q120 390 240 410 T400 400 L400 500 L0 500 Z" fill="#0d1b2a"/>
-            <defs>
-              <radialGradient id="sunG" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#CB6CE6" stop-opacity="0.5"/>
-                <stop offset="100%" stop-color="#CB6CE6" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <circle cx="320" cy="80" r="60" fill="url(#sunG)"/>
-            <circle cx="320" cy="80" r="14" fill="#CB6CE6" opacity="0.7"/>
-            <g fill="#0a0f1a" stroke="#CB6CE6" stroke-width="0.8" opacity="0.95">
-              <path d="M80 410 L80 395 L82 388 L88 386 L94 386 L98 388 L100 395 L120 395 L122 388 L128 386 L134 386 L138 388 L138 395 L138 410 L132 410 L132 405 L130 405 L130 410 L92 410 L92 405 L86 405 L86 410 Z"/>
-              <ellipse cx="80" cy="386" rx="6" ry="5"/>
-            </g>
-            <g fill="#0a0f1a" stroke="#CB6CE6" stroke-width="0.8" opacity="0.85" transform="translate(120, 5) scale(0.85)">
-              <path d="M80 410 L80 395 L82 388 L88 386 L94 386 L98 388 L100 395 L120 395 L122 388 L128 386 L134 386 L138 388 L138 395 L138 410 L132 410 L132 405 L130 405 L130 410 L92 410 L92 405 L86 405 L86 410 Z"/>
-              <ellipse cx="80" cy="386" rx="6" ry="5"/>
-            </g>
-            <g fill="#0a0f1a" stroke="#833AE0" stroke-width="0.8" opacity="0.7" transform="translate(180, 12) scale(0.7)">
-              <path d="M80 410 L80 395 L82 388 L88 386 L94 386 L98 388 L100 395 L120 395 L122 388 L128 386 L134 386 L138 388 L138 395 L138 410 L132 410 L132 405 L130 405 L130 410 L92 410 L92 405 L86 405 L86 410 Z"/>
-              <ellipse cx="80" cy="386" rx="6" ry="5"/>
-            </g>
-            <g font-family="Fira Code, monospace" font-size="8" fill="#CB6CE6" font-weight="600">
-              <rect x="74" y="372" width="22" height="9" rx="2" fill="rgba(13,27,42,0.85)" stroke="#CB6CE6" stroke-width="0.5"/>
-              <text x="78" y="379">#421</text>
-              <rect x="195" y="372" width="22" height="9" rx="2" fill="rgba(13,27,42,0.85)" stroke="#833AE0" stroke-width="0.5"/>
-              <text x="199" y="379" fill="#a86fed">#782</text>
-            </g>
-            <g fill="white" opacity="0.4">
-              <circle cx="50" cy="120" r="1"/>
-              <circle cx="120" cy="80" r="0.8"/>
-              <circle cx="200" cy="140" r="1.2"/>
-              <circle cx="280" cy="200" r="0.9"/>
-              <circle cx="350" cy="250" r="1"/>
-              <circle cx="60" cy="220" r="0.8"/>
-            </g>
-          </svg>
+          <div class="gan-stage">
+            <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0;">
+              <defs>
+                <linearGradient id="meadowG" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#1c3654" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#0d1b2a" stop-opacity="1"/>
+                </linearGradient>
+                <linearGradient id="meadowG2" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#0e1d30"/>
+                  <stop offset="100%" stop-color="#070f1a"/>
+                </linearGradient>
+                <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#CB6CE6" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#CB6CE6" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="cowBody" cx="40%" cy="35%" r="70%">
+                  <stop offset="0%" stop-color="#fafafa"/>
+                  <stop offset="55%" stop-color="#d8d8d8"/>
+                  <stop offset="100%" stop-color="#888"/>
+                </radialGradient>
+                <linearGradient id="cowShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0.45)"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Hills back layer -->
+              <path d="M0 380 Q100 340 200 360 T400 350 L400 500 L0 500 Z" fill="url(#meadowG)"/>
+              <path d="M0 420 Q120 390 240 410 T400 400 L400 500 L0 500 Z" fill="url(#meadowG2)"/>
+
+              <!-- Sun (pulsing) -->
+              <g class="gan-sun">
+                <circle cx="320" cy="80" r="60" fill="url(#sunGrad)"/>
+                <circle cx="320" cy="80" r="14" fill="#CB6CE6" opacity="0.7"/>
+              </g>
+
+              <!-- Stars (decorative) -->
+              <g fill="white" opacity="0.4">
+                <circle cx="50" cy="120" r="1"/>
+                <circle cx="120" cy="80" r="0.8"/>
+                <circle cx="200" cy="140" r="1.2"/>
+                <circle cx="280" cy="200" r="0.9"/>
+                <circle cx="350" cy="250" r="1"/>
+                <circle cx="60" cy="220" r="0.8"/>
+              </g>
+
+              <!-- ============ COW 1 (front-left, biggest, RFID #421) ============ -->
+              <g class="gan-cow c1" transform="translate(70, 360)">
+                <!-- Ground shadow -->
+                <ellipse cx="50" cy="68" rx="42" ry="5" fill="rgba(0,0,0,0.5)" filter="blur(2px)"/>
+                <!-- Front legs -->
+                <rect x="22" y="52" width="6" height="20" fill="#1a1a1a" rx="1"/>
+                <rect x="34" y="52" width="6" height="20" fill="#1a1a1a" rx="1"/>
+                <!-- Back legs -->
+                <rect x="62" y="52" width="6" height="20" fill="#2a2a2a" rx="1"/>
+                <rect x="74" y="52" width="6" height="20" fill="#2a2a2a" rx="1"/>
+                <!-- Hooves -->
+                <rect x="21" y="69" width="8" height="3" fill="#000" rx="1"/>
+                <rect x="33" y="69" width="8" height="3" fill="#000" rx="1"/>
+                <rect x="61" y="69" width="8" height="3" fill="#000" rx="1"/>
+                <rect x="73" y="69" width="8" height="3" fill="#000" rx="1"/>
+                <!-- Body (rounded rectangle) -->
+                <ellipse cx="50" cy="40" rx="36" ry="20" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.8"/>
+                <!-- Body underside shadow -->
+                <ellipse cx="50" cy="48" rx="32" ry="8" fill="url(#cowShadow)" opacity="0.5"/>
+                <!-- Holstein black spots -->
+                <ellipse cx="40" cy="35" rx="9" ry="6" fill="#1a1a1a" transform="rotate(-15 40 35)"/>
+                <ellipse cx="58" cy="42" rx="7" ry="5" fill="#1a1a1a"/>
+                <ellipse cx="68" cy="32" rx="5" ry="4" fill="#1a1a1a"/>
+                <!-- Tail -->
+                <path d="M84 32 Q92 30 90 42" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <circle cx="91" cy="44" r="2" fill="#1a1a1a"/>
+                <!-- Head -->
+                <ellipse cx="14" cy="38" rx="11" ry="9" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.7"/>
+                <!-- Snout -->
+                <ellipse cx="6" cy="40" rx="5" ry="4" fill="#f0c8c8" stroke="#0a0f1a" stroke-width="0.5"/>
+                <!-- Nostrils -->
+                <ellipse cx="4" cy="40" rx="0.8" ry="1.2" fill="#1a1a1a"/>
+                <ellipse cx="7" cy="40" rx="0.8" ry="1.2" fill="#1a1a1a"/>
+                <!-- Eye -->
+                <circle cx="14" cy="35" r="1.4" fill="#1a1a1a"/>
+                <!-- Ears -->
+                <ellipse cx="9" cy="29" rx="3" ry="2" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.4" transform="rotate(-30 9 29)"/>
+                <ellipse cx="20" cy="29" rx="3" ry="2" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.4" transform="rotate(30 20 29)"/>
+                <!-- Horns (small) -->
+                <path d="M11 27 Q9 23 11 22" stroke="#d8d8d8" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <path d="M19 27 Q21 23 19 22" stroke="#d8d8d8" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <!-- RFID tag -->
+                <rect x="35" y="20" width="22" height="9" rx="2" fill="rgba(13,27,42,0.85)" stroke="var(--magenta)" stroke-width="0.6"/>
+                <text class="gan-rfid" x="38" y="26.5" font-family="Fira Code, monospace" font-size="6.5" font-weight="700">RFID #421</text>
+              </g>
+
+              <!-- ============ COW 2 (back-center, medium, RFID #782) ============ -->
+              <g class="gan-cow c2" transform="translate(180, 350) scale(0.78)">
+                <ellipse cx="50" cy="68" rx="40" ry="4.5" fill="rgba(0,0,0,0.45)" filter="blur(2px)"/>
+                <rect x="22" y="52" width="5" height="20" fill="#1a1a1a" rx="1"/>
+                <rect x="34" y="52" width="5" height="20" fill="#1a1a1a" rx="1"/>
+                <rect x="62" y="52" width="5" height="20" fill="#2a2a2a" rx="1"/>
+                <rect x="74" y="52" width="5" height="20" fill="#2a2a2a" rx="1"/>
+                <ellipse cx="50" cy="40" rx="36" ry="20" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.8"/>
+                <ellipse cx="50" cy="48" rx="32" ry="8" fill="url(#cowShadow)" opacity="0.5"/>
+                <!-- Different spot pattern -->
+                <ellipse cx="34" cy="42" rx="8" ry="6" fill="#1a1a1a"/>
+                <ellipse cx="60" cy="34" rx="9" ry="5" fill="#1a1a1a" transform="rotate(20 60 34)"/>
+                <ellipse cx="72" cy="48" rx="6" ry="4" fill="#1a1a1a"/>
+                <path d="M84 32 Q92 30 90 42" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <circle cx="91" cy="44" r="2" fill="#1a1a1a"/>
+                <ellipse cx="14" cy="38" rx="11" ry="9" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.7"/>
+                <ellipse cx="6" cy="40" rx="5" ry="4" fill="#f0c8c8" stroke="#0a0f1a" stroke-width="0.5"/>
+                <ellipse cx="4" cy="40" rx="0.8" ry="1.2" fill="#1a1a1a"/>
+                <ellipse cx="7" cy="40" rx="0.8" ry="1.2" fill="#1a1a1a"/>
+                <circle cx="14" cy="35" r="1.4" fill="#1a1a1a"/>
+                <ellipse cx="9" cy="29" rx="3" ry="2" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.4" transform="rotate(-30 9 29)"/>
+                <ellipse cx="20" cy="29" rx="3" ry="2" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.4" transform="rotate(30 20 29)"/>
+                <path d="M11 27 Q9 23 11 22" stroke="#d8d8d8" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <path d="M19 27 Q21 23 19 22" stroke="#d8d8d8" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                <rect x="35" y="20" width="22" height="9" rx="2" fill="rgba(13,27,42,0.85)" stroke="var(--purple)" stroke-width="0.6"/>
+                <text class="gan-rfid r2" x="38" y="26.5" font-family="Fira Code, monospace" font-size="6.5" font-weight="700">RFID #782</text>
+              </g>
+
+              <!-- ============ COW 3 (back-right, smallest, no tag) ============ -->
+              <g class="gan-cow c3" transform="translate(280, 345) scale(0.62)">
+                <ellipse cx="50" cy="68" rx="38" ry="4" fill="rgba(0,0,0,0.4)" filter="blur(2px)"/>
+                <rect x="22" y="52" width="5" height="20" fill="#1a1a1a" rx="1"/>
+                <rect x="34" y="52" width="5" height="20" fill="#1a1a1a" rx="1"/>
+                <rect x="62" y="52" width="5" height="20" fill="#2a2a2a" rx="1"/>
+                <rect x="74" y="52" width="5" height="20" fill="#2a2a2a" rx="1"/>
+                <ellipse cx="50" cy="40" rx="36" ry="20" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.8" opacity="0.85"/>
+                <ellipse cx="50" cy="48" rx="32" ry="8" fill="url(#cowShadow)" opacity="0.5"/>
+                <!-- Different spot pattern -->
+                <ellipse cx="48" cy="38" rx="11" ry="7" fill="#1a1a1a"/>
+                <ellipse cx="68" cy="44" rx="6" ry="4" fill="#1a1a1a"/>
+                <path d="M84 32 Q92 30 90 42" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <circle cx="91" cy="44" r="2" fill="#1a1a1a"/>
+                <ellipse cx="14" cy="38" rx="11" ry="9" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.7" opacity="0.85"/>
+                <ellipse cx="6" cy="40" rx="5" ry="4" fill="#f0c8c8" stroke="#0a0f1a" stroke-width="0.5"/>
+                <ellipse cx="4" cy="40" rx="0.8" ry="1.2" fill="#1a1a1a"/>
+                <ellipse cx="7" cy="40" rx="0.8" ry="1.2" fill="#1a1a1a"/>
+                <circle cx="14" cy="35" r="1.4" fill="#1a1a1a"/>
+                <ellipse cx="9" cy="29" rx="3" ry="2" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.4" transform="rotate(-30 9 29)"/>
+                <ellipse cx="20" cy="29" rx="3" ry="2" fill="url(#cowBody)" stroke="#0a0f1a" stroke-width="0.4" transform="rotate(30 20 29)"/>
+              </g>
+            </svg>
+          </div>
           <div class="gan-stats">
-            <div class="l" data-i18n="gan.label">Total herd</div>
-            <div class="v">1,284</div>
-            <div class="t" data-i18n="gan.trend">↑ +8 this week</div>
+            <div class="l" data-i18n="gan.label">Hato total</div>
+            <div class="v"><span class="counter" data-counter="1284">1,284</span></div>
+            <div class="t" data-i18n="gan.trend">↑ +8 esta semana</div>
           </div>
         </div>
         <div class="demo-badge"><span class="ico" style="background: linear-gradient(135deg, #44d97a, #2a8c4d);">🐄</span><span data-i18n="gan.badge">Livestock · AI</span></div>
@@ -1557,9 +2177,12 @@ const i18n = {
     'snnapi.cat': 'Auto-inspection · Damage AI',
     'snnapi.box1': 'DAMAGE · 87%',
     'snnapi.box2': 'SCRATCH · 62%',
+    'snnapi.tag1': 'DAMAGE 87%',
+    'snnapi.tag2': 'SCRATCH 62%',
 
     'tele.badge': 'Telecom · Field Ops',
     'tele.cat': 'Inspections · Predictive ops',
+    'tele.tagAlert': 'TWR-042 · Voltage anomaly',
     'tele.slaLabel': 'SLA · Last week',
     'tele.slaTrend': '↑ +35% vs Q3',
     'tele.alertTitle': 'TWR-042 · Alert',
@@ -1648,9 +2271,12 @@ const i18n = {
     'snnapi.cat': 'Auto-inspección · Daños IA',
     'snnapi.box1': 'DAÑO · 87%',
     'snnapi.box2': 'RAYÓN · 62%',
+    'snnapi.tag1': 'DAÑO 87%',
+    'snnapi.tag2': 'RAYÓN 62%',
 
     'tele.badge': 'Telecom · Field Ops',
     'tele.cat': 'Inspecciones · Predictivo',
+    'tele.tagAlert': 'TWR-042 · Voltaje irregular',
     'tele.slaLabel': 'SLA · Última semana',
     'tele.slaTrend': '↑ +35% vs Q3',
     'tele.alertTitle': 'TWR-042 · Alerta',
@@ -2003,6 +2629,832 @@ document.addEventListener('keydown', e => {
     document.querySelectorAll('.modal-root[aria-hidden="false"]').forEach(closeModal);
   }
 });
+
+// ===== Counter-up animation (IntersectionObserver) =====
+function animateCounter(el) {
+  const target = parseFloat(el.getAttribute('data-counter'));
+  if (isNaN(target)) return;
+  const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+  const suffix = el.getAttribute('data-suffix') || '';
+  const duration = 1600;
+  const start = performance.now();
+  const fmt = (n) => {
+    const v = decimals > 0 ? n.toFixed(decimals) : Math.round(n).toLocaleString('en-US');
+    return v + suffix;
+  };
+  function tick(now) {
+    const elapsed = now - start;
+    const t = Math.min(elapsed / duration, 1);
+    // easeOutCubic
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = fmt(target * eased);
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = fmt(target);
+  }
+  requestAnimationFrame(tick);
+}
+
+const counters = document.querySelectorAll('.counter[data-counter]');
+if ('IntersectionObserver' in window && counters.length) {
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        if (!el.dataset.animated) {
+          el.dataset.animated = '1';
+          animateCounter(el);
+        }
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(c => counterObserver.observe(c));
+} else {
+  // Fallback: animate immediately
+  counters.forEach(animateCounter);
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ===== SNNAPI: Three.js wireframe sedan with zoom-in choreography =====
+(function initSnnapi() {
+  const mount = document.querySelector('[data-snnapi-canvas]');
+  if (!mount || typeof THREE === 'undefined') return;
+
+  const tagT1 = document.querySelector('[data-snnapi-tag="t1"]');
+  const tagT2 = document.querySelector('[data-snnapi-tag="t2"]');
+
+  const W = () => mount.clientWidth;
+  const H = () => mount.clientHeight;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, W() / H(), 0.1, 100);
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(W(), H());
+  renderer.setClearColor(0x000000, 0);
+  mount.appendChild(renderer.domElement);
+
+  // Colors
+  const COLOR_EDGE = 0xCB6CE6;     // magenta
+  const COLOR_LINE = 0x9b4fd1;     // mid magenta
+  const COLOR_DIM  = 0x5e3494;     // dim purple
+
+  // ===== Build sedan car group (Corolla-style profile) =====
+  const car = new THREE.Group();
+
+  // Helper: build wireframe + edges + soft fill from any geometry
+  function addGeo(geo, x = 0, y = 0, z = 0, opts = {}) {
+    const wireMat = new THREE.LineBasicMaterial({ color: opts.line || COLOR_LINE, transparent: true, opacity: opts.lineOpacity ?? 0.45 });
+    const wireMesh = new THREE.LineSegments(new THREE.WireframeGeometry(geo), wireMat);
+    wireMesh.position.set(x, y, z);
+    car.add(wireMesh);
+
+    const edgeMat = new THREE.LineBasicMaterial({ color: opts.edge || COLOR_EDGE, transparent: true, opacity: opts.edgeOpacity ?? 0.95 });
+    const edgeMesh = new THREE.LineSegments(new THREE.EdgesGeometry(geo, opts.edgeAngle ?? 18), edgeMat);
+    edgeMesh.position.set(x, y, z);
+    car.add(edgeMesh);
+
+    const fillMat = new THREE.MeshBasicMaterial({ color: 0x150825, transparent: true, opacity: opts.fillOpacity ?? 0.75, depthWrite: false });
+    const fillMesh = new THREE.Mesh(geo, fillMat);
+    fillMesh.position.set(x, y, z);
+    car.add(fillMesh);
+
+    return { wireMesh, edgeMesh, fillMesh };
+  }
+
+  // ===== Sedan profile (side view) — extruded to give the body its silhouette =====
+  // X axis = car length (from rear to front)
+  // Y axis = height
+  // The shape is drawn in XY plane; extruded along Z for car width.
+  // Coordinates designed for a Corolla-like proportion:
+  //   - long, low hood
+  //   - low, raked windshield
+  //   - smooth roofline
+  //   - short rear deck
+  //   - subtle wheel arches
+  const carWidth = 1.7;
+  const carLength = 4.4;
+  const ground = 0;
+
+  const sedanShape = new THREE.Shape();
+  // Start at rear-bottom, go counter-clockwise around the side profile
+  sedanShape.moveTo(-2.20, 0.30);                    // rear bumper bottom
+  sedanShape.lineTo(-2.18, 0.55);                    // rear bumper top
+  sedanShape.quadraticCurveTo(-2.10, 0.92, -1.95, 1.08);  // trunk lid up (rear deck)
+  sedanShape.quadraticCurveTo(-1.45, 1.22, -1.10, 1.32);  // rear glass slope
+  sedanShape.quadraticCurveTo(-0.45, 1.50, 0.30, 1.46);   // roof line (slight curve, peak ~mid-cabin)
+  sedanShape.quadraticCurveTo(0.85, 1.42, 1.00, 1.18);    // windshield slope down
+  sedanShape.quadraticCurveTo(1.25, 1.06, 1.55, 1.00);    // hood line (long & flat — Corolla cue)
+  sedanShape.quadraticCurveTo(1.95, 0.95, 2.18, 0.85);    // hood front
+  sedanShape.lineTo(2.22, 0.62);                          // front grill top
+  sedanShape.lineTo(2.20, 0.30);                          // front bumper bottom
+  sedanShape.lineTo(-2.20, 0.30);                         // close
+
+  const extrudeSettings = {
+    steps: 1,
+    depth: carWidth,
+    bevelEnabled: true,
+    bevelThickness: 0.05,
+    bevelSize: 0.05,
+    bevelOffset: 0,
+    bevelSegments: 2,
+    curveSegments: 18
+  };
+  const sedanGeo = new THREE.ExtrudeGeometry(sedanShape, extrudeSettings);
+  // Center on Z (extrude goes 0 → depth, we want -depth/2 → +depth/2)
+  sedanGeo.translate(0, 0, -carWidth / 2);
+  addGeo(sedanGeo, 0, 0, 0, { edgeAngle: 22 });
+
+  // ===== Cabin glass area (slightly inset, separate piece) =====
+  // We add a thinner/slightly smaller extrusion just for the greenhouse to
+  // create the "window vs body" contrast.
+  const glassShape = new THREE.Shape();
+  glassShape.moveTo(-1.85, 1.10);
+  glassShape.quadraticCurveTo(-1.40, 1.20, -1.05, 1.30);
+  glassShape.quadraticCurveTo(-0.40, 1.46, 0.30, 1.42);
+  glassShape.quadraticCurveTo(0.80, 1.38, 0.92, 1.18);
+  glassShape.lineTo(0.92, 1.10);
+  glassShape.lineTo(-1.85, 1.10);
+
+  const glassGeo = new THREE.ExtrudeGeometry(glassShape, {
+    steps: 1,
+    depth: carWidth - 0.12,
+    bevelEnabled: false,
+    curveSegments: 14
+  });
+  glassGeo.translate(0, 0, -(carWidth - 0.12) / 2);
+  // Add as wireframe-only (no fill) so it reads as glass
+  const glassWireMat = new THREE.LineBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.7 });
+  const glassWire = new THREE.LineSegments(new THREE.WireframeGeometry(glassGeo), glassWireMat);
+  car.add(glassWire);
+  const glassEdgeMat = new THREE.LineBasicMaterial({ color: 0xffaaff, transparent: true, opacity: 0.55 });
+  const glassEdge = new THREE.LineSegments(new THREE.EdgesGeometry(glassGeo, 12), glassEdgeMat);
+  car.add(glassEdge);
+
+  // ===== B-pillars (vertical separators in the cabin) =====
+  function addPillar(x) {
+    const pillarGeo = new THREE.BoxGeometry(0.06, 0.36, carWidth + 0.05);
+    const pmat = new THREE.LineBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.85 });
+    const pedge = new THREE.LineSegments(new THREE.EdgesGeometry(pillarGeo, 5), pmat);
+    pedge.position.set(x, 1.22, 0);
+    car.add(pedge);
+  }
+  addPillar(-0.15);  // B-pillar
+  addPillar(-1.05);  // C-pillar (rear)
+  addPillar(0.92);   // A-pillar (front)
+
+  // ===== Wheels =====
+  function addWheel(x, z) {
+    const radius = 0.40, depth = 0.30;
+    const wheelGeo = new THREE.CylinderGeometry(radius, radius, depth, 22, 2);
+    // tilt to lay on Y axis
+    wheelGeo.rotateX(Math.PI / 2);
+
+    const wheelEdgeMat = new THREE.LineBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.95 });
+    const wheelLines = new THREE.LineSegments(new THREE.EdgesGeometry(wheelGeo, 5), wheelEdgeMat);
+    wheelLines.position.set(x, 0.40, z);
+    car.add(wheelLines);
+
+    const wireMat = new THREE.LineBasicMaterial({ color: COLOR_LINE, transparent: true, opacity: 0.5 });
+    const wireMesh = new THREE.LineSegments(new THREE.WireframeGeometry(wheelGeo), wireMat);
+    wireMesh.position.set(x, 0.40, z);
+    car.add(wireMesh);
+
+    // Inner rim circle (smaller cylinder)
+    const rimGeo = new THREE.CylinderGeometry(radius * 0.6, radius * 0.6, depth + 0.02, 14);
+    rimGeo.rotateX(Math.PI / 2);
+    const rimMat = new THREE.LineBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.7 });
+    const rimEdges = new THREE.LineSegments(new THREE.EdgesGeometry(rimGeo, 5), rimMat);
+    rimEdges.position.set(x, 0.40, z);
+    car.add(rimEdges);
+
+    // Center hub
+    const hubGeo = new THREE.SphereGeometry(0.07, 8, 8);
+    const hubMat = new THREE.MeshBasicMaterial({ color: COLOR_EDGE });
+    const hub = new THREE.Mesh(hubGeo, hubMat);
+    hub.position.set(x, 0.40, z);
+    car.add(hub);
+  }
+  // Wheel positions tuned for sedan stance (front wheels well forward, rear well back)
+  const halfTrack = (carWidth + 0.05) / 2;
+  addWheel(1.45, halfTrack);    // front-right
+  addWheel(1.45, -halfTrack);   // front-left
+  addWheel(-1.45, halfTrack);   // rear-right
+  addWheel(-1.45, -halfTrack);  // rear-left
+
+  // ===== Headlights & taillights (small bright nodes) =====
+  function addLight(x, z, color) {
+    const geo = new THREE.SphereGeometry(0.06, 8, 8);
+    const mat = new THREE.MeshBasicMaterial({ color });
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(x, 0.78, z);
+    car.add(m);
+  }
+  addLight(2.20, 0.55, 0xffe8a0);   // front-right headlight
+  addLight(2.20, -0.55, 0xffe8a0);  // front-left headlight
+  addLight(-2.18, 0.55, 0xff5c5c);  // rear-right taillight
+  addLight(-2.18, -0.55, 0xff5c5c); // rear-left taillight
+
+  // ===== Damage hotspots (real visuals — dent + scratch) =====
+
+  // ---- DAMAGE 1: dent on front-right fender ----
+  // A dent shows: indented surface (concentric rings going inward) + radial cracks
+  const dmg1Group = new THREE.Group();
+  dmg1Group.position.set(0.35, 0.78, halfTrack + 0.02);
+
+  // Outline (rounded rectangle)
+  const dmg1Outline = new THREE.Shape();
+  const ow = 1.0, oh = 0.5, or = 0.08;
+  dmg1Outline.moveTo(-ow/2 + or, -oh/2);
+  dmg1Outline.lineTo(ow/2 - or, -oh/2);
+  dmg1Outline.quadraticCurveTo(ow/2, -oh/2, ow/2, -oh/2 + or);
+  dmg1Outline.lineTo(ow/2, oh/2 - or);
+  dmg1Outline.quadraticCurveTo(ow/2, oh/2, ow/2 - or, oh/2);
+  dmg1Outline.lineTo(-ow/2 + or, oh/2);
+  dmg1Outline.quadraticCurveTo(-ow/2, oh/2, -ow/2, oh/2 - or);
+  dmg1Outline.lineTo(-ow/2, -oh/2 + or);
+  dmg1Outline.quadraticCurveTo(-ow/2, -oh/2, -ow/2 + or, -oh/2);
+
+  const dmg1OutlineGeo = new THREE.BufferGeometry().setFromPoints(dmg1Outline.getPoints(40));
+  const dmg1OutlineMat = new THREE.LineBasicMaterial({ color: 0xff5cb0, transparent: true, opacity: 0 });
+  const dmg1OutlineMesh = new THREE.Line(dmg1OutlineGeo, dmg1OutlineMat);
+  dmg1Group.add(dmg1OutlineMesh);
+
+  // Concentric rings inward (the crater)
+  const dmg1Rings = [];
+  for (let i = 0; i < 4; i++) {
+    const radius = 0.08 + i * 0.06;
+    const ringPts = [];
+    for (let a = 0; a <= 32; a++) {
+      const angle = (a / 32) * Math.PI * 2;
+      const r = radius * (0.85 + 0.15 * Math.sin(angle * 3)); // slightly irregular ellipse
+      ringPts.push(new THREE.Vector3(Math.cos(angle) * r, Math.sin(angle) * r * 0.55, 0));
+    }
+    const ringGeo = new THREE.BufferGeometry().setFromPoints(ringPts);
+    const ringMat = new THREE.LineBasicMaterial({
+      color: 0xff5cb0,
+      transparent: true,
+      opacity: 0
+    });
+    const ringMesh = new THREE.Line(ringGeo, ringMat);
+    ringMesh.position.set(0.05, 0.02, 0); // slight off-center for the dent
+    dmg1Group.add(ringMesh);
+    dmg1Rings.push(ringMat);
+  }
+
+  // Radial cracks (lines emanating outward)
+  const dmg1Cracks = [];
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2 + Math.random() * 0.3;
+    const len = 0.08 + Math.random() * 0.10;
+    const pts = [
+      new THREE.Vector3(0.05, 0.02, 0),
+      new THREE.Vector3(0.05 + Math.cos(angle) * len, 0.02 + Math.sin(angle) * len * 0.55, 0)
+    ];
+    const crackGeo = new THREE.BufferGeometry().setFromPoints(pts);
+    const crackMat = new THREE.LineBasicMaterial({ color: 0xff8acc, transparent: true, opacity: 0 });
+    const crackMesh = new THREE.Line(crackGeo, crackMat);
+    dmg1Group.add(crackMesh);
+    dmg1Cracks.push(crackMat);
+  }
+
+  // Inner shadow fill
+  const dmg1ShadowGeo = new THREE.CircleGeometry(0.18, 24);
+  const dmg1ShadowMat = new THREE.MeshBasicMaterial({
+    color: 0x6a0033,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false
+  });
+  const dmg1Shadow = new THREE.Mesh(dmg1ShadowGeo, dmg1ShadowMat);
+  dmg1Shadow.position.set(0.05, 0.02, -0.005);
+  dmg1Shadow.scale.set(1, 0.55, 1);
+  dmg1Group.add(dmg1Shadow);
+
+  car.add(dmg1Group);
+
+  // ---- DAMAGE 2: scratch on rear-left quarter ----
+  // A scratch shows: long thin line + parallel micro-scratches
+  const dmg2Group = new THREE.Group();
+  dmg2Group.position.set(-1.30, 0.92, -halfTrack - 0.02);
+  dmg2Group.rotation.y = Math.PI; // face outward (left side)
+
+  // Outline (thinner, wider — scratch dimensions)
+  const sw = 0.85, sh = 0.20, sr = 0.05;
+  const dmg2Outline = new THREE.Shape();
+  dmg2Outline.moveTo(-sw/2 + sr, -sh/2);
+  dmg2Outline.lineTo(sw/2 - sr, -sh/2);
+  dmg2Outline.quadraticCurveTo(sw/2, -sh/2, sw/2, -sh/2 + sr);
+  dmg2Outline.lineTo(sw/2, sh/2 - sr);
+  dmg2Outline.quadraticCurveTo(sw/2, sh/2, sw/2 - sr, sh/2);
+  dmg2Outline.lineTo(-sw/2 + sr, sh/2);
+  dmg2Outline.quadraticCurveTo(-sw/2, sh/2, -sw/2, sh/2 - sr);
+  dmg2Outline.lineTo(-sw/2, -sh/2 + sr);
+  dmg2Outline.quadraticCurveTo(-sw/2, -sh/2, -sw/2 + sr, -sh/2);
+
+  const dmg2OutlineGeo = new THREE.BufferGeometry().setFromPoints(dmg2Outline.getPoints(40));
+  const dmg2OutlineMat = new THREE.LineBasicMaterial({ color: 0xff5cb0, transparent: true, opacity: 0 });
+  const dmg2OutlineMesh = new THREE.Line(dmg2OutlineGeo, dmg2OutlineMat);
+  dmg2Group.add(dmg2OutlineMesh);
+
+  // Main scratch line (slightly wavy)
+  const mainScratchPts = [];
+  for (let i = 0; i <= 40; i++) {
+    const t = i / 40;
+    const x = -sw/2 * 0.85 + t * sw * 0.85;
+    const y = Math.sin(t * Math.PI * 6) * 0.008;
+    mainScratchPts.push(new THREE.Vector3(x, y, 0));
+  }
+  const mainScratchGeo = new THREE.BufferGeometry().setFromPoints(mainScratchPts);
+  const mainScratchMat = new THREE.LineBasicMaterial({ color: 0xffaadd, transparent: true, opacity: 0, linewidth: 2 });
+  const mainScratchMesh = new THREE.Line(mainScratchGeo, mainScratchMat);
+  dmg2Group.add(mainScratchMesh);
+
+  // Parallel micro-scratches
+  const dmg2Micros = [];
+  const microOffsets = [-0.04, -0.025, 0.022, 0.038, 0.05];
+  microOffsets.forEach((offY, idx) => {
+    const microPts = [];
+    const startX = -sw/2 * 0.78 + (idx % 2) * 0.05;
+    const endX = sw/2 * 0.78 - (idx % 2) * 0.05;
+    for (let i = 0; i <= 30; i++) {
+      const t = i / 30;
+      const x = startX + t * (endX - startX);
+      const y = offY + Math.sin(t * Math.PI * 5 + idx) * 0.004;
+      microPts.push(new THREE.Vector3(x, y, 0));
+    }
+    const microGeo = new THREE.BufferGeometry().setFromPoints(microPts);
+    const microMat = new THREE.LineBasicMaterial({ color: 0xff8acc, transparent: true, opacity: 0 });
+    const microMesh = new THREE.Line(microGeo, microMat);
+    dmg2Group.add(microMesh);
+    dmg2Micros.push(microMat);
+  });
+
+  // Scratch tint band
+  const dmg2BandGeo = new THREE.PlaneGeometry(sw * 0.92, 0.04);
+  const dmg2BandMat = new THREE.MeshBasicMaterial({
+    color: 0x8a3a66,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false
+  });
+  const dmg2Band = new THREE.Mesh(dmg2BandGeo, dmg2BandMat);
+  dmg2Band.position.set(0, 0, -0.005);
+  dmg2Group.add(dmg2Band);
+
+  car.add(dmg2Group);
+
+  // Aggregate references for fade-in/out control
+  const damage1Materials = [dmg1OutlineMat, ...dmg1Rings, ...dmg1Cracks, dmg1ShadowMat];
+  const damage2Materials = [dmg2OutlineMat, mainScratchMat, ...dmg2Micros, dmg2BandMat];
+
+  scene.add(car);
+
+  // Ground reflection ring
+  const ringGeo = new THREE.RingGeometry(2.4, 2.6, 64);
+  const ringMat = new THREE.MeshBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.3, side: THREE.DoubleSide });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.01;
+  scene.add(ring);
+
+  // Camera default position (a bit further out for new car size)
+  const camDefault = { x: 0, y: 1.7, z: 7.6, lookY: 0.85 };
+  camera.position.set(camDefault.x, camDefault.y, camDefault.z);
+
+  // ===== Choreography state =====
+  // Phases:
+  // 0: rotate normal (5s)
+  // 1: zoom-in to damage 1 (1.2s)
+  // 2: hold + tag (2.5s)
+  // 3: zoom-out (1.2s)
+  // 4: rotate normal (3s)
+  // 5: zoom-in to damage 2 (1.2s)
+  // 6: hold + tag (2.5s)
+  // 7: zoom-out (1.2s)
+  // -> repeat
+  const PHASES = [
+    { id: 'rotate', dur: 5000 },
+    { id: 'zoomIn1', dur: 1200 },
+    { id: 'hold1', dur: 2500 },
+    { id: 'zoomOut1', dur: 1200 },
+    { id: 'rotate2', dur: 3000 },
+    { id: 'zoomIn2', dur: 1200 },
+    { id: 'hold2', dur: 2500 },
+    { id: 'zoomOut2', dur: 1200 }
+  ];
+
+  const cycleDuration = PHASES.reduce((s, p) => s + p.dur, 0);
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function getPhase(elapsed) {
+    let e = elapsed % cycleDuration;
+    let acc = 0;
+    for (let i = 0; i < PHASES.length; i++) {
+      const p = PHASES[i];
+      if (e < acc + p.dur) {
+        return { id: p.id, t: (e - acc) / p.dur, cycleE: e };
+      }
+      acc += p.dur;
+    }
+    return { id: PHASES[0].id, t: 0, cycleE: 0 };
+  }
+
+  // Damage hotspot world positions (where camera looks during zoom-in)
+  // Account for car rotation: we need the rotated position
+  function rotatePoint(x, z, angleY) {
+    const cos = Math.cos(angleY), sin = Math.sin(angleY);
+    return { x: x * cos + z * sin, z: -x * sin + z * cos };
+  }
+
+  // Animation loop
+  let startTime = performance.now();
+  let lastRotation = 0;
+
+  function animate() {
+    const now = performance.now();
+    const elapsed = now - startTime;
+    const phase = getPhase(elapsed);
+
+    // === ROTATION (continuous in phases 0,4) ===
+    let rotateSpeed = 0.0007; // base
+    if (phase.id === 'rotate' || phase.id === 'rotate2') {
+      // Normal rotation
+    } else if (phase.id === 'hold1' || phase.id === 'hold2') {
+      rotateSpeed = 0; // pause rotation while inspecting
+    } else {
+      rotateSpeed = 0.0003; // slower during zoom transitions
+    }
+    car.rotation.y += rotateSpeed * 16; // approx scaled by frame time
+
+    // === CAMERA POSITION ===
+    let camX = camDefault.x, camY = camDefault.y, camZ = camDefault.z, lookY = camDefault.lookY;
+
+    if (phase.id === 'zoomIn1' || phase.id === 'hold1') {
+      const t = phase.id === 'zoomIn1' ? easeInOutCubic(phase.t) : 1;
+      // Zoom toward damage 1 (front fender right side)
+      camY = lerp(camDefault.y, 0.95, t);
+      camZ = lerp(camDefault.z, 4.0, t);
+      camX = lerp(camDefault.x, 0.7, t);
+      lookY = lerp(camDefault.lookY, 0.78, t);
+    } else if (phase.id === 'zoomOut1') {
+      const t = easeInOutCubic(phase.t);
+      camY = lerp(0.95, camDefault.y, t);
+      camZ = lerp(4.0, camDefault.z, t);
+      camX = lerp(0.7, camDefault.x, t);
+      lookY = lerp(0.78, camDefault.lookY, t);
+    } else if (phase.id === 'zoomIn2' || phase.id === 'hold2') {
+      const t = phase.id === 'zoomIn2' ? easeInOutCubic(phase.t) : 1;
+      // Zoom toward damage 2 (rear quarter panel left side)
+      camY = lerp(camDefault.y, 1.0, t);
+      camZ = lerp(camDefault.z, 4.0, t);
+      camX = lerp(camDefault.x, -1.1, t);
+      lookY = lerp(camDefault.lookY, 0.92, t);
+    } else if (phase.id === 'zoomOut2') {
+      const t = easeInOutCubic(phase.t);
+      camY = lerp(1.0, camDefault.y, t);
+      camZ = lerp(4.0, camDefault.z, t);
+      camX = lerp(-1.1, camDefault.x, t);
+      lookY = lerp(0.92, camDefault.lookY, t);
+    }
+    camera.position.set(camX, camY, camZ);
+    camera.lookAt(0, lookY, 0);
+
+    // === DAMAGE HIGHLIGHT OPACITY ===
+    // Damage 1 visible during phases zoomIn1, hold1, zoomOut1
+    let dmg1Opa = 0, dmg2Opa = 0;
+    if (phase.id === 'zoomIn1') dmg1Opa = phase.t * 0.95;
+    else if (phase.id === 'hold1') dmg1Opa = 0.95;
+    else if (phase.id === 'zoomOut1') dmg1Opa = (1 - phase.t) * 0.95;
+    if (phase.id === 'zoomIn2') dmg2Opa = phase.t * 0.95;
+    else if (phase.id === 'hold2') dmg2Opa = 0.95;
+    else if (phase.id === 'zoomOut2') dmg2Opa = (1 - phase.t) * 0.95;
+
+    damage1Materials.forEach((m, i) => {
+      // Shadow fill is dimmer; rest at full
+      const isShadow = (m === dmg1ShadowMat);
+      m.opacity = isShadow ? dmg1Opa * 0.55 : dmg1Opa;
+    });
+    damage2Materials.forEach((m) => {
+      const isBand = (m === dmg2BandMat);
+      m.opacity = isBand ? dmg2Opa * 0.55 : dmg2Opa;
+    });
+
+    // === HUD TAGS ===
+    if (tagT1) tagT1.classList.toggle('show', phase.id === 'hold1' || phase.id === 'zoomIn1');
+    if (tagT2) tagT2.classList.toggle('show', phase.id === 'hold2' || phase.id === 'zoomIn2');
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Handle resize (debounced)
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      camera.aspect = W() / H();
+      camera.updateProjectionMatrix();
+      renderer.setSize(W(), H());
+    }, 150);
+  });
+})();
+// ===== TELEINSPECT: Three.js wireframe lattice tower =====
+(function initTele() {
+  const mount = document.querySelector('[data-tele-canvas]');
+  if (!mount || typeof THREE === 'undefined') return;
+
+  const tag = document.querySelector('[data-tele-tag]');
+
+  const W = () => mount.clientWidth;
+  const H = () => mount.clientHeight;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, W() / H(), 0.1, 100);
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(W(), H());
+  renderer.setClearColor(0x000000, 0);
+  mount.appendChild(renderer.domElement);
+
+  const COLOR_EDGE = 0xCB6CE6;
+  const COLOR_LINE = 0x9b4fd1;
+  const COLOR_DIM  = 0x5e3494;
+  const COLOR_ALERT = 0xff5c5c;
+
+  // ===== Build lattice tower =====
+  const tower = new THREE.Group();
+
+  // Tower height & taper
+  const TOWER_HEIGHT = 7.0;
+  const SECTIONS = 7;
+  const sectionH = TOWER_HEIGHT / SECTIONS;
+  // Width tapers from top (narrow) to bottom (wide)
+  const widthAt = (i) => 0.35 + (i / SECTIONS) * 1.3; // 0.35 at top → 1.65 at base
+
+  // Helper: create line segment
+  function lineSeg(a, b, color = COLOR_EDGE, opacity = 0.95) {
+    const geo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(a[0], a[1], a[2]),
+      new THREE.Vector3(b[0], b[1], b[2])
+    ]);
+    const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+    return new THREE.Line(geo, mat);
+  }
+
+  // 4 legs of tower
+  function legPoints(side) {
+    // side: { x: ±1, z: ±1 }
+    const pts = [];
+    for (let i = 0; i <= SECTIONS; i++) {
+      const w = widthAt(i) / 2;
+      const y = TOWER_HEIGHT - i * sectionH;
+      pts.push([side.x * w, y, side.z * w]);
+    }
+    return pts;
+  }
+  const sides = [
+    { x: 1,  z: 1  },  // front-right
+    { x: -1, z: 1  },  // front-left
+    { x: -1, z: -1 },  // back-left
+    { x: 1,  z: -1 }   // back-right
+  ];
+  const legPts = sides.map(legPoints);
+
+  // Draw each leg as a Line
+  legPts.forEach(pts => {
+    const geo = new THREE.BufferGeometry().setFromPoints(
+      pts.map(p => new THREE.Vector3(...p))
+    );
+    const mat = new THREE.LineBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.95 });
+    const leg = new THREE.Line(geo, mat);
+    tower.add(leg);
+  });
+
+  // Horizontal rings at each level (square frames)
+  for (let i = 0; i <= SECTIONS; i++) {
+    const ringPts = [
+      legPts[0][i], legPts[1][i], legPts[2][i], legPts[3][i], legPts[0][i]
+    ];
+    const geo = new THREE.BufferGeometry().setFromPoints(
+      ringPts.map(p => new THREE.Vector3(...p))
+    );
+    const mat = new THREE.LineBasicMaterial({ color: COLOR_LINE, transparent: true, opacity: 0.7 });
+    const ring = new THREE.Line(geo, mat);
+    tower.add(ring);
+  }
+
+  // X-bracing on each face (4 faces × SECTIONS sections × 2 diagonals)
+  // Face pairs: (0-1), (1-2), (2-3), (3-0) connecting consecutive legs
+  const faces = [
+    [0, 1], // front face
+    [1, 2], // left face
+    [2, 3], // back face
+    [3, 0]  // right face
+  ];
+  for (let i = 0; i < SECTIONS; i++) {
+    faces.forEach(face => {
+      const a = legPts[face[0]];
+      const b = legPts[face[1]];
+      // Diagonal 1: top-of-A to bottom-of-B
+      tower.add(lineSeg(a[i], b[i + 1], COLOR_DIM, 0.55));
+      // Diagonal 2: top-of-B to bottom-of-A
+      tower.add(lineSeg(b[i], a[i + 1], COLOR_DIM, 0.55));
+    });
+  }
+
+  // Joint nodes (small magenta dots at each leg-ring intersection)
+  for (let i = 0; i <= SECTIONS; i++) {
+    legPts.forEach(pts => {
+      const nodeGeo = new THREE.SphereGeometry(0.04, 6, 6);
+      const nodeMat = new THREE.MeshBasicMaterial({ color: COLOR_EDGE });
+      const node = new THREE.Mesh(nodeGeo, nodeMat);
+      node.position.set(...pts[i]);
+      tower.add(node);
+    });
+  }
+
+  // ===== Top crown (small box / antenna housing) =====
+  const crownGeo = new THREE.BoxGeometry(0.45, 0.4, 0.45);
+  const crownEdgeMat = new THREE.LineBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.9 });
+  const crownEdges = new THREE.LineSegments(new THREE.EdgesGeometry(crownGeo), crownEdgeMat);
+  crownEdges.position.set(0, TOWER_HEIGHT + 0.2, 0);
+  tower.add(crownEdges);
+  const crownFillMat = new THREE.MeshBasicMaterial({ color: 0x150825, transparent: true, opacity: 0.65, depthWrite: false });
+  const crownFill = new THREE.Mesh(crownGeo, crownFillMat);
+  crownFill.position.set(0, TOWER_HEIGHT + 0.2, 0);
+  tower.add(crownFill);
+
+  // Antenna spike + beacon
+  const spikePts = [
+    new THREE.Vector3(0, TOWER_HEIGHT + 0.4, 0),
+    new THREE.Vector3(0, TOWER_HEIGHT + 1.2, 0)
+  ];
+  const spikeGeo = new THREE.BufferGeometry().setFromPoints(spikePts);
+  const spikeMat = new THREE.LineBasicMaterial({ color: COLOR_EDGE });
+  tower.add(new THREE.Line(spikeGeo, spikeMat));
+
+  const beaconGeo = new THREE.SphereGeometry(0.10, 12, 12);
+  const beaconMat = new THREE.MeshBasicMaterial({ color: COLOR_EDGE });
+  const beacon = new THREE.Mesh(beaconGeo, beaconMat);
+  beacon.position.set(0, TOWER_HEIGHT + 1.25, 0);
+  tower.add(beacon);
+
+  // ===== Equipment boxes (RF antennas mounted on tower) =====
+  function addEquipment(y, side, color = COLOR_EDGE) {
+    const w = widthAt(y / sectionH) / 2;
+    const eqGeo = new THREE.BoxGeometry(0.18, 0.32, 0.10);
+    const eqEdgeMat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.95 });
+    const eqEdges = new THREE.LineSegments(new THREE.EdgesGeometry(eqGeo), eqEdgeMat);
+    eqEdges.position.set(side.x * (w + 0.10), y, side.z * (w + 0.10));
+    tower.add(eqEdges);
+    const eqFillMat = new THREE.MeshBasicMaterial({ color: 0x2a1052, transparent: true, opacity: 0.7, depthWrite: false });
+    const eqFill = new THREE.Mesh(eqGeo, eqFillMat);
+    eqFill.position.copy(eqEdges.position);
+    tower.add(eqFill);
+    return eqEdges; // return so we can mark alert
+  }
+  // 3 antennas at level 2 (mid-upper)
+  addEquipment(TOWER_HEIGHT - 1.7 * sectionH, sides[0]);
+  addEquipment(TOWER_HEIGHT - 1.7 * sectionH, sides[2]);
+
+  // ALERT EQUIPMENT (the one with the issue)
+  const alertEq = addEquipment(TOWER_HEIGHT - 3.2 * sectionH, sides[1], COLOR_ALERT);
+
+  // Pulsing alert ring around alertEq
+  const alertRingGeo = new THREE.RingGeometry(0.20, 0.22, 32);
+  const alertRingMat = new THREE.MeshBasicMaterial({ color: COLOR_ALERT, transparent: true, opacity: 0.7, side: THREE.DoubleSide });
+  const alertRing = new THREE.Mesh(alertRingGeo, alertRingMat);
+  alertRing.position.copy(alertEq.position);
+  alertRing.lookAt(camera.position);
+  tower.add(alertRing);
+
+  // Center the tower vertically
+  tower.position.y = -TOWER_HEIGHT / 2;
+  scene.add(tower);
+
+  // Ground reflection ring
+  const groundRingGeo = new THREE.RingGeometry(2.0, 2.2, 64);
+  const groundRingMat = new THREE.MeshBasicMaterial({ color: COLOR_EDGE, transparent: true, opacity: 0.3, side: THREE.DoubleSide });
+  const groundRing = new THREE.Mesh(groundRingGeo, groundRingMat);
+  groundRing.rotation.x = -Math.PI / 2;
+  groundRing.position.y = -TOWER_HEIGHT / 2 + 0.01;
+  scene.add(groundRing);
+
+  // Camera default
+  const camDefault = { x: 0, y: 0, z: 11, lookY: 0 };
+  camera.position.set(camDefault.x, camDefault.y, camDefault.z);
+  camera.lookAt(0, camDefault.lookY, 0);
+
+  // ===== Choreography =====
+  // 0: rotate normal (6s)
+  // 1: zoom-in to alert equipment (1.4s)
+  // 2: hold + tag (3s)
+  // 3: zoom-out (1.4s)
+  const PHASES = [
+    { id: 'rotate', dur: 6000 },
+    { id: 'zoomIn', dur: 1400 },
+    { id: 'hold', dur: 3000 },
+    { id: 'zoomOut', dur: 1400 }
+  ];
+  const cycleDuration = PHASES.reduce((s, p) => s + p.dur, 0);
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function getPhase(elapsed) {
+    let e = elapsed % cycleDuration;
+    let acc = 0;
+    for (let i = 0; i < PHASES.length; i++) {
+      const p = PHASES[i];
+      if (e < acc + p.dur) {
+        return { id: p.id, t: (e - acc) / p.dur };
+      }
+      acc += p.dur;
+    }
+    return { id: PHASES[0].id, t: 0 };
+  }
+
+  // Where the alert equipment is in world space (before rotation)
+  const alertWorldX = alertEq.position.x;
+  const alertWorldY = alertEq.position.y - TOWER_HEIGHT / 2;
+  const alertWorldZ = alertEq.position.z;
+
+  let startTime = performance.now();
+
+  function animate() {
+    const now = performance.now();
+    const elapsed = now - startTime;
+    const phase = getPhase(elapsed);
+
+    // Rotation speed
+    let rotateSpeed = 0.005;
+    if (phase.id === 'rotate') rotateSpeed = 0.005;
+    else if (phase.id === 'hold') rotateSpeed = 0;
+    else rotateSpeed = 0.002;
+    tower.rotation.y += rotateSpeed * 0.16;
+
+    // Camera animation
+    let camX = camDefault.x, camY = camDefault.y, camZ = camDefault.z, lookY = camDefault.lookY;
+
+    if (phase.id === 'zoomIn' || phase.id === 'hold') {
+      const t = phase.id === 'zoomIn' ? easeInOutCubic(phase.t) : 1;
+      // Zoom toward alert equipment at upper-mid section
+      camY = lerp(camDefault.y, alertWorldY + 0.4, t);
+      camZ = lerp(camDefault.z, 4.5, t);
+      camX = lerp(camDefault.x, -1.2, t);
+      lookY = lerp(camDefault.lookY, alertWorldY, t);
+    } else if (phase.id === 'zoomOut') {
+      const t = easeInOutCubic(phase.t);
+      camY = lerp(alertWorldY + 0.4, camDefault.y, t);
+      camZ = lerp(4.5, camDefault.z, t);
+      camX = lerp(-1.2, camDefault.x, t);
+      lookY = lerp(alertWorldY, camDefault.lookY, t);
+    }
+    camera.position.set(camX, camY, camZ);
+    camera.lookAt(0, lookY, 0);
+
+    // Beacon pulse
+    const beaconPulse = 0.6 + 0.4 * Math.abs(Math.sin(elapsed * 0.005));
+    beacon.scale.setScalar(0.8 + 0.4 * beaconPulse);
+    beacon.material.color.setHSL(0.83, 1, 0.55 + 0.15 * beaconPulse);
+
+    // Alert ring pulse (always face camera)
+    alertRing.lookAt(camera.position);
+    const alertPulse = (Math.sin(elapsed * 0.005) + 1) / 2;
+    alertRing.scale.setScalar(1 + alertPulse * 0.4);
+    alertRing.material.opacity = 0.6 - alertPulse * 0.4;
+
+    // HUD tag visibility
+    if (tag) {
+      const showTag = phase.id === 'zoomIn' || phase.id === 'hold';
+      tag.classList.toggle('show', showTag);
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Resize
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      camera.aspect = W() / H();
+      camera.updateProjectionMatrix();
+      renderer.setSize(W(), H());
+    }, 150);
+  });
+})();
 </script>
 </body>
 </html>
