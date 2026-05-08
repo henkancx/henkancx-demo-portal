@@ -192,22 +192,95 @@ h1.hero-title .accent {
   vertical-align: 2px;
 }
 
-/* ===== GALLERY ===== */
+/* ===== GALLERY (zigzag rows: 1 demo per row, alternating sides) ===== */
 .gallery { padding: 30px 32px 60px; position: relative; }
 .gallery-inner { max-width: 1200px; margin: 0 auto; position: relative; }
 .gallery-track {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
 }
-/* Breakpoints intermedios para que en pantallas pequeñas no quede ilegible */
-@media (max-width: 1600px) { .gallery-track { grid-template-columns: repeat(8, 1fr); gap: 7px; } }
-@media (max-width: 1280px) { .gallery-track { grid-template-columns: repeat(6, 1fr); gap: 9px; } }
-@media (max-width: 880px)  { .gallery-track { grid-template-columns: repeat(4, 1fr); gap: 10px; } }
+.demo-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: center;
+}
+/* Zigzag: even rows flip card to the right */
+.demo-row:nth-child(even) .demo-card { order: 2; }
+.demo-row:nth-child(even) .demo-info { order: 1; text-align: right; }
+.demo-row:nth-child(even) .demo-info-cta { align-self: flex-end; }
+
+.demo-info { display: flex; flex-direction: column; gap: 14px; padding: 8px 0; }
+.demo-info-eyebrow {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--magenta);
+}
+.demo-info-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--navy);
+  margin: 0;
+}
+.demo-info-title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--purple);
+}
+.demo-info-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--slate);
+  margin: 0;
+  max-width: 46ch;
+}
+.demo-row:nth-child(even) .demo-info-desc { margin-left: auto; }
+.demo-info-cta {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--navy);
+  text-decoration: none;
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid rgba(13,27,42,0.18);
+  border-radius: 999px;
+  transition: all .2s ease;
+  margin-top: 6px;
+}
+.demo-info-cta:hover {
+  background: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+.demo-info-cta .arrow { transition: transform .2s ease; }
+.demo-info-cta:hover .arrow { transform: translate(2px, -2px); }
+
+/* Responsive: stack vertically on tablet/mobile */
+@media (max-width: 880px) {
+  .gallery-track { gap: 56px; }
+  .demo-row { grid-template-columns: 1fr; gap: 24px; }
+  .demo-row:nth-child(even) .demo-card { order: 0; }
+  .demo-row:nth-child(even) .demo-info { order: 1; text-align: left; }
+  .demo-row:nth-child(even) .demo-info-cta { align-self: flex-start; }
+  .demo-row:nth-child(even) .demo-info-desc { margin-left: 0; }
+}
 
 .demo-card {
-  aspect-ratio: 1 / 1;
-  border-radius: 6px;
+  aspect-ratio: 5 / 6;
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -228,21 +301,21 @@ h1.hero-title .accent {
 
 .demo-badge {
   position: absolute;
-  top: 6px; left: 6px; z-index: 2;
-  display: inline-flex; align-items: center; gap: 4px;
+  top: 18px; left: 18px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 8px;
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
-  padding: 2px 6px 2px 3px;
+  padding: 7px 14px 7px 8px;
   border-radius: 999px;
-  font-size: 7px; font-weight: 500;
+  font-size: 12px; font-weight: 500;
   color: var(--navy);
   letter-spacing: -0.005em;
 }
 .demo-badge .ico {
-  width: 22px; height: 22px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11px;
+  font-size: 14px;
   background: var(--gradient);
   color: white;
 }
@@ -272,34 +345,34 @@ h1.hero-title .accent {
 
 .demo-foot {
   position: absolute;
-  bottom: 6px; left: 7px; right: 7px; z-index: 2;
+  bottom: 22px; left: 24px; right: 24px; z-index: 2;
   display: flex; align-items: center; justify-content: space-between;
   color: white;
 }
 .demo-label {
   font-family: 'Poppins', sans-serif;
-  font-size: 8px;
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.1;
 }
 .demo-cat {
   font-family: 'Fira Code', monospace;
-  font-size: 6px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.65);
-  margin-bottom: 1px;
+  margin-bottom: 3px;
   display: block;
 }
 .demo-arrow {
-  width: 14px; height: 14px;
+  width: 38px; height: 38px;
   border-radius: 50%;
   background: white;
   color: var(--navy);
   display: flex; align-items: center; justify-content: center;
-  font-size: 7px;
+  font-size: 16px;
   flex-shrink: 0;
   transition: transform .25s ease;
 }
@@ -1545,10 +1618,10 @@ h1.hero-title .accent {
   .modal-footer .btn { width: 100%; justify-content: center; }
 }
 
-
+/* Tablet ≤980px: hero stacks; nav sub-pill hides */
+@media (max-width: 980px) {
   .hero-inner { grid-template-columns: 1fr; gap: 32px; align-items: start; }
   .hero-side { padding-bottom: 0; }
-  .gallery-track { grid-template-columns: repeat(2, 1fr); }
   .nav .sub-pill { display: none; }
 }
 @media (max-width: 640px) {
@@ -1631,6 +1704,7 @@ h1.hero-title .accent {
     <div class="gallery-track" id="gallery-track">
 
       <!-- 1. SNNAPI -->
+      <article class="demo-row">
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Snnapi%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img snnapi">
           <div class="snnapi-stage" data-snnapi-stage>
@@ -1670,8 +1744,19 @@ h1.hero-title .accent {
           <span class="demo-arrow">↗</span>
         </div>
       </a>
+      <div class="demo-info">
+        <span class="demo-info-eyebrow" data-i18n="snnapi.eyebrow">Auto-inspección · Computer Vision</span>
+        <h3 class="demo-info-title" data-i18n="snnapi.title" data-i18n-html>Inspecciones que toman <em>segundos</em>, no días.</h3>
+        <p class="demo-info-desc" data-i18n="snnapi.desc">El cliente toma fotos desde su celular y la IA detecta daños, los clasifica por tipo (rayón, abolladura, ruptura), asigna confianza y genera el peritaje. Reclamos cerrados en minutos, no semanas.</p>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Snnapi%20demo" target="_blank" rel="noopener" class="demo-info-cta">
+          <span data-i18n="cta.try">Probar el demo</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      </article>
 
       <!-- 2. TELEINSPECT -->
+      <article class="demo-row">
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20TeleInspect%20Suite%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img tele">
           <div class="tele-stage">
@@ -1718,8 +1803,19 @@ h1.hero-title .accent {
           <span class="demo-arrow">↗</span>
         </div>
       </a>
+      <div class="demo-info">
+        <span class="demo-info-eyebrow" data-i18n="tele.eyebrow">Telecom · Mantenimiento Predictivo</span>
+        <h3 class="demo-info-title" data-i18n="tele.title" data-i18n-html>Operación de campo con <em>visión predictiva</em>.</h3>
+        <p class="demo-info-desc" data-i18n="tele.desc">Inspecciones digitales de torres, telemetría en vivo, alertas tempranas por desviaciones de voltaje y reportes ejecutivos en tiempo real. SLA arriba, intervenciones de emergencia abajo.</p>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20TeleInspect%20Suite%20demo" target="_blank" rel="noopener" class="demo-info-cta">
+          <span data-i18n="cta.try">Probar el demo</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      </article>
 
       <!-- 3. CONTACT CENTER -->
+      <article class="demo-row">
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Contact%20Center%20AI%20demo" target="_blank" rel="noopener" class="demo-card" data-modal-target="cc">
         <div class="demo-img cc">
           <div class="cc-waves">
@@ -1756,8 +1852,19 @@ h1.hero-title .accent {
           <span class="demo-arrow">↗</span>
         </div>
       </a>
+      <div class="demo-info">
+        <span class="demo-info-eyebrow" data-i18n="cc.eyebrow">Voice AI · Coach en Vivo</span>
+        <h3 class="demo-info-title" data-i18n="cc.titleInfo" data-i18n-html>El coach que ningún agente <em>tuvo antes</em>.</h3>
+        <p class="demo-info-desc" data-i18n="cc.desc">La IA acompaña al agente en tiempo real durante la llamada — identifica producto, diagnostica por voz y sugiere el próximo paso sin pausar la conversación. AHT abajo, FCR arriba, sin reentrenar al equipo.</p>
+        <a href="#" class="demo-info-cta" data-modal-target="cc">
+          <span data-i18n="cta.try">Probar el demo</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      </article>
 
       <!-- 4. WHATSAPP -->
+      <article class="demo-row">
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20WhatsApp%20AI%20Chatbot%20demo" target="_blank" rel="noopener" class="demo-card" data-modal-target="wa">
         <div class="demo-img wa">
           <div class="wa-phone">
@@ -1781,8 +1888,19 @@ h1.hero-title .accent {
           <span class="demo-arrow">↗</span>
         </div>
       </a>
+      <div class="demo-info">
+        <span class="demo-info-eyebrow" data-i18n="wa.eyebrow">WhatsApp Business · API Oficial</span>
+        <h3 class="demo-info-title" data-i18n="wa.titleInfo" data-i18n-html>Soporte sin <em>fricción</em>, 24/7.</h3>
+        <p class="demo-info-desc" data-i18n="wa.desc">Henky entiende texto, voz e imágenes; consulta CRM y ERP en tiempo real; resuelve en autogestión total y escala a humano cuando hace falta. Llave en mano en 4 a 6 semanas.</p>
+        <a href="#" class="demo-info-cta" data-modal-target="wa">
+          <span data-i18n="cta.try">Probar el demo</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      </article>
 
       <!-- 5. SIFED -->
+      <article class="demo-row">
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20SIFED%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img sifed">
           <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="sifed-track-curve">
@@ -1885,8 +2003,19 @@ h1.hero-title .accent {
           <span class="demo-arrow">↗</span>
         </div>
       </a>
+      <div class="demo-info">
+        <span class="demo-info-eyebrow" data-i18n="sifed.eyebrow">Deportes · Federaciones y Atletas</span>
+        <h3 class="demo-info-title" data-i18n="sifed.titleInfo" data-i18n-html>Gestión deportiva, <em>de la liga local a lo nacional</em>.</h3>
+        <p class="demo-info-desc" data-i18n="sifed.desc">Plataforma integral para federaciones, clubes y atletas. Inscripciones, calendarios, ranking, transferencias y resultados en un solo sistema. Diseñado para escalar sin reescribir procesos.</p>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20SIFED%20demo" target="_blank" rel="noopener" class="demo-info-cta">
+          <span data-i18n="cta.try">Probar el demo</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      </article>
 
       <!-- 6. GANADERO -->
+      <article class="demo-row">
       <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Livestock%20AI%20demo" target="_blank" rel="noopener" class="demo-card">
         <div class="demo-img gan">
           <div class="gan-stage">
@@ -2049,6 +2178,16 @@ h1.hero-title .accent {
           <span class="demo-arrow">↗</span>
         </div>
       </a>
+      <div class="demo-info">
+        <span class="demo-info-eyebrow" data-i18n="gan.eyebrow">Ganadería · Trazabilidad con IA</span>
+        <h3 class="demo-info-title" data-i18n="gan.titleInfo" data-i18n-html>El hato bajo control, <em>animal por animal</em>.</h3>
+        <p class="demo-info-desc" data-i18n="gan.desc">Trazabilidad por animal, ciclo reproductivo, sanidad, producción y reportes para certificación. Operación profesional sin overhead administrativo, pensado para fincas que crecen.</p>
+        <a href="https://wa.me/50764671392?text=Hi%21%20I%27m%20interested%20in%20the%20Livestock%20AI%20demo" target="_blank" rel="noopener" class="demo-info-cta">
+          <span data-i18n="cta.try">Probar el demo</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      </article>
 
     </div>
   </div>
@@ -2246,6 +2385,32 @@ const i18n = {
     'hero.sub': 'Each card opens an interactive demo of one HenkanCX solution. Tap, click, drag, fill, run — see how it actually works before talking implementation.',
     'hero.meta': '06 demos',
 
+    'cta.try': 'Try the demo',
+
+    'snnapi.eyebrow': 'Auto-inspection · Computer Vision',
+    'snnapi.title': 'Inspections in <em>seconds</em>, not days.',
+    'snnapi.desc': 'Customers snap photos from their phone and the AI detects damage, classifies it by type (scratch, dent, break), assigns a confidence score and produces the appraisal. Claims closed in minutes, not weeks.',
+
+    'tele.eyebrow': 'Telecom · Predictive Maintenance',
+    'tele.title': 'Field operations with <em>predictive vision</em>.',
+    'tele.desc': 'Digital tower inspections, live telemetry, early warnings on voltage drift and executive reports in real time. SLA up, emergency interventions down.',
+
+    'cc.eyebrow': 'Voice AI · Live Coaching',
+    'cc.titleInfo': 'The coach no agent <em>had before</em>.',
+    'cc.desc': 'AI assists the agent in real time during the call — identifies the product, diagnoses by voice and suggests the next step without breaking the conversation. AHT down, FCR up, no extra training.',
+
+    'wa.eyebrow': 'WhatsApp Business · Official API',
+    'wa.titleInfo': 'Frictionless support, <em>24/7</em>.',
+    'wa.desc': 'Henky understands text, voice and images; queries CRM and ERP in real time; resolves end-to-end and escalates to human when it makes sense. Turnkey deployment in 4 to 6 weeks.',
+
+    'sifed.eyebrow': 'Sports · Federations and Athletes',
+    'sifed.titleInfo': 'Sports management, <em>local league to national</em>.',
+    'sifed.desc': 'End-to-end platform for federations, clubs and athletes. Registration, calendars, ranking, transfers and results in a single system. Built to scale without rewriting your processes.',
+
+    'gan.eyebrow': 'Livestock · AI Traceability',
+    'gan.titleInfo': 'The herd under control, <em>animal by animal</em>.',
+    'gan.desc': 'Per-animal traceability, reproductive cycle, health, production and certification-ready reports. Professional operation without admin overhead, designed for farms that grow.',
+
     'snnapi.badge': 'Insurance · Computer Vision',
     'snnapi.confidence': 'Confidence',
     'snnapi.time': 'Time',
@@ -2339,6 +2504,32 @@ const i18n = {
     'hero.l2': 'Toca uno para probarlo en vivo.',
     'hero.sub': 'Cada card abre un demo interactivo de una solución HenkanCX. Toca, haz click, arrastra, llena, corre — ve cómo funciona antes de hablar de implementación.',
     'hero.meta': '06 demos',
+
+    'cta.try': 'Probar el demo',
+
+    'snnapi.eyebrow': 'Auto-inspección · Computer Vision',
+    'snnapi.title': 'Inspecciones que toman <em>segundos</em>, no días.',
+    'snnapi.desc': 'El cliente toma fotos desde su celular y la IA detecta daños, los clasifica por tipo (rayón, abolladura, ruptura), asigna confianza y genera el peritaje. Reclamos cerrados en minutos, no semanas.',
+
+    'tele.eyebrow': 'Telecom · Mantenimiento Predictivo',
+    'tele.title': 'Operación de campo con <em>visión predictiva</em>.',
+    'tele.desc': 'Inspecciones digitales de torres, telemetría en vivo, alertas tempranas por desviaciones de voltaje y reportes ejecutivos en tiempo real. SLA arriba, intervenciones de emergencia abajo.',
+
+    'cc.eyebrow': 'Voice AI · Coach en Vivo',
+    'cc.titleInfo': 'El coach que ningún agente <em>tuvo antes</em>.',
+    'cc.desc': 'La IA acompaña al agente en tiempo real durante la llamada — identifica producto, diagnostica por voz y sugiere el próximo paso sin pausar la conversación. AHT abajo, FCR arriba, sin reentrenar al equipo.',
+
+    'wa.eyebrow': 'WhatsApp Business · API Oficial',
+    'wa.titleInfo': 'Soporte sin <em>fricción</em>, 24/7.',
+    'wa.desc': 'Henky entiende texto, voz e imágenes; consulta CRM y ERP en tiempo real; resuelve en autogestión total y escala a humano cuando hace falta. Llave en mano en 4 a 6 semanas.',
+
+    'sifed.eyebrow': 'Deportes · Federaciones y Atletas',
+    'sifed.titleInfo': 'Gestión deportiva, <em>de la liga local a lo nacional</em>.',
+    'sifed.desc': 'Plataforma integral para federaciones, clubes y atletas. Inscripciones, calendarios, ranking, transferencias y resultados en un solo sistema. Diseñado para escalar sin reescribir procesos.',
+
+    'gan.eyebrow': 'Ganadería · Trazabilidad con IA',
+    'gan.titleInfo': 'El hato bajo control, <em>animal por animal</em>.',
+    'gan.desc': 'Trazabilidad por animal, ciclo reproductivo, sanidad, producción y reportes para certificación. Operación profesional sin overhead administrativo, pensado para fincas que crecen.',
 
     'snnapi.badge': 'Seguros · Computer Vision',
     'snnapi.confidence': 'Confianza',
