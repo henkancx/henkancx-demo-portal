@@ -687,13 +687,13 @@ h1.hero-title .accent {
    Right leg leads opposite to left arm. Cycle ~0.7s for natural cadence.
 */
 .sifed-runner {
-  /* Subtle vertical bob — body lifts slightly with each footfall (twice per gait cycle) */
-  animation: sifedBob 0.425s ease-in-out infinite alternate;
+  /* Subtle post-effort breath bob — slow and minimal */
+  animation: sifedBob 1.4s ease-in-out infinite alternate;
   transform-origin: center bottom;
 }
 @keyframes sifedBob {
   from { transform: translate(-50%, -56%); }
-  to   { transform: translate(-50%, -59%); }
+  to   { transform: translate(-50%, -57%); }
 }
 
 /* All limb groups: JS sets `transform="rotate(deg cx cy)"` directly each frame.
@@ -709,11 +709,57 @@ h1.hero-title .accent {
 .sifed-arm-l-upper  { transform-box: view-box; }
 .sifed-arm-l-fore   { transform-box: view-box; }
 
-/* Speed lines flicker with each footfall */
-.sifed-speed { animation: sifedSpeedFlicker 0.425s linear infinite; }
+/* Speed lines flicker — slower than gait, hint of past sprint */
+.sifed-speed { animation: sifedSpeedFlicker 1.2s linear infinite; }
 @keyframes sifedSpeedFlicker {
   0%, 100% { opacity: 1; transform: translateX(0); }
   50%      { opacity: 0.4; transform: translateX(-3px); }
+}
+
+/* ===== Finish-line ribbon (broken at chest) ===== */
+.sifed-ribbon .ribbon-left {
+  transform-box: view-box;
+  transform-origin: 0 96px;
+  animation: ribbonLeftFlutter 2.2s ease-in-out infinite alternate;
+}
+@keyframes ribbonLeftFlutter {
+  from { transform: skewY(0deg)  translateY(0); }
+  to   { transform: skewY(2deg)  translateY(-2px); }
+}
+.sifed-ribbon .ribbon-right {
+  transform-box: view-box;
+  transform-origin: 200px 96px;
+  animation: ribbonRightFlutter 2s ease-in-out infinite alternate;
+}
+@keyframes ribbonRightFlutter {
+  from { transform: skewY(0deg)  translateY(0)  translateX(0); }
+  to   { transform: skewY(-3deg) translateY(-3px) translateX(2px); }
+}
+
+.ribbon-particle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: particleBurst 1.6s ease-out infinite;
+}
+.ribbon-particle.p1 { animation-delay: 0s; }
+.ribbon-particle.p2 { animation-delay: 0.4s; }
+.ribbon-particle.p3 { animation-delay: 0.8s; }
+.ribbon-particle.p4 { animation-delay: 1.2s; }
+@keyframes particleBurst {
+  0%   { opacity: 0;   transform: scale(0.3) translate(0, 0); }
+  20%  { opacity: 1;   transform: scale(1)   translate(0, 0); }
+  100% { opacity: 0;   transform: scale(0.6) translate(0, -8px); }
+}
+
+/* Ground shadow under the runner */
+.sifed-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sifedShadowPulse 1.4s ease-in-out infinite alternate;
+}
+@keyframes sifedShadowPulse {
+  from { transform: scaleX(1);    opacity: 0.45; }
+  to   { transform: scaleX(0.92); opacity: 0.35; }
 }
 
 /* ============================================================
@@ -1108,7 +1154,7 @@ h1.hero-title .accent {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -56%);
-  width: 60%; max-width: 200px;
+  width: 78%; max-width: 320px;
   opacity: 0.95;
 }
 .sifed-stat-card {
@@ -2075,7 +2121,7 @@ h1.hero-title .accent {
             <circle class="sifed-curve-dot d4" cx="320" cy="120" r="5" fill="white"/>
             <circle class="sifed-curve-dot d5" cx="380" cy="100" r="6" fill="#CB6CE6" stroke="white" stroke-width="2"/>
           </svg>
-          <svg class="sifed-runner" viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+          <svg class="sifed-runner" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="runG" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
@@ -2090,70 +2136,110 @@ h1.hero-title .accent {
                 <stop offset="60%" stop-color="rgba(180,200,255,0.85)"/>
                 <stop offset="100%" stop-color="rgba(120,160,255,0.5)"/>
               </radialGradient>
+              <linearGradient id="ribbonG" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#CB6CE6" stop-opacity="0.4"/>
+                <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#CB6CE6" stop-opacity="0.4"/>
+              </linearGradient>
             </defs>
 
-            <!-- Body trunk (head + torso) -->
-            <g class="sifed-body">
-              <circle cx="50" cy="22" r="8" fill="url(#runG)"/>
-              <path d="M44 18 Q50 13 56 18" stroke="#CB6CE6" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
-              <line x1="50" y1="30" x2="48" y2="38" stroke="url(#runG)" stroke-width="4" stroke-linecap="round"/>
-              <path d="M48 38 Q46 55 45 72" stroke="url(#runG)" stroke-width="7" fill="none" stroke-linecap="round"/>
-              <ellipse cx="46" cy="74" rx="6" ry="3" fill="url(#runG)" opacity="0.85"/>
+            <!-- Finish-line ribbon (broken at the runner's chest) -->
+            <g class="sifed-ribbon">
+              <!-- Left half — pulled toward the chest, fluttering -->
+              <path class="ribbon-left"  d="M 0 92 Q 35 90 70 96 L 70 102 Q 35 96 0 98 Z" fill="url(#ribbonG)" opacity="0.9"/>
+              <!-- Right half — flying away to the right -->
+              <path class="ribbon-right" d="M 130 96 Q 170 90 200 92 L 200 98 Q 170 96 130 102 Z" fill="url(#ribbonG)" opacity="0.9"/>
+              <!-- Snap particles where the ribbon broke -->
+              <circle class="ribbon-particle p1" cx="92"  cy="98"  r="1.5" fill="#FFFFFF" opacity="0.9"/>
+              <circle class="ribbon-particle p2" cx="100" cy="94"  r="1.2" fill="#CB6CE6" opacity="0.8"/>
+              <circle class="ribbon-particle p3" cx="108" cy="100" r="1.4" fill="#FFFFFF" opacity="0.9"/>
+              <circle class="ribbon-particle p4" cx="96"  cy="105" r="1"   fill="#CB6CE6" opacity="0.7"/>
             </g>
 
-            <!-- ==================== RIGHT ARM (rigged: shoulder + elbow) ==================== -->
-            <g class="sifed-arm-r-upper">
-              <line x1="50" y1="38" x2="50" y2="55" stroke="url(#runG)" stroke-width="5" stroke-linecap="round"/>
-              <g class="sifed-arm-r-fore">
-                <line x1="50" y1="55" x2="50" y2="68" stroke="url(#runG)" stroke-width="4.5" stroke-linecap="round"/>
-                <circle cx="50" cy="70" r="2.5" fill="url(#runG)"/>
+            <!-- Ground shadow -->
+            <ellipse class="sifed-shadow" cx="100" cy="166" rx="34" ry="3.5" fill="rgba(0,0,0,0.45)" filter="blur(2.5px)"/>
+
+            <!-- ============ FIGURE (finish-line pose) ============ -->
+            <g class="sifed-figure">
+
+              <!-- ===== Body (head + trunk) ===== -->
+              <g class="sifed-body">
+                <!-- Head -->
+                <circle cx="100" cy="38" r="9" fill="url(#runG)"/>
+                <!-- Hair sweep -->
+                <path d="M93 32 Q100 27 107 32" stroke="#CB6CE6" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+                <!-- Neck -->
+                <line x1="100" y1="47" x2="98" y2="56" stroke="url(#runG)" stroke-width="4.5" stroke-linecap="round"/>
+                <!-- Torso (gentle spine curve) -->
+                <path d="M98 56 Q97 70 96 86 Q95 96 97 102" stroke="url(#runG)" stroke-width="9" fill="none" stroke-linecap="round"/>
+                <!-- Hip -->
+                <ellipse cx="98" cy="104" rx="7" ry="3.5" fill="url(#runG)" opacity="0.85"/>
+                <!-- Chest highlight -->
+                <path d="M100 64 Q105 68 104 76" stroke="url(#runG)" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+              </g>
+
+              <!-- ===== RIGHT ARM — raised in V (rigged: shoulder + elbow) ===== -->
+              <g class="sifed-arm-r-upper">
+                <!-- Upper arm: shoulder pointing up-right -->
+                <line x1="102" y1="56" x2="118" y2="40" stroke="url(#runG)" stroke-width="5.5" stroke-linecap="round"/>
+                <g class="sifed-arm-r-fore">
+                  <!-- Forearm: elbow up to fist -->
+                  <line x1="118" y1="40" x2="128" y2="14" stroke="url(#runG)" stroke-width="5" stroke-linecap="round"/>
+                  <!-- Fist -->
+                  <circle cx="129" cy="11" r="3.5" fill="url(#runG)"/>
+                </g>
+              </g>
+
+              <!-- ===== LEFT ARM — raised in V mirror ===== -->
+              <g class="sifed-arm-l-upper">
+                <line x1="98" y1="56" x2="82" y2="40" stroke="url(#runShadow)" stroke-width="5.5" stroke-linecap="round"/>
+                <g class="sifed-arm-l-fore">
+                  <line x1="82" y1="40" x2="72" y2="14" stroke="url(#runShadow)" stroke-width="5" stroke-linecap="round"/>
+                  <circle cx="71" cy="11" r="3.5" fill="url(#runShadow)"/>
+                </g>
+              </g>
+
+              <!-- ===== LEFT LEG — planted, bearing weight (rigged: hip + knee) ===== -->
+              <g class="sifed-leg-l-thigh">
+                <!-- Thigh: nearly vertical -->
+                <line x1="97" y1="105" x2="92" y2="132" stroke="url(#runG)" stroke-width="6.5" stroke-linecap="round"/>
+                <g class="sifed-leg-l-shin">
+                  <!-- Shin -->
+                  <line x1="92" y1="132" x2="90" y2="158" stroke="url(#runG)" stroke-width="5.5" stroke-linecap="round"/>
+                  <!-- Foot -->
+                  <ellipse cx="96" cy="161" rx="8" ry="2.8" fill="url(#runG)"/>
+                </g>
+              </g>
+
+              <!-- ===== RIGHT LEG — lifted forward, knee bent ===== -->
+              <g class="sifed-leg-r-thigh">
+                <!-- Thigh: hip forward and up -->
+                <line x1="99" y1="105" x2="124" y2="118" stroke="url(#runShadow)" stroke-width="6.5" stroke-linecap="round"/>
+                <g class="sifed-leg-r-shin">
+                  <!-- Shin tucked -->
+                  <line x1="124" y1="118" x2="118" y2="142" stroke="url(#runShadow)" stroke-width="5.5" stroke-linecap="round"/>
+                  <!-- Foot pointing forward -->
+                  <ellipse cx="124" cy="144" rx="7" ry="2.5" fill="url(#runShadow)"/>
+                </g>
               </g>
             </g>
 
-            <!-- ==================== LEFT ARM ==================== -->
-            <g class="sifed-arm-l-upper">
-              <line x1="46" y1="38" x2="46" y2="55" stroke="url(#runShadow)" stroke-width="5" stroke-linecap="round"/>
-              <g class="sifed-arm-l-fore">
-                <line x1="46" y1="55" x2="46" y2="68" stroke="url(#runShadow)" stroke-width="4.5" stroke-linecap="round"/>
-                <circle cx="46" cy="70" r="2.5" fill="url(#runShadow)"/>
-              </g>
-            </g>
-
-            <!-- ==================== RIGHT LEG (rigged: hip + knee) ==================== -->
-            <g class="sifed-leg-r-thigh">
-              <line x1="46" y1="76" x2="46" y2="96" stroke="url(#runG)" stroke-width="6.5" stroke-linecap="round"/>
-              <g class="sifed-leg-r-shin">
-                <line x1="46" y1="96" x2="46" y2="116" stroke="url(#runG)" stroke-width="5.5" stroke-linecap="round"/>
-                <ellipse cx="49" cy="118" rx="6" ry="2.5" fill="url(#runG)"/>
-              </g>
-            </g>
-
-            <!-- ==================== LEFT LEG ==================== -->
-            <g class="sifed-leg-l-thigh">
-              <line x1="46" y1="76" x2="46" y2="96" stroke="url(#runShadow)" stroke-width="6.5" stroke-linecap="round"/>
-              <g class="sifed-leg-l-shin">
-                <line x1="46" y1="96" x2="46" y2="116" stroke="url(#runShadow)" stroke-width="5.5" stroke-linecap="round"/>
-                <ellipse cx="49" cy="118" rx="6" ry="2.5" fill="url(#runShadow)"/>
-              </g>
-            </g>
-
-            <!-- ==================== SWEAT DROPS ==================== -->
+            <!-- ===== SWEAT DROPS — falling from forehead and torso ===== -->
             <g class="sifed-sweat">
-              <ellipse class="sweat-drop sd1" cx="44" cy="18" rx="1.2" ry="1.7" fill="url(#sweatG)"/>
-              <ellipse class="sweat-drop sd2" cx="56" cy="20" rx="1" ry="1.5" fill="url(#sweatG)"/>
-              <ellipse class="sweat-drop sd3" cx="52" cy="32" rx="1.1" ry="1.6" fill="url(#sweatG)"/>
-              <ellipse class="sweat-drop sd4" cx="40" cy="50" rx="1" ry="1.4" fill="url(#sweatG)"/>
-              <ellipse class="sweat-drop sd5" cx="55" cy="58" rx="1.2" ry="1.7" fill="url(#sweatG)"/>
-              <ellipse class="sweat-drop sd6" cx="34" cy="44" rx="0.9" ry="1.3" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd1" cx="93"  cy="34" rx="1.2" ry="1.7" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd2" cx="107" cy="36" rx="1"   ry="1.5" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd3" cx="100" cy="50" rx="1.1" ry="1.6" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd4" cx="88"  cy="68" rx="1"   ry="1.4" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd5" cx="108" cy="74" rx="1.2" ry="1.7" fill="url(#sweatG)"/>
+              <ellipse class="sweat-drop sd6" cx="82"  cy="58" rx="0.9" ry="1.3" fill="url(#sweatG)"/>
             </g>
 
-            <!-- Speed lines -->
+            <!-- ===== Speed lines — sprinted in from the left ===== -->
             <g class="sifed-speed">
-              <line x1="-2" y1="50" x2="22" y2="50" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/>
-              <line x1="-2" y1="62" x2="16" y2="62" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
-              <line x1="-2" y1="78" x2="26" y2="78" stroke="rgba(255,255,255,0.65)" stroke-width="1.5"/>
-              <line x1="-2" y1="92" x2="14" y2="92" stroke="rgba(203,108,230,0.55)" stroke-width="1.5"/>
-              <line x1="-2" y1="105" x2="20" y2="105" stroke="rgba(203,108,230,0.45)" stroke-width="1.5"/>
+              <line x1="0"  y1="62"  x2="32" y2="62"  stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0"  y1="80"  x2="22" y2="80"  stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0"  y1="118" x2="28" y2="118" stroke="rgba(203,108,230,0.5)"  stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="0"  y1="138" x2="18" y2="138" stroke="rgba(255,255,255,0.4)"  stroke-width="1.5" stroke-linecap="round"/>
             </g>
           </svg>
           <div class="sifed-stat-card">
@@ -3933,7 +4019,7 @@ if ('IntersectionObserver' in window && counters.length) {
   });
 })();
 
-// ===== SIFED: rigged runner with smooth requestAnimationFrame =====
+// ===== SIFED: finish-line celebration with rigged limbs =====
 (function initSifedRunner() {
   const svg = document.querySelector('.sifed-runner');
   if (!svg) return;
@@ -3950,10 +4036,13 @@ if ('IntersectionObserver' in window && counters.length) {
 
   if (!thighR || !thighL) return;
 
-  /* Smooth gait via continuous sin/cos waves at the cycle frequency.
-     Each joint is an independent oscillator with its own phase + harmonics.
-     This produces NATURAL, never-stutter motion (no keyframe jumps). */
-  const CYCLE_MS = 850;
+  /* The runner just crossed the finish line. The cycle now is celebration:
+     - both arms pump up slightly (hold V then push higher)
+     - planted leg micro-flexes from impact absorption
+     - lifted leg's knee swings forward in residual stride momentum
+     - body tilts back slightly and breath in/out
+     CYCLE_MS is slow (2200ms) — these are post-effort motions, not gait. */
+  const CYCLE_MS = 2200;
 
   // Honor reduced motion
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -3962,42 +4051,36 @@ if ('IntersectionObserver' in window && counters.length) {
 
   const startT = performance.now();
   function frame(now) {
-    const t = ((now - startT) % CYCLE_MS) / CYCLE_MS;
-    const tL = (t + 0.5) % 1;
+    const t   = ((now - startT) % CYCLE_MS) / CYCLE_MS;     // 0..1 over full cycle
+    const arm = ((now - startT) % 900) / 900;               // arms pump faster (900ms)
 
-    // RIGHT LEG: thigh swings ±32° around 5° forward bias
-    const thighR_a = 5 + 32 * Math.cos(2 * Math.PI * t);
-    // RIGHT LEG: shin always somewhat bent; peak flex (~−110°) during swing
-    const shinR_a =
-      -55 +
-      -55 * Math.cos(2 * Math.PI * (t - 0.25)) +
-      -6  * Math.cos(2 * Math.PI * 2 * (t - 0.05));
+    // ARMS: both pump UP — right rotates clockwise, left counter-clockwise
+    // Upper arm stays mostly still; forearm punches up an extra 12-18°
+    const upArmR_a   = -3 * Math.sin(2 * Math.PI * arm);              // tiny shoulder pump
+    const foreArmR_a = -8 + -10 * Math.sin(2 * Math.PI * arm);        // forearm thrust up
+    const upArmL_a   =  3 * Math.sin(2 * Math.PI * arm);              // mirror
+    const foreArmL_a =  8 +  10 * Math.sin(2 * Math.PI * arm);        // mirror
 
-    // LEFT LEG (offset 0.5)
-    const thighL_a = 5 + 32 * Math.cos(2 * Math.PI * tL);
-    const shinL_a =
-      -55 +
-      -55 * Math.cos(2 * Math.PI * (tL - 0.25)) +
-      -6  * Math.cos(2 * Math.PI * 2 * (tL - 0.05));
+    // LEGS: planted (left) absorbs bounce ±2°; lifted (right) knee continues swinging
+    const thighL_a = -1 + 2 * Math.cos(2 * Math.PI * t);             // planted thigh: subtle
+    const shinL_a  = 0  + 1 * Math.cos(2 * Math.PI * t);             // planted shin: even more subtle
 
-    // ARMS opposite to same-side leg
-    const upArmR_a   = 25 * Math.cos(2 * Math.PI * tL);
-    const foreArmR_a = -90 + 12 * Math.cos(2 * Math.PI * (tL + 0.10));
-    const upArmL_a   = 25 * Math.cos(2 * Math.PI * t);
-    const foreArmL_a = -90 + 12 * Math.cos(2 * Math.PI * (t + 0.10));
+    const thighR_a = -4 +  4 * Math.cos(2 * Math.PI * t);            // lifted thigh: residual swing
+    const shinR_a  = -8 + 12 * Math.sin(2 * Math.PI * t);            // lifted knee: bend/extend cycle
 
-    // BODY: gentle forward lean tilting at 2× freq (one tilt per footfall)
-    const bodyTilt = 2 + 1.2 * Math.cos(2 * Math.PI * 2 * t);
+    // BODY: very gentle back-lean breathing + slight forward recover
+    const bodyTilt = -1 + 1.2 * Math.sin(2 * Math.PI * t);
 
-    thighR.setAttribute('transform',    `rotate(${thighR_a.toFixed(2)} 46 76)`);
-    shinR.setAttribute('transform',     `rotate(${shinR_a.toFixed(2)} 46 96)`);
-    thighL.setAttribute('transform',    `rotate(${thighL_a.toFixed(2)} 46 76)`);
-    shinL.setAttribute('transform',     `rotate(${shinL_a.toFixed(2)} 46 96)`);
-    upperArmR.setAttribute('transform', `rotate(${upArmR_a.toFixed(2)} 50 38)`);
-    foreArmR.setAttribute('transform',  `rotate(${foreArmR_a.toFixed(2)} 50 55)`);
-    upperArmL.setAttribute('transform', `rotate(${upArmL_a.toFixed(2)} 46 38)`);
-    foreArmL.setAttribute('transform',  `rotate(${foreArmL_a.toFixed(2)} 46 55)`);
-    if (body) body.setAttribute('transform', `rotate(${bodyTilt.toFixed(2)} 46 76)`);
+    // Apply transforms — rotation pivots match the new viewBox (200x180)
+    thighR.setAttribute('transform',    `rotate(${thighR_a.toFixed(2)} 99 105)`);
+    shinR.setAttribute('transform',     `rotate(${shinR_a.toFixed(2)}  124 118)`);
+    thighL.setAttribute('transform',    `rotate(${thighL_a.toFixed(2)} 97 105)`);
+    shinL.setAttribute('transform',     `rotate(${shinL_a.toFixed(2)}  92 132)`);
+    upperArmR.setAttribute('transform', `rotate(${upArmR_a.toFixed(2)} 102 56)`);
+    foreArmR.setAttribute('transform',  `rotate(${foreArmR_a.toFixed(2)} 118 40)`);
+    upperArmL.setAttribute('transform', `rotate(${upArmL_a.toFixed(2)} 98 56)`);
+    foreArmL.setAttribute('transform',  `rotate(${foreArmL_a.toFixed(2)} 82 40)`);
+    if (body) body.setAttribute('transform', `rotate(${bodyTilt.toFixed(2)} 98 104)`);
 
     requestAnimationFrame(frame);
   }
